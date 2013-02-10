@@ -1,0 +1,12 @@
+{
+  "name": "eb-bb-js",
+  "version": "0.0.1",
+  "description": "Earthbound Battle Backgrounds",
+  "dependencies": {
+    "express": ""
+  },
+  "main": "index",
+  "engines": {
+    "node": ">= 0.8.0"
+  }
+}
