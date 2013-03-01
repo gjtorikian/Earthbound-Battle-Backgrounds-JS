@@ -18,3 +18,5 @@ app.configure(function(){
 });
 
 app.listen(port);
+
+console.log("Server started at localhost:8888");

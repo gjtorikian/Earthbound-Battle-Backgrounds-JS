@@ -5,10 +5,18 @@
 <title>Earthbound Battle Backgrounds</title>
 <script type="text/javascript">
 var require = {
-    baseUrl: "scripts"
+    baseUrl: "scripts",
+    paths: {
+        "underscore":        'vendor/underscore'
+    },
+    shim: {
+       underscore: {
+         exports: '_'
+       }
+     }
 };
 </script>
-<script data-main="read_bgs_dat" src="scripts/require.min.js"></script>
+<script data-main="read_bgs_dat" src="scripts/vendor/require.js"></script>
 </head>
 
 <body>
@@ -22,6 +30,7 @@ var canvas = document.getElementById('canvas');
 var canvasWidth  = canvas.width;
 var canvasHeight = canvas.height;
 var ctx = canvas.getContext('2d');
+
 var imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
 
 var buf = new ArrayBuffer(imageData.data.length);
