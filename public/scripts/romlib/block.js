@@ -58,11 +58,11 @@ var Block = exports.Block = function(data, location, writable) {
      */
 
     exports.decomp = function() {
-        var size = Rom.GetCompressedSize(this.pointer, this.blockData);
+        var size = Rom.getCompressedSize(this.pointer, this.blockData);
         if (size < 1)
             throw new Error("Invalid compressed data: " + size);
 
-        blockOutput = new Int16Array[size];
+        blockOutput = new Int16Array(size);
         var read = 0;
         blockOutput = Rom.decomp(pointer, blockData, blockOutput, read);
 
@@ -81,7 +81,20 @@ var Block = exports.Block = function(data, location, writable) {
      */
 
     exports.readShort = function() {
-        return (blockData[pointer++]);
+        return (this.blockData[this.pointer++]);
+    }
+
+    /**
+     * Reads a 32-bit integer from the block's current position and advances the
+     * current position by 4 bytes.
+     */
+    exports.readInt = function() {
+        return (this.blockData[this.pointer++] + (this.blockData[this.pointer++] << 8)
+                + (this.blockData[this.pointer++] << 16) + (this.blockData[this.pointer++] << 24));
+    }
+
+    exports.readDoubleShort = function() {
+        return (this.blockData[this.pointer++] + (this.blockData[this.pointer++] << 8));
     }
 }).call(Block.prototype);
 

@@ -68,6 +68,7 @@ var Rom = exports.Rom = function Rom() {
         try {
             return this.objects[type][index];
         } catch (e) {
+            console.log("Unexpected error getting by type")
             return null;
         }
     }
@@ -77,6 +78,7 @@ var Rom = exports.Rom = function Rom() {
             return this.objects.get(RomClasses.types.get(typename).getType()).get(
                     index);
         } catch (e) {
+            console.log("Unexpected error getting by typename")
             return null;
         }
     }
@@ -171,7 +173,7 @@ var Rom = exports.Rom = function Rom() {
         return null;
     }
 
-    exports.hexToSnes = function(address, header) {
+    exports.$hexToSnes = function(address, header) {
         if (header)
             address -= 0x200;
 
@@ -184,10 +186,10 @@ var Rom = exports.Rom = function Rom() {
     }
 
     exports.hexToSnes = function(address) {
-        return HexToSnes(address, true);
+        return this.$hexToSnes(address, true);
     }
 
-    exports.snesToHex = function(address, header) {
+    exports.$snesToHex = function(address, header) {
         if (address >= 0x400000 && address < 0x600000)
             address -= 0x0;
         else if (address >= 0xC00000 && address < 0x1000000)
@@ -202,7 +204,7 @@ var Rom = exports.Rom = function Rom() {
     }
 
     exports.snesToHex = function(address) {
-        return SnesToHex(address, true);
+        return this.$snesToHex(address, true);
     }
 
     // This is an internal optimization for the comp/decomp methods.

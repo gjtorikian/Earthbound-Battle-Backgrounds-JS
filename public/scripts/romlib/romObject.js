@@ -1,22 +1,42 @@
 define(function(require, exports, module) {
 
-var RomObject = exports.RomObject = function(name, age) {
-    this.name = name;
-    this.age = age;
-    this.health = 100;
+var RomObject = exports.RomObject = function() {
+    this.parent = null;
+    this.id = "";
+
+    this.address = -1;
+    this.index = 1;
+
+    return this;
 };
 
 (function(){
-    exports.die = function() {
-        this.health = 0;
-        console.log(this.health);
-    };
+    /*
+     * Properties
+     */
+    exports.getParent = function() {
+        return parent;
+    }
 
-    this.eat = function(what) {
-        this.health += 5;
-        console.log(this.health);
-    };
+    exports.setParent = function(value) {
+        parent = value;
+    }
 
+    exports.getID = function() {
+        return id;
+    }
+
+    exports.setID = function(value) {
+        id = value;
+    }
+
+    exports.getIndex = function() {
+        return index;
+    }
+
+    exports.getAddress = function() {
+        return address;
+    }
 }).call(RomObject.prototype);
 
 });

@@ -23,8 +23,11 @@ var Distorter = exports.Distorter = function() {
     // requiring that all previous frames be computed before any given desired
     // frame.)
 
-    this.effect = new DistortionEffect();
-    this.dist = new DistortionEffect[4];
+    this.effect = new this.DistortionEffect;
+
+    // TODO: new this.DistortionEffect[4] did not work, is this appropriate?
+    this.dist = [new this.DistortionEffect(), new this.DistortionEffect(),
+                 new this.DistortionEffect(), new this.DistortionEffect()];
     this.current_dist = 1
 
     this.bmpSrc = null;
@@ -69,7 +72,7 @@ var Distorter = exports.Distorter = function() {
         //        effect.getSpeed());
     }
 
-    exports.distortionEffect = function() {
+    exports.DistortionEffect = function() {
         var Type = {
             "Invalid": 0,
             "Horizontal": 1,
@@ -193,11 +196,6 @@ var Distorter = exports.Distorter = function() {
             speed = value;
         }
     }
-    
-
-    exports.DistortionEffect = function() {
-
-    };
 
 }).call(Distorter.prototype);
 

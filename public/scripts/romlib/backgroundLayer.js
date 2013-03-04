@@ -11,7 +11,7 @@ var W = 256;
 var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
     this.gfx = null, this.pal = null;
     this.distort = Distorter.Distorter();
-    LoadEntry(src, entry);
+    this.loadEntry(src, entry);
 };
 
 (function(){
@@ -50,16 +50,17 @@ var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
         this.distort.overlayFrame(dst, letterbox, ticks, alpha, erase);
     }
 
-    function loadGraphics(src, n) {
-        this.gfx = src.GetObject("BackgroundGraphics", n);
+    // TODO technically these shouldn't be exported--they're internal
+    exports.loadGraphics = function(src, n) {
+        this.gfx = src.getObjectByType("BackgroundGraphics", n);
     }
 
-    function loadPalette(src, n) {
-        this.pal = src.GetObject("BackgroundPalette", n);
+    exports.loadPalette = function(src, n) {
+        this.pal = src.getObjectByType("BackgroundPalette", n);
     }
 
-    function loadEffect(src, n) {
-        var effect = src.getObject("BattleBGEffect", n);
+    exports.loadEffect = function(src, n) {
+        var effect = src.getObjectByType("BattleBGEffect", n);
 
         this.distort.getEffect().setAmplitude(effect.getAmplitude());
         this.distort.getEffect().setAmplitudeAcceleration(
@@ -83,9 +84,9 @@ var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
                     Distorter.DistortionEffect.Type.HorizontalInterlaced);
     }
 
-    function loadEntry(src, n) {
+    exports.loadEntry = function(src, n) {
         this.entry = n;
-        var bg = src.getObject("BattleBG", n);
+        var bg = src.getObjectByType("BattleBG", n);
 
         // Set graphics / Palette
         loadGraphics(src, bg.getGraphicsIndex());
@@ -106,7 +107,7 @@ var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
         initializeBitmap();
     }
 
-    function initializeBitmap() {
+    exports.initializeBitmap = function() {
         bmp = Bitmap.createBitmap(W, H, Bitmap.Config.ARGB_8888);
         this.gfx.Draw(bmp, this.pal);
         this.distort.setOriginal(bmp);

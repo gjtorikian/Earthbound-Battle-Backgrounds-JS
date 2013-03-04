@@ -18,7 +18,8 @@ try {
     console.error("Error initializing ROM library: " + e);
 }
 
-var Rom = Rom.Rom();
+// TODO: don't make Rom global?
+window.Rom = Rom.Rom();
 
 // start opening the data file
 var oReq = new XMLHttpRequest();
@@ -31,6 +32,10 @@ oReq.onload = function (oEvent) {
         // unlike Java, I don't need to read and convert this stream. woo!
         var byteArray = new Uint8Array(arrayBuffer);
         Rom.open(byteArray);
+
+        var engine = require("engine");
+
+        engine.start();
     }
 };
  
