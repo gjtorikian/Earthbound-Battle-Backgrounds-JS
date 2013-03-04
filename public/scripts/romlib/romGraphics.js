@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 
-var LOG_TAG = "romGraphics";
+var LOG_TAG = "RomGraphics";
 
 var arrRomGraphics = new Int16Array;
 var gfxRomGraphics = new Int16Array;
@@ -9,7 +9,7 @@ var bpp;
 var width = 32;
 var height = 32;
 
-var romGraphics = exports.romGraphics = function(name, age) {
+var RomGraphics = exports.RomGraphics = function(name, age) {
 
 };
 
@@ -99,6 +99,6 @@ var romGraphics = exports.romGraphics = function(name, age) {
         arrRomGraphics = block.decomp();
     }
 
-}).call(romGraphics.prototype);
+}).call(RomGraphics.prototype);
 
 });

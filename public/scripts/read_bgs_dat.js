@@ -1,24 +1,24 @@
 define(function(require, exports, module) {
 "use strict";
 
-var rom = require("romlib/rom");
+var Rom = require("romlib/Rom");
 
-var battleBGEffect = require("pkhack/battleBGEffect");
-var battleBG = require("pkhack/battleBG");
+var BattleBGEffect = require("pkhack/BattleBGEffect");
+var BattleBG = require("pkhack/BattleBG");
 
-var backgroundGraphics = require("romlib/backgroundGraphics");
-var backgroundPalette = require("romlib/backgroundPalette");
-var backgroundLayer = require("romlib/backgroundLayer");
+var BackgroundGraphics = require("romlib/BackgroundGraphics");
+var BackgroundPalette = require("romlib/BackgroundPalette");
+var BackgroundLayer = require("romlib/BackgroundLayer");
 try {
-    rom.registerType("battleBGEffect", battleBGEffect, battleBGEffect.Handler);
-    rom.registerType("battleBG", battleBG, battleBG.Handler);
-    rom.registerType("backgroundGraphics", backgroundGraphics, null);
-    rom.registerType("BackgroundPalette", backgroundPalette, null);
+    Rom.registerType("BattleBGEffect", BattleBGEffect, BattleBGEffect.Handler);
+    Rom.registerType("BattleBG", BattleBG, BattleBG.Handler);
+    Rom.registerType("BackgroundGraphics", BackgroundGraphics, null);
+    Rom.registerType("BackgroundPalette", BackgroundPalette, null);
 } catch (e) {
     console.error("Error initializing ROM library: " + e);
 }
 
-rom.rom();
+var Rom = Rom.Rom();
 
 // start opening the data file
 var oReq = new XMLHttpRequest();
@@ -30,7 +30,7 @@ oReq.onload = function (oEvent) {
     if (arrayBuffer) {
         // unlike Java, I don't need to read and convert this stream. woo!
         var byteArray = new Uint8Array(arrayBuffer);
-        rom.open(byteArray);
+        Rom.open(byteArray);
     }
 };
  

@@ -1,11 +1,11 @@
 define(function(require, exports, module) {
 
-var romGraphics = require("romlib/romgraphics");
-var rom = require("romlib/rom");
+var RomGraphics = require("romlib/romgraphics");
+var Rom = require("romlib/Rom");
 
-var LOG_TAG = "backgroundGraphics";
+var LOG_TAG = "BackgroundGraphics";
 
-var backgroundGraphics = exports.backgroundGraphics = function(name, age) {
+var BackgroundGraphics = exports.BackgroundGraphics = function(name, age) {
 
 
 };
@@ -17,22 +17,22 @@ var backgroundGraphics = exports.backgroundGraphics = function(name, age) {
     
     exports.read = function(index) {
         // Graphics pointer table entry
-        var gfxPtrBlock = romGraphics.getParent().readBlock(0xAD9A1 + index * 4);
+        var gfxPtrBlock = RomGraphics.getParent().readBlock(0xAD9A1 + index * 4);
         // int gfxPtr = Rom.SnesToHex(gfxPtrBlock.readInt());
 
         // Read graphics
-        romGraphics.LoadGraphics(romGraphics.getParent()
-                .readBlock(rom.SnesToHex(gfxPtrBlock.readInt())));
+        RomGraphics.LoadGraphics(RomGraphics.getParent()
+                .readBlock(Rom.SnesToHex(gfxPtrBlock.readInt())));
 
         // Arrangement pointer table entry
-        var arrPtrBlock = romGraphics.getParent().readBlock(0xADB3D + index * 4);
-        var arrPtr = rom.SnesToHex(arrPtrBlock.readInt());
+        var arrPtrBlock = RomGraphics.getParent().readBlock(0xADB3D + index * 4);
+        var arrPtr = Rom.SnesToHex(arrPtrBlock.readInt());
 
         // Read and decompress arrangement
-        var arrBlock = romGraphics.getParent().readBlock(arrPtr);
+        var arrBlock = RomGraphics.getParent().readBlock(arrPtr);
         arrRomGraphics = arrBlock.decomp();
     };
 
-}).call(backgroundGraphics.prototype);
+}).call(BackgroundGraphics.prototype);
 
 });

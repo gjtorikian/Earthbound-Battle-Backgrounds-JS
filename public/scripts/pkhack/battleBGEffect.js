@@ -1,8 +1,8 @@
 define(function(require, exports, module) {
 
-var LOG_TAG = "battleBGEffect";
+var LOG_TAG = "BattleBGEffect";
 var dataBBGE = new Int16Array(17);
-var battleBGEffect = exports.battleBGEffect = function() {
+var BattleBGEffect = exports.BattleBGEffect = function() {
 
 
 };
@@ -107,14 +107,14 @@ var battleBGEffect = exports.battleBGEffect = function() {
         return this.parent;
     }
 
-    exports.Handler = function(rom) {
+    exports.Handler = function(Rom) {
         for (var i = 0; i < 135; i++) {
-            var e = new battleBGEffect();
+            var e = new BattleBGEffect();
 
-            rom.add(e);
+            Rom.add(e);
             e.read(i);
         }
     }
-}).call(battleBGEffect.prototype);
+}).call(BattleBGEffect.prototype);
 
 });

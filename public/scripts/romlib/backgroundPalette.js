@@ -1,12 +1,12 @@
 define(function(require, exports, module) {
 
-var LOG_TAG = "backgroundPalette";
+var LOG_TAG = "BackgroundPalette";
 
-var romObject = require("romlib/romObject");
-var rom = require("romlib/rom");
-var palette = require("romlib/palette");
+var RomObject = require("romlib/RomObject");
+var Rom = require("romlib/Rom");
+var Palette = require("romlib/Palette");
 
-var backgroundPalette = exports.backgroundPalette = function() {
+var BackgroundPalette = exports.BackgroundPalette = function() {
 
 };
 
@@ -16,13 +16,13 @@ var backgroundPalette = exports.backgroundPalette = function() {
     };
     
     exports.read = function(index) {
-        var ptr = romObject.getParent().readBlock(0xADCD9 + index * 4);
-        address = rom.SnesToHex(ptr.readInt());
+        var ptr = RomObject.getParent().readBlock(0xADCD9 + index * 4);
+        address = Rom.SnesToHex(ptr.readInt());
 
-        var data = romObject.getParent().readBlock(address);
-        palette.readPalette(data, bpp, 1);
+        var data = RomObject.getParent().readBlock(address);
+        Palette.readPalette(data, bpp, 1);
     };
 
-}).call(backgroundPalette.prototype);
+}).call(BackgroundPalette.prototype);
 
 });

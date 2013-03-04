@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 
-var palette = exports.palette = function(name, age) {
+var Palette = exports.Palette = function(name, age) {
     this.colors = [];
     this.bpp = 8;
 };
@@ -8,7 +8,7 @@ var palette = exports.palette = function(name, age) {
 (function(){
 
     /**
-     * Gets an array of colors representing one of this palette's subpalettes.
+     * Gets an array of colors representing one of this Palette's subpalettes.
      * 
      * @param pal
      *            The index of the subpalette to retrieve.
@@ -24,7 +24,7 @@ var palette = exports.palette = function(name, age) {
     }
 
     /**
-     * Gets or sets the bit depth of this palette.
+     * Gets or sets the bit depth of this Palette.
      */
     exports.getBitsPerPixel = function() {
         return bpp;
@@ -35,11 +35,11 @@ var palette = exports.palette = function(name, age) {
     }
 
     /**
-     * Internal function - reads palette data from the given block into this
-     * palette's colors array.
+     * Internal function - reads Palette data from the given block into this
+     * Palette's colors array.
      * 
      * @param block
-     *            Block to read palette data from.
+     *            Block to read Palette data from.
      * @param bpp
      *            Bit depth; must be either 2 or 4.
      * @param count
@@ -67,6 +67,6 @@ var palette = exports.palette = function(name, age) {
             }
         }
     }
-}).call(palette.prototype);
+}).call(Palette.prototype);
 
 });

@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 
-var romObject = exports.romObject = function(name, age) {
+var RomObject = exports.RomObject = function(name, age) {
     this.name = name;
     this.age = age;
     this.health = 100;
@@ -17,6 +17,6 @@ var romObject = exports.romObject = function(name, age) {
         console.log(this.health);
     };
 
-}).call(romObject.prototype);
+}).call(RomObject.prototype);
 
 });

@@ -1,9 +1,9 @@
 define(function(require, exports, module) {
 
-var romObject = require("romlib/romObject");
-var LOG_TAG = "battleBG";
+var RomObject = require("romlib/RomObject");
+var LOG_TAG = "BattleBG";
 
-var battleBG = exports.battleBG = function() {
+var BattleBG = exports.BattleBG = function() {
 
 };
 
@@ -61,7 +61,7 @@ var battleBG = exports.battleBG = function() {
     };
 
     /**
-     * Index of the background palette to use.
+     * Index of the background Palette to use.
      */
     this.getPaletteIndex = function() {
         return this.this.bbgData[1];
@@ -102,20 +102,20 @@ var battleBG = exports.battleBG = function() {
      * The handler for loading/saving all battle BGs
      */
     exports.Handler = function() {
-        this.readClass = function(rom) {
-            // The only way to determine the bit depth of each BG palette is
+        this.readClass = function(Rom) {
+            // The only way to determine the bit depth of each BG Palette is
             // to check the bit depth of the backgrounds that use it - so,
-            // first we create an array to track palette bit depths:
+            // first we create an array to track Palette bit depths:
             var palbits = new Int32Array[114];
             var gfxbits = new Int32Array[103];
 
             for (var i = 0; i < 327; i++) {
                 var bg = new BattleBG();
-                rom.add(bg);
+                Rom.add(bg);
                 bg.read(i);
 
                 // Now that the BG has been read, update the BPP entry for its
-                // palette
+                // Palette
                 // We can also check to make sure palettes are used
                 // consistently:
                 var pal = bg.getPaletteIndex();
@@ -132,7 +132,7 @@ var battleBG = exports.battleBG = function() {
 
             for (var i = 0; i < 114; i++) {
                 var p = new BackgroundPalette();
-                rom.add(p);
+                Rom.add(p);
                 p.setBitsPerPixel(palbits[i]);
                 p.read(i);
             }
@@ -140,13 +140,13 @@ var battleBG = exports.battleBG = function() {
             // Load graphics
             for (var i = 0; i < 103; i++) {
                 var g = new BackgroundGraphics();
-                rom.add(g);
+                Rom.add(g);
                 g.setBitsPerPixel(gfxbits[i]);
                 g.read(i);
             }
         }
     }
 
-}).call(battleBG.prototype);
+}).call(BattleBG.prototype);
 
 });

@@ -2,13 +2,15 @@ define(function(require, exports, module) {
 
 var LOG_TAG = "BackgroundLayer";
 
-var this.distorter = require("romlib/this.distorter");
+var BackgroundGraphics = require("romlib/BackgroundLayer");
+var Distorter = require("romlib/Distorter");
 
 var H = 256;
 var W = 256;
 
-var backgroundLayer = exports.backgroundLayer = function(src, entry) {
-    this.distort = new Distorter();
+var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
+    this.gfx = null, this.pal = null;
+    this.distort = Distorter.Distorter();
     LoadEntry(src, entry);
 };
 
@@ -49,16 +51,15 @@ var backgroundLayer = exports.backgroundLayer = function(src, entry) {
     }
 
     function loadGraphics(src, n) {
-        gfx = (BackgroundGraphics) src.GetObject("BackgroundGraphics", n);
+        this.gfx = src.GetObject("BackgroundGraphics", n);
     }
 
     function loadPalette(src, n) {
-        pal = (BackgroundPalette) src.GetObject("BackgroundPalette", n);
+        this.pal = src.GetObject("BackgroundPalette", n);
     }
 
     function loadEffect(src, n) {
-        BattleBGEffect effect = (BattleBGEffect) src.GetObject(
-                "BattleBGEffect", n);
+        var effect = src.getObject("BattleBGEffect", n);
 
         this.distort.getEffect().setAmplitude(effect.getAmplitude());
         this.distort.getEffect().setAmplitudeAcceleration(
@@ -84,13 +85,13 @@ var backgroundLayer = exports.backgroundLayer = function(src, entry) {
 
     function loadEntry(src, n) {
         this.entry = n;
-        BattleBG bg = (BattleBG) src.GetObject("BattleBG", n);
+        var bg = src.getObject("BattleBG", n);
 
-        // Set graphics / palette
+        // Set graphics / Palette
         loadGraphics(src, bg.getGraphicsIndex());
         loadPalette(src, bg.getPaletteIndex());
 
-        int e = bg.getAnimation();
+        var e = bg.getAnimation();
 
         var e1 = ( (e >> 24) & 0xFF);
         var e2 = ( (e >> 16) & 0xFF);
@@ -107,9 +108,9 @@ var backgroundLayer = exports.backgroundLayer = function(src, entry) {
 
     function initializeBitmap() {
         bmp = Bitmap.createBitmap(W, H, Bitmap.Config.ARGB_8888);
-        gfx.Draw(bmp, pal);
+        this.gfx.Draw(bmp, this.pal);
         this.distort.setOriginal(bmp);
     }
-}).call(backgroundLayer.prototype);
+}).call(BackgroundLayer.prototype);
 
 });

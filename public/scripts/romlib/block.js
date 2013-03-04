@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 
-var rom = require("romlib/rom");
+var Rom = require("romlib/Rom");
 var sizeof = require("util/sizeof");
 
 /*
@@ -16,7 +16,7 @@ var sizeof = require("util/sizeof");
 // Readable/Writable specifiers
 // Location of data within ROM
 // Size of data (if applicable)
-// private Rom rom;
+// private Rom Rom;
 var blockData = new Int16Array(1);
 // private byte[] buffer; // for write operations
 var address;
@@ -26,7 +26,7 @@ var writable;
 
 var blockOutput = new Int16Array(1);
 
-var block = exports.block = function(data, location, writable) {
+var Block = exports.Block = function(data, location, writable) {
     this.pointer = -1;
     this.blockData = data;
     this.size = -1;
@@ -58,13 +58,13 @@ var block = exports.block = function(data, location, writable) {
      */
 
     exports.decomp = function() {
-        var size = rom.GetCompressedSize(this.pointer, this.blockData);
+        var size = Rom.GetCompressedSize(this.pointer, this.blockData);
         if (size < 1)
             throw new Error("Invalid compressed data: " + size);
 
         blockOutput = new Int16Array[size];
         var read = 0;
-        blockOutput = rom.decomp(pointer, blockData, blockOutput, read);
+        blockOutput = Rom.decomp(pointer, blockData, blockOutput, read);
 
         if (blockOutput == null)
             throw new Error(
@@ -83,7 +83,7 @@ var block = exports.block = function(data, location, writable) {
     exports.readShort = function() {
         return (blockData[pointer++]);
     }
-}).call(block.prototype);
+}).call(Block.prototype);
 
 });
 

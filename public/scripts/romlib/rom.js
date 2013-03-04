@@ -1,11 +1,11 @@
 define(function(require, exports, module) {
 
 var _ = require("underscore");
-var LOG_TAG = "rom";
-var romClasses = require("romlib/romclasses");
+var LOG_TAG = "Rom";
+var RomClasses = require("romlib/romclasses");
 var block = require("romlib/block");
 
-var rom = exports.rom = function() {
+var Rom = exports.Rom = function Rom() {
     this.objects = {}, self = this;
     this.loaded = false;
     this.romData = [];
@@ -13,7 +13,7 @@ var rom = exports.rom = function() {
     // New step: every ROM needs to have its own instance of
     // each type handler.
     this.handlers = {};
-    _.each(_.values(romClasses.getTypes()), function(e) {
+    _.each(_.values(RomClasses.getTypes()), function(e) {
         if (e.Handler != null) {
             self.handlers[e.Type.name()] = e.Handler;
         }
@@ -30,7 +30,7 @@ var rom = exports.rom = function() {
     }
 
     exports.registerType = function(typeID, type, handler) {
-        romClasses.registerClass(typeID, type, handler);
+        RomClasses.registerClass(typeID, type, handler);
     }
 
     exports.open = function(stream)  {
@@ -124,7 +124,7 @@ var rom = exports.rom = function() {
 
         // For now, just return a readable block; we'll worry about
         // typing and free space later
-        return block.block(this.romData, location, false);
+        return block.Block(this.romData, location, false);
     }
 
     /**
@@ -449,6 +449,6 @@ var rom = exports.rom = function() {
         }
         return bpos;
     }
-}).call(rom.prototype);
+}).call(Rom.prototype);
 
 });
