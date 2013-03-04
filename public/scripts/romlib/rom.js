@@ -1,28 +1,26 @@
 define(function(require, exports, module) {
 
-var LOG_TAG = "Rom";
+var _ = require("underscore");
+var LOG_TAG = "rom";
 var romClasses = require("romlib/romclasses");
-
-// INTERNAL DATA
-
-var filename;
-
-var objects;
+var block = require("romlib/block");
 
 var rom = exports.rom = function() {
-    var objects = {};
+    this.objects = {}, self = this;
     this.loaded = false;
     this.romData = [];
 
     // New step: every ROM needs to have its own instance of
     // each type handler.
     this.handlers = {};
-    _.each(_.values(romClasses), function(e) {
+    _.each(_.values(romClasses.getTypes()), function(e) {
         if (e.Handler != null) {
-            handlers[e.Type] = e.Handler;
+            self.handlers[e.Type.name()] = e.Handler;
         }
     });
-}
+
+    return this;
+};
 
 (function(){
     // Properties
@@ -31,32 +29,19 @@ var rom = exports.rom = function() {
         return this.loaded;
     }
 
-    exports.getFilename = function() {
-        return filename;
-    }
-
     exports.registerType = function(typeID, type, handler) {
         romClasses.registerClass(typeID, type, handler);
     }
 
-    exports.Open = function(stream)  {
-        var startingSize = stream.available();
-        var romData = new Int16Array[startingSize];
-        var bufferData = new Int8Array[startingSize];
-
-        var numberRead = stream.read(bufferData, 0, startingSize);
-        for (var i = 0; i < numberRead; i++) {
-            romData[i] = Sizeof.convertToSignedShort(bufferData[i]);
-        }
-
+    exports.open = function(stream)  {
+        this.romData = stream;
         this.loaded = true;
+        var self = this;
 
-        _.each(handlers, function(value, key) {
-            console.log(LOG_TAG + ": Reading "
-                    + value.toString());
-            value.ReadClass(this);
-            console.log(LOG_TAG + ": Read "
-                    + value.toString());
+        _.each(this.handlers, function(handler, key) {
+            console.log(LOG_TAG + ": Reading " + key);
+            handler(self);
+            console.log(LOG_TAG + ": Read " + key);
         });
     }
 
@@ -67,32 +52,29 @@ var rom = exports.rom = function() {
      *            The RomObject to add
      */
 
-    exports.Add = function(o) {
-        var type = o.getClass();
+    exports.add = function(o) {
+        var type = o.name();
 
         // Create a new type list (if necessary)
-        if (!objects.containsKey(type))
-            objects[type] = [];
+        if (!_.contains(this.objects, type))
+            this.objects[type] = [];
 
-        objects[type].push(o);
+        this.objects[type].push(o);
 
         o.setParent(this);
-
-        // Hrm, now we need to update the damn thing's internal count...
-        o.AddToRom();
     }
 
-    exports.GetObject = function(type, index) {
+    exports.getObjectByType = function(type, index) {
         try {
-            return objects.get(type).get(index);
+            return this.objects[type][index];
         } catch (e) {
             return null;
         }
     }
 
-    exports.GetObject = function(typename, index) {
+    exports.getObjectByTypename = function(typename, index) {
         try {
-            return objects.get(RomClasses.types.get(typename).getType()).get(
+            return this.objects.get(RomClasses.types.get(typename).getType()).get(
                     index);
         } catch (e) {
             return null;
@@ -111,15 +93,15 @@ var rom = exports.rom = function() {
      * @return A List of RomObjects
      */
 
-    exports.GetObjectsByType = function(type) {
+    exports.getObjectsByType = function(type) {
         return objects[type];
     }
 
-    exports.GetObjectsByType = function(typeID) {
+    exports.getObjectsByType = function(typeID) {
         return objects.get(RomClasses.types.get(typeID));
     }
 
-    exports.GetObjectHandler = function(type) {
+    exports.getObjectHandler = function(type) {
         return handlers[type];
     }
 
@@ -136,13 +118,13 @@ var rom = exports.rom = function() {
      * @return A readable block
      */
 
-    exports.ReadBlock = function(location) {
+    exports.readBlock = function(location) {
         // NOTE: there's no address conversion implemented yet;
         // we're assuming all addresses are file offsets (with header)
 
         // For now, just return a readable block; we'll worry about
         // typing and free space later
-        return new Block(romData, location, false);
+        return block.block(this.romData, location, false);
     }
 
     /**
@@ -154,7 +136,7 @@ var rom = exports.rom = function() {
      *            The size, in bytes, required for this block
      * @return A writeable block, or null if allocation failed
      */
-    exports.AllocateBlock = function(size) {
+    exports.allocateBlock = function(size) {
         return null;
     }
 
@@ -169,7 +151,7 @@ var rom = exports.rom = function() {
      * @return A writeable block of size bytes in the specified location, or
      *         null if allocation failed
      */
-    exports.AllocateFixedBlock = function(size, location) {
+    exports.allocateFixedBlock = function(size, location) {
         return null;
     }
 
@@ -185,11 +167,11 @@ var rom = exports.rom = function() {
      *            has been reserved for a particular set of local-access objects
      * @return A writeable block of size bytes in the given local segment.
      */
-    exports.AllocateLocalBlock = function(size, ticket) {
+    exports.allocateLocalBlock = function(size, ticket) {
         return null;
     }
 
-    exports.HexToSnes = function(address, header) {
+    exports.hexToSnes = function(address, header) {
         if (header)
             address -= 0x200;
 
@@ -201,11 +183,11 @@ var rom = exports.rom = function() {
             throw new Error("File offset out of range: " + address);
     }
 
-    exports.HexToSnes = function(address) {
+    exports.hexToSnes = function(address) {
         return HexToSnes(address, true);
     }
 
-    exports.SnesToHex = function(address, header) {
+    exports.snesToHex = function(address, header) {
         if (address >= 0x400000 && address < 0x600000)
             address -= 0x0;
         else if (address >= 0xC00000 && address < 0x1000000)
@@ -219,7 +201,7 @@ var rom = exports.rom = function() {
         return address;
     }
 
-    exports.SnesToHex = function(address) {
+    exports.snesToHex = function(address) {
         return SnesToHex(address, true);
     }
 
@@ -272,7 +254,7 @@ var rom = exports.rom = function() {
      *            compressed data read
      * @return The size of the decompressed data if successful, null otherwise
      */
-    exports.Decomp = function(start, data, output, read) {
+    exports.decomp = function(start, data, output, read) {
         var maxlen = output.length;
         var pos = start;
         var bpos = 0, bpos2 = 0;
@@ -392,7 +374,7 @@ var rom = exports.rom = function() {
         return output;
     }
 
-    exports.GetCompressedSize = function(start, data) {
+    exports.getCompressedSize = function(start, data) {
         var pos = start;
         var bpos = 0, bpos2 = 0;
 

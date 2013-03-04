@@ -1,21 +1,24 @@
 define(function(require, exports, module) {
 "use strict";
 
+var rom = require("romlib/rom");
+
 var battleBGEffect = require("pkhack/battleBGEffect");
 var battleBG = require("pkhack/battleBG");
-var Rom = require("romlib/rom");
 
+var backgroundGraphics = require("romlib/backgroundGraphics");
+var backgroundPalette = require("romlib/backgroundPalette");
+var backgroundLayer = require("romlib/backgroundLayer");
 try {
-	Rom.registerType("battleBGEffect", battleBGEffect, battleBGEffect.Handler);
-	//Rom.registerType("BattleBG", battleBG, battleBG.Handler);
-	//Rom.registerType("BackgroundGraphics", BackgroundGraphics.class,
-	//		null);
-	//Rom.registerType("BackgroundPalette", BackgroundPalette.class, null);
+    rom.registerType("battleBGEffect", battleBGEffect, battleBGEffect.Handler);
+    rom.registerType("battleBG", battleBG, battleBG.Handler);
+    rom.registerType("backgroundGraphics", backgroundGraphics, null);
+    rom.registerType("BackgroundPalette", backgroundPalette, null);
 } catch (e) {
-	console.error("Error initializing ROM library: " + e);
+    console.error("Error initializing ROM library: " + e);
 }
 
-data = new Rom();
+rom.rom();
 
 // start opening the data file
 var oReq = new XMLHttpRequest();
@@ -25,10 +28,9 @@ oReq.responseType = "arraybuffer";
 oReq.onload = function (oEvent) {
     var arrayBuffer = oReq.response; 
     if (arrayBuffer) {
+        // unlike Java, I don't need to read and convert this stream. woo!
         var byteArray = new Uint8Array(arrayBuffer);
-        for (var i = 0; i < byteArray.byteLength; i++) {
-          // do something with each byte in the array
-        }
+        rom.open(byteArray);
     }
 };
  

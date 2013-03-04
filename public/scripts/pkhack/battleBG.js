@@ -1,7 +1,7 @@
 define(function(require, exports, module) {
 
 var romObject = require("romlib/romObject");
-var LOG_TAG = "BattleBG";
+var LOG_TAG = "battleBG";
 
 var battleBG = exports.battleBG = function() {
 
@@ -83,11 +83,11 @@ var battleBG = exports.battleBG = function() {
                 + this.bbgData[16];
     };
 
-    this.Read = function(index) {
-        var main = getParent().ReadBlock(0xADEA1 + index * 17);
+    this.read = function(index) {
+        var main = getParent().readBlock(0xADEA1 + index * 17);
 
         for (var i = 0; i < 17; i++) {
-            this.bbgData[i] = main.ReadShort();
+            this.bbgData[i] = main.readShort();
         }
     };
 
@@ -102,7 +102,7 @@ var battleBG = exports.battleBG = function() {
      * The handler for loading/saving all battle BGs
      */
     exports.Handler = function() {
-        this.ReadClass = function(rom) {
+        this.readClass = function(rom) {
             // The only way to determine the bit depth of each BG palette is
             // to check the bit depth of the backgrounds that use it - so,
             // first we create an array to track palette bit depths:
@@ -111,8 +111,8 @@ var battleBG = exports.battleBG = function() {
 
             for (var i = 0; i < 327; i++) {
                 var bg = new BattleBG();
-                rom.Add(bg);
-                bg.Read(i);
+                rom.add(bg);
+                bg.read(i);
 
                 // Now that the BG has been read, update the BPP entry for its
                 // palette
@@ -132,17 +132,17 @@ var battleBG = exports.battleBG = function() {
 
             for (var i = 0; i < 114; i++) {
                 var p = new BackgroundPalette();
-                rom.Add(p);
+                rom.add(p);
                 p.setBitsPerPixel(palbits[i]);
-                p.Read(i);
+                p.read(i);
             }
 
             // Load graphics
             for (var i = 0; i < 103; i++) {
                 var g = new BackgroundGraphics();
-                rom.Add(g);
+                rom.add(g);
                 g.setBitsPerPixel(gfxbits[i]);
-                g.Read(i);
+                g.read(i);
             }
         }
     }

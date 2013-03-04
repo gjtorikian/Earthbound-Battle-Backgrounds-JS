@@ -18,17 +18,9 @@ var romClasses = exports.romClasses = function(name, age) {
      * Represents a registered class entry within the ROM classes registry.
      */
     function Entry(id, type, handler) {
-        var ID = id;
-        var Type = type;
-        var Handler = handler;
-
-        this.getID = function() {
-            return ID;
-        };
-
-        this.getType = function() {
-            return Type;
-        }
+        this.ID = id;
+        this.Type = type;
+        this.Handler = handler;
     };
 
     /**
@@ -53,8 +45,10 @@ var romClasses = exports.romClasses = function(name, age) {
      */
     exports.registerClass = function(id, type, handler) {
         console.log("RomClasses: Checking for collisions: " + type.name());
+        
         var added = false;
         // Check for collisions
+
         _.each(_.values(types), function(e) {
             if (e.ID == id) {
                 // throw new Exception("Type ID '" + id
@@ -74,8 +68,9 @@ var romClasses = exports.romClasses = function(name, age) {
         });
 
         // If all goes well, register the ID, type, and handler
-        if (!added)
-            types[id] = Entry(id, type, handler);
+        if (!added) {
+            types[id] = new Entry(id, type, handler);
+        }
     }
 
 }).call(romClasses.prototype);

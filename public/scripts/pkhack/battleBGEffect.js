@@ -1,14 +1,14 @@
 define(function(require, exports, module) {
 
-var LOG_TAG = "BattleBGEffect";
-var dataBBGE = Int16Array[17];
-var battleBGEffect = exports.battleBGEffect = function(name, age) {
+var LOG_TAG = "battleBGEffect";
+var dataBBGE = new Int16Array(17);
+var battleBGEffect = exports.battleBGEffect = function() {
 
 
 };
 
 (function() {
-    exports.name = function() { 
+    exports.name = this.name = function() { 
         return LOG_TAG;
      };
 
@@ -91,22 +91,28 @@ var battleBGEffect = exports.battleBGEffect = function(name, age) {
         dataBBGE[16] = (value >> 8);
     }
 
-    this.Read = function(index) {
-        var main = getParent().ReadBlock(0x0AF908 + index * 17);
+    this.read = function(index) {
+        var main = this.getParent().readBlock(0x0AF908 + index * 17);
 
         for (var i = 0; i < 17; i++) {
-            this.bbgData[i] = main.ReadShort();
+            dataBBGE[i] = main.readShort();
         }
     };
 
-    exports.Handler = function() {
-        this.ReadClass = function(rom) {
-            for (var i = 0; i < 135; i++) {
-                var e = new BattleBGEffect();
+    this.setParent = function(value) {
+        this.parent = value;
+    }
 
-                rom.Add(e);
-                e.Read(i);
-            }
+    this.getParent = function(value) {
+        return this.parent;
+    }
+
+    exports.Handler = function(rom) {
+        for (var i = 0; i < 135; i++) {
+            var e = new battleBGEffect();
+
+            rom.add(e);
+            e.read(i);
         }
     }
 }).call(battleBGEffect.prototype);
