@@ -8,7 +8,8 @@ var LOG_TAG = "BackgroundGraphics";
 var BackgroundGraphics = exports.BackgroundGraphics = function() {
     this.parent = null;
     this.bpp = null;
-
+    this.uniqueId();
+    
     return this;
 };
 
@@ -55,6 +56,10 @@ var BackgroundGraphics = exports.BackgroundGraphics = function() {
         bpp = value;
     }
 
+    exports.draw = function(ctx, bmp, pal) {
+        RomGraphics.draw(ctx, bmp, pal, arrRomGraphics);
+    }
+
     /**
      * Internal function - reads graphics from the specified block and builds
      * tileset.
@@ -74,15 +79,14 @@ var BackgroundGraphics = exports.BackgroundGraphics = function() {
     function $buildTiles() {
         var n = this.gfxRomGraphics.length / (8 * bpp);
 
-        this.tiles = new Int16Array();
+        this.tiles = [];
 
         for (var i = 0; i < n; i++) {
-            tiles.add(new Int16Array(8));
-
+            this.tiles.push(new Int16Array(8));
             var o = i * 8 * bpp;
 
             for (var x = 0; x < 8; x++) {
-                tiles[i][x] = new Int16Array(8);
+                this.tiles[i][x] = new Int16Array(8);
                 for (var y = 0; y < 8; y++) {
                     var c = 0;
                     for (var bp = 0; bp < bpp; bp++) {

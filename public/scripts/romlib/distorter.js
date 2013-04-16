@@ -31,6 +31,8 @@ var Distorter = exports.Distorter = function() {
     this.current_dist = 1
 
     this.bmpSrc = null;
+
+    return this;
 };
 
 (function(){
@@ -93,9 +95,14 @@ var Distorter = exports.Distorter = function() {
         var compr;
         var compr_accel;
 
+        this.Type = function() {
+            return Type;
+        }
+
         this.getDistortionEffect = function() {
             return Type[type];
         }
+
         /**
          * Gets or sets the type of distortion effect to use.
          */
@@ -195,6 +202,8 @@ var Distorter = exports.Distorter = function() {
         this.setSpeed = function(value) {
             speed = value;
         }
+
+        return this;
     }
 
 }).call(Distorter.prototype);

@@ -8,7 +8,8 @@ var Rom = require("romlib/Rom");
 var BackgroundPalette = exports.BackgroundPalette = function() {
 	this.colors = null;
     this.bpp = null;
-
+    this.uniqueId();
+    
 	return this;
 };
 
@@ -42,11 +43,11 @@ var BackgroundPalette = exports.BackgroundPalette = function() {
      * @return An array containing the colors of the specified subpalette.
      */
     exports.getColors = function(pal) {
-        return colors[pal];
+        return this.colors[pal];
     }
 
     exports.getColorMatrix = function() {
-        return colors;
+        return this.colors;
     }
 
     /**

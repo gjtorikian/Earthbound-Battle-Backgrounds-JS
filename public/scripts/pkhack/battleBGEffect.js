@@ -4,7 +4,7 @@ var LOG_TAG = "BattleBGEffect";
 var dataBBGE = new Int16Array(17);
 var BattleBGEffect = exports.BattleBGEffect = function() {
 
-
+    this.uniqueId();
 };
 
 (function() {
@@ -12,81 +12,81 @@ var BattleBGEffect = exports.BattleBGEffect = function() {
         return LOG_TAG;
      };
 
-    exports.getType = function() {
+    this.getType = function() {
         return dataBBGE[2];
     };
 
-    exports.setType = function(value) {
+    this.setType = function(value) {
         dataBBGE[2] = value;
     }
 
-    exports.getDuration = function() {
+    this.getDuration = function() {
         return (dataBBGE[0] + (dataBBGE[1] << 8));
     }
 
-    exports.setDuration = function(value) {
+    this.setDuration = function(value) {
         dataBBGE[0] = value;
         dataBBGE[1] = (value >> 8);
     }
 
-    exports.getFrequency = function() {
+    this.getFrequency = function() {
         return (dataBBGE[3] + (dataBBGE[4] << 8));
     }
 
-    exports.setFrequency = function(value) {
+    this.setFrequency = function(value) {
         dataBBGE[3] = value;
         dataBBGE[4] = (value >> 8);
     }
 
-    exports.getAmplitude = function() {
+    this.getAmplitude = function() {
         return (dataBBGE[5] + (dataBBGE[6] << 8));
     }
 
-    exports.setAmplitude = function(value) {
+    this.setAmplitude = function(value) {
         dataBBGE[5] = value;
         dataBBGE[6] = (value >> 8);
     }
 
-    exports.getCompression = function() {
+    this.getCompression = function() {
         return (dataBBGE[8] + (dataBBGE[9] << 8));
     }
 
-    exports.setCompression = function(value) {
+    this.setCompression = function(value) {
         dataBBGE[8] = value;
         dataBBGE[9] = (value >> 8);
     }
 
-    exports.getFrequencyAcceleration = function() {
+    this.getFrequencyAcceleration = function() {
         return (dataBBGE[10] + (dataBBGE[11] << 8));
     }
 
-    exports.setFrequencyAcceleration = function(value) {
+    this.setFrequencyAcceleration = function(value) {
         dataBBGE[10] = value;
         dataBBGE[11] = (value >> 8);
     }
 
-    exports.getAmplitudeAcceleration = function() {
+    this.getAmplitudeAcceleration = function() {
         return (dataBBGE[12] + (dataBBGE[13] << 8));
     }
 
-    exports.setAmplitudeAcceleration = function(value) {
+    this.setAmplitudeAcceleration = function(value) {
         dataBBGE[12] = value;
         dataBBGE[13] = (value >> 8);
     }
 
-    exports.getSpeed = function() {
+    this.getSpeed = function() {
         return dataBBGE[14];
     }
 
-    exports.setSpeed = function(value) {
+    this.setSpeed = function(value) {
         dataBBGE[14] = value;
     }
 
-    exports.getCompressionAcceleration = function() {
+    this.getCompressionAcceleration = function() {
         return (dataBBGE[15] + (dataBBGE[16] << 8));
     }
 
-    exports.setCompressionAcceleration = function(value) {
+    this.setCompressionAcceleration = function(value) {
         dataBBGE[15] = value;
         dataBBGE[16] = (value >> 8);
     }

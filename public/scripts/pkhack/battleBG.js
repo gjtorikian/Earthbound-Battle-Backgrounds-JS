@@ -47,6 +47,7 @@ var BattleBG = exports.BattleBG = function() {
      * 16 Effects
      */
     this.bbgData = new Int16Array(17);
+    this.uniqueId();
 };
 
 (function(){
@@ -121,7 +122,6 @@ var BattleBG = exports.BattleBG = function() {
             var bg = new BattleBG();
             Rom.add(bg);
             bg.read(i);
-
             // Now that the BG has been read, update the BPP entry for its
             // Palette
             // We can also check to make sure palettes are used

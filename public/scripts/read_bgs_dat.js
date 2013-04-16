@@ -35,7 +35,33 @@ oReq.onload = function (oEvent) {
 
         var engine = require("engine");
 
-        engine.start();
+        console.log("Starting engine...");
+
+        var layer1_val = 270;
+        var layer2_val = 269;
+
+        console.log("Creating layer 1: " + layer1_val);
+        var layer1 = BackgroundLayer.BackgroundLayer(Rom, layer1_val);
+
+        console.log("Creating layer 2: " + layer2_val);
+        var layer2 = BackgroundLayer.BackgroundLayer(Rom, layer2_val);
+
+        var frameskip = 3;
+        var aspectRatio = 16;   
+
+        var canvas = document.getElementById("canvas");
+        var canvasWidth  = canvas.width;
+        var canvasHeight = canvas.height;
+        var ctx = canvas.getContext("2d");
+
+        var fps = 15;
+        var alpha = parseFloat(0.5);
+
+        if (layer2.getEntry() == 0)
+            alpha = parseFloat(1.0);
+        var tick = 0;
+
+        engine.start(layer1, layer2, tick, fps, aspectRatio, frameskip, alpha);
     }
 };
  

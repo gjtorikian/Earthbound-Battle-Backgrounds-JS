@@ -56,7 +56,7 @@ var Rom = exports.Rom = function Rom() {
         var type = o.name();
 
         // Create a new type list (if necessary)
-        if (!_.contains(this.objects, type))
+        if (this.objects[type] === undefined)
             this.objects[type] = [];
 
         this.objects[type].push(o);
@@ -74,9 +74,11 @@ var Rom = exports.Rom = function Rom() {
     }
 
     exports.getObjectByTypename = function(typename, index) {
+        var type = _.findWhere(RomClasses.getTypes(), {ID: typename});
+        var obj = this.objects[type.ID];
+
         try {
-            return this.objects.get(RomClasses.types.get(typename).getType()).get(
-                    index);
+            return obj[index];
         } catch (e) {
             console.log("Unexpected error getting by typename")
             return null;
@@ -351,7 +353,7 @@ var Rom = exports.Rom = function Rom() {
                     // return -5;
                 }
                 while (len-- != 0) {
-                    output[bpos++] = bitrevs[output[bpos2++] & 0xFF];
+                    output[bpos++] = this.bitrevs[output[bpos2++] & 0xFF];
                 }
                 break;
 

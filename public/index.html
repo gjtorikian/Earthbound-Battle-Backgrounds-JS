@@ -3,7 +3,21 @@
 <html>
 <head>
 <title>Earthbound Battle Backgrounds</title>
+
 <script type="text/javascript">
+// unique ID needed for Rom.add
+(function() {
+    if ( typeof Object.prototype.uniqueId == "undefined" ) {
+        var id = 0;
+        Object.prototype.uniqueId = function() {
+            if ( typeof this.__uniqueid == "undefined" ) {
+                this.__uniqueid = ++id;
+            }
+            return this.__uniqueid;
+        };
+    }
+})();
+
 var require = {
     baseUrl: "scripts",
     paths: {

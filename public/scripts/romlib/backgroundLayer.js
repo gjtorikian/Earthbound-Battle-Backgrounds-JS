@@ -2,7 +2,7 @@ define(function(require, exports, module) {
 
 var LOG_TAG = "BackgroundLayer";
 
-var BackgroundGraphics = require("romlib/BackgroundLayer");
+var BackgroundGraphics = require("romlib/BackgroundGraphics");
 var Distorter = require("romlib/Distorter");
 
 var H = 256;
@@ -12,6 +12,8 @@ var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
     this.gfx = null, this.pal = null;
     this.distort = Distorter.Distorter();
     this.loadEntry(src, entry);
+
+    return this;
 };
 
 (function(){
@@ -62,35 +64,35 @@ var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
     exports.loadEffect = function(src, n) {
         var effect = src.getObjectByType("BattleBGEffect", n);
 
-        this.distort.getEffect().setAmplitude(effect.getAmplitude());
-        this.distort.getEffect().setAmplitudeAcceleration(
+        this.distort.effect.setAmplitude(effect.getAmplitude());
+        this.distort.effect.setAmplitudeAcceleration(
                 effect.getAmplitudeAcceleration());
-        this.distort.getEffect().setCompression(effect.getCompression());
-        this.distort.getEffect().setCompressionAcceleration(
+        this.distort.effect.setCompression(effect.getCompression());
+        this.distort.effect.setCompressionAcceleration(
                 effect.getCompressionAcceleration());
-        this.distort.getEffect().setFrequency(effect.getFrequency());
-        this.distort.getEffect().setFrequencyAcceleration(
+        this.distort.effect.setFrequency(effect.getFrequency());
+        this.distort.effect.setFrequencyAcceleration(
                 effect.getFrequencyAcceleration());
-        this.distort.getEffect().setSpeed(effect.getSpeed());
+        this.distort.effect.setSpeed(effect.getSpeed());
 
         if (effect.getType() == 1)
-            this.distort.getEffect().setEffect(
-                    Distorter.DistortionEffect.Type.Horizontal);
+            this.distort.effect.setEffect(
+                    Distorter.DistortionEffect().Type.Horizontal);
         else if (effect.getType() == 3)
-            this.distort.getEffect().setEffect(
-                    Distorter.DistortionEffect.Type.Vertical);
+            this.distort.effect.setEffect(
+                    Distorter.DistortionEffect().Type.Vertical);
         else
-            this.distort.getEffect().setEffect(
-                    Distorter.DistortionEffect.Type.HorizontalInterlaced);
+            this.distort.effect.setEffect(
+                    Distorter.DistortionEffect().Type.HorizontalInterlaced);
     }
 
     exports.loadEntry = function(src, n) {
         this.entry = n;
-        var bg = src.getObjectByType("BattleBG", n);
+        var bg = src.getObjectByTypename("BattleBG", n);
 
         // Set graphics / Palette
-        loadGraphics(src, bg.getGraphicsIndex());
-        loadPalette(src, bg.getPaletteIndex());
+        this.loadGraphics(src, bg.getGraphicsIndex());
+        this.loadPalette(src, bg.getPaletteIndex());
 
         var e = bg.getAnimation();
 
@@ -100,16 +102,21 @@ var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
         var e4 = ( (e) & 0xFF);
 
         if (e2 != 0)
-            loadEffect(src, e2);
+            this.loadEffect(src, e2);
         else
-            loadEffect(src, e1);
+            this.loadEffect(src, e1);
 
-        initializeBitmap();
+        this.initializeBitmap();
     }
 
     exports.initializeBitmap = function() {
-        bmp = Bitmap.createBitmap(W, H, Bitmap.Config.ARGB_8888);
-        this.gfx.Draw(bmp, this.pal);
+        var canvas = document.getElementById('canvas');
+        var canvasWidth  = canvas.width;
+        var canvasHeight = canvas.height;
+        var ctx = canvas.getContext('2d');
+        //var imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
+        bmp =  ctx.getImageData(0, 0, canvasWidth, canvasHeight);
+        this.gfx.draw(ctx, bmp, this.pal);
         this.distort.setOriginal(bmp);
     }
 }).call(BackgroundLayer.prototype);
