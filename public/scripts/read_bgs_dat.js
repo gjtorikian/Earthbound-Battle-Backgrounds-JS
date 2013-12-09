@@ -49,11 +49,6 @@ oReq.onload = function (oEvent) {
         var frameskip = 3;
         var aspectRatio = 16;   
 
-        var canvas = document.getElementById("canvas");
-        var canvasWidth  = canvas.width;
-        var canvasHeight = canvas.height;
-        var ctx = canvas.getContext("2d");
-
         var fps = 15;
         var alpha = parseFloat(0.5);
 

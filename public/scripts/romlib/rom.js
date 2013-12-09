@@ -35,6 +35,7 @@ var Rom = exports.Rom = function Rom() {
 
     exports.open = function(stream)  {
         this.romData = stream;
+
         this.loaded = true;
         var self = this;
 

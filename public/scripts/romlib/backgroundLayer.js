@@ -49,7 +49,7 @@ var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
      *            rendering
      */
     exports.overlayFrame = function(dst, letterbox, ticks, alpha, erase) {
-        this.distort.overlayFrame(dst, letterbox, ticks, alpha, erase);
+        return this.distort.overlayFrame(dst, letterbox, ticks, alpha, erase);
     }
 
     // TODO technically these shouldn't be exported--they're internal
@@ -110,13 +110,10 @@ var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
     }
 
     exports.initializeBitmap = function() {
-        var canvas = document.getElementById('canvas');
-        var canvasWidth  = canvas.width;
-        var canvasHeight = canvas.height;
-        var ctx = canvas.getContext('2d');
-        //var imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
-        bmp =  ctx.getImageData(0, 0, canvasWidth, canvasHeight);
-        this.gfx.draw(ctx, bmp, this.pal);
+        var canvasTemp = document.createElement("canvas"),
+            tCtx = canvasTemp.getContext("2d");
+        var bmp =  tCtx.getImageData(0, 0, 256, 256);
+        bmp = this.gfx.draw(bmp, this.pal);
         this.distort.setOriginal(bmp);
     }
 }).call(BackgroundLayer.prototype);
