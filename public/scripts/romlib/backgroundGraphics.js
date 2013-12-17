@@ -5,9 +5,8 @@ var Rom = require("romlib/Rom");
 
 var LOG_TAG = "BackgroundGraphics";
 
-var arrRomGraphics = new Int16Array;
-
-var BackgroundGraphics = exports.BackgroundGraphics = function() {
+var BackgroundGraphics = exports.BackgroundGraphics = function BackgroundGraphics() {
+    this.arrRomGraphics = new Int16Array;
     this.parent = null;
     this.bpp = null;
     this.uniqueId();
@@ -16,11 +15,11 @@ var BackgroundGraphics = exports.BackgroundGraphics = function() {
 };
 
 (function(){
-    exports.name = function() { 
+    BackgroundGraphics.prototype.name = function() { 
         return LOG_TAG;
     };
     
-    exports.read = function(index) {
+    BackgroundGraphics.prototype.read = function(index) {
         // Graphics pointer table entry
         var gfxPtrBlock = this.getParent().readBlock(0xAD9A1 + index * 4);
         // int gfxPtr = Rom.SnesToHex(gfxPtrBlock.readInt());
@@ -38,11 +37,11 @@ var BackgroundGraphics = exports.BackgroundGraphics = function() {
         this.arrRomGraphics = arrBlock.decomp();
     };
 
-    exports.setParent = function(value) {
+    BackgroundGraphics.prototype.setParent = function(value) {
         this.parent = value;
     }
 
-    exports.getParent = function(value) {
+    BackgroundGraphics.prototype.getParent = function(value) {
         return this.parent;
     }
 
@@ -50,15 +49,15 @@ var BackgroundGraphics = exports.BackgroundGraphics = function() {
     /**
      * Gets or sets the bit depth of this Palette.
      */
-    exports.getBitsPerPixel = function() {
+    BackgroundGraphics.prototype.getBitsPerPixel = function() {
         return RomGraphics.getBitsPerPixel();
     }
 
-    exports.setBitsPerPixel = function(value) {
+    BackgroundGraphics.prototype.setBitsPerPixel = function(value) {
         RomGraphics.setBitsPerPixel(value);
     }
 
-    exports.draw = function(bmp, pal) {
+    BackgroundGraphics.prototype.draw = function(bmp, pal) {
         return RomGraphics.draw(bmp, pal, this.arrRomGraphics);
     }
 

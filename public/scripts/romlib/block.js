@@ -64,8 +64,8 @@ var Block = exports.Block = function(data, location, writable) {
 
         blockOutput = new Int16Array(size);
         var read = 0;
-        blockOutput = Rom.decomp(this.pointer, this.blockData, blockOutput, read);
 
+        blockOutput = Rom.decomp(this.pointer, this.blockData, blockOutput, read);
         if (blockOutput == null)
             throw new Error(
                 "ERROR! Computed and actual decompressed sizes do not match. Please reinstall universe and reboot.");

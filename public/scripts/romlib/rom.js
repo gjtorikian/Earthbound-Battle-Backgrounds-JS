@@ -60,9 +60,13 @@ var Rom = exports.Rom = function Rom() {
         if (this.objects[type] === undefined)
             this.objects[type] = [];
 
-        this.objects[type].push(o);
-
         o.setParent(this);
+
+        this.objects[type].push(o);
+    }
+
+    exports.setObjectByType = function(type, index, object) {
+        this.objects[type][index] = object;
     }
 
     exports.getObjectByType = function(type, index) {
@@ -99,12 +103,12 @@ var Rom = exports.Rom = function Rom() {
      */
 
     exports.getObjectsByType = function(type) {
-        return objects[type];
+        return this.objects[type];
     }
 
-    exports.getObjectsByType = function(typeID) {
-        return objects.get(RomClasses.types.get(typeID));
-    }
+    // exports.getObjectsByType = function(typeID) {
+    //     return objects.get(RomClasses.types.get(typeID));
+    // }
 
     exports.getObjectHandler = function(type) {
         return handlers[type];

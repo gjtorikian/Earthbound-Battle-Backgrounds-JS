@@ -54,6 +54,7 @@ oReq.onload = function (oEvent) {
 
         if (layer2.getEntry() == 0)
             alpha = parseFloat(1.0);
+
         var tick = 0;
 
         engine.start(layer1, layer2, tick, fps, aspectRatio, frameskip, alpha);

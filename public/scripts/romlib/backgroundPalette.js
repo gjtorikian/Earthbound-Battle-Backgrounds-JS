@@ -5,7 +5,7 @@ var LOG_TAG = "BackgroundPalette";
 var RomObject = require("romlib/RomObject");
 var Rom = require("romlib/Rom");
 
-var BackgroundPalette = exports.BackgroundPalette = function() {
+var BackgroundPalette = exports.BackgroundPalette = function BackgroundPalette() {
 	this.colors = null;
     this.bpp = null;
     this.uniqueId();
@@ -14,23 +14,24 @@ var BackgroundPalette = exports.BackgroundPalette = function() {
 };
 
 (function(){
-    exports.name = function() { 
+    BackgroundPalette.prototype.name = function() { 
         return LOG_TAG;
     };
     
-    exports.read = function(index) {
+    BackgroundPalette.prototype.read = function(index) {
         var ptr = this.getParent().readBlock(0xADCD9 + index * 4);
         address = Rom.snesToHex(ptr.readInt());
 
         var data = this.getParent().readBlock(address);
+        this.address = address;
         this.readPalette(data, this.bpp, 1);
     };
 
-    exports.setParent = function(value) {
+    BackgroundPalette.prototype.setParent = function(value) {
         this.parent = value;
     }
 
-    exports.getParent = function(value) {
+    BackgroundPalette.prototype.getParent = function(value) {
         return this.parent;
     }
 
@@ -42,22 +43,22 @@ var BackgroundPalette = exports.BackgroundPalette = function() {
      * 
      * @return An array containing the colors of the specified subpalette.
      */
-    exports.getColors = function(pal) {
+    BackgroundPalette.prototype.getColors = function(pal) {
         return this.colors[pal];
     }
 
-    exports.getColorMatrix = function() {
+    BackgroundPalette.prototype.getColorMatrix = function() {
         return this.colors;
     }
 
     /**
      * Gets or sets the bit depth of this Palette.
      */
-    exports.getBitsPerPixel = function() {
+    BackgroundPalette.prototype.getBitsPerPixel = function() {
         return this.bpp;
     }
 
-    exports.setBitsPerPixel = function(value) {
+    BackgroundPalette.prototype.setBitsPerPixel = function(value) {
         this.bpp = value;
     }
 
@@ -72,7 +73,7 @@ var BackgroundPalette = exports.BackgroundPalette = function() {
      * @param count
      *            Number of subpalettes to read.
      */
-    exports.readPalette = function(block, bpp, count) {
+    BackgroundPalette.prototype.readPalette = function(block, bpp, count) {
         if (this.bpp != 2 && this.bpp != 4)
             throw new Error(
                     "Palette error: Incorrect color depth specified.");
@@ -92,7 +93,8 @@ var BackgroundPalette = exports.BackgroundPalette = function() {
                 var r = ((clr16 & 31) * 8);
 
                 // convert RGB to color int
-                this.colors[pal][i] = 256*256*r+ 256*g+b;
+                // this code is straight out of Android: http://git.io/F1lZtw
+                this.colors[pal][i] = (0xFF << 24) | (r << 16) | (g << 8) | b;
             }
         }
     }

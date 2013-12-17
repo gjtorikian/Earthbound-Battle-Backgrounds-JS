@@ -113,7 +113,7 @@ var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
         var canvasTemp = document.createElement("canvas"),
             tCtx = canvasTemp.getContext("2d");
         var bmp =  tCtx.getImageData(0, 0, 256, 256);
-        bmp = this.gfx.draw(bmp, this.pal);
+        bmp.data.set(this.gfx.draw(bmp, this.pal));
         this.distort.setOriginal(bmp);
     }
 }).call(BackgroundLayer.prototype);

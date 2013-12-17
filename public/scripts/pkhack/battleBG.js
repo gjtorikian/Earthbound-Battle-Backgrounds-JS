@@ -137,17 +137,17 @@ var BattleBG = exports.BattleBG = function() {
         }
 
         // Now load palettes
-
         for (var i = 0; i < 114; i++) {
-            var p = BackgroundPalette.BackgroundPalette();
-            Rom.add(p);
+            var p = new BackgroundPalette.BackgroundPalette();
+            p.setParent(Rom);
             p.setBitsPerPixel(palbits[i]);
             p.read(i);
+            Rom.add(p);
         }
 
         // Load graphics
         for (var i = 0; i < 103; i++) {
-            var g = BackgroundGraphics.BackgroundGraphics();
+            var g = new BackgroundGraphics.BackgroundGraphics();
             Rom.add(g);
             g.setBitsPerPixel(gfxbits[i]);
             g.read(i);
