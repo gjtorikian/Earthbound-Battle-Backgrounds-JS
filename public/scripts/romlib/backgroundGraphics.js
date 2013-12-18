@@ -6,7 +6,8 @@ var Rom = require("romlib/Rom");
 var LOG_TAG = "BackgroundGraphics";
 
 var BackgroundGraphics = exports.BackgroundGraphics = function BackgroundGraphics() {
-    this.arrRomGraphics = new Int16Array;
+    this.arrRomGraphics = null
+    this.romGraphics = new RomGraphics.RomGraphics();
     this.parent = null;
     this.bpp = null;
     this.uniqueId();
@@ -25,7 +26,7 @@ var BackgroundGraphics = exports.BackgroundGraphics = function BackgroundGraphic
         // int gfxPtr = Rom.SnesToHex(gfxPtrBlock.readInt());
 
         // Read graphics
-        $loadGraphics(this.getParent()
+        this.$loadGraphics(this.getParent()
                 .readBlock(Rom.snesToHex(gfxPtrBlock.readInt())));
 
         // Arrangement pointer table entry
@@ -50,15 +51,15 @@ var BackgroundGraphics = exports.BackgroundGraphics = function BackgroundGraphic
      * Gets or sets the bit depth of this Palette.
      */
     BackgroundGraphics.prototype.getBitsPerPixel = function() {
-        return RomGraphics.getBitsPerPixel();
+        return this.romGraphics.getBitsPerPixel();
     }
 
     BackgroundGraphics.prototype.setBitsPerPixel = function(value) {
-        RomGraphics.setBitsPerPixel(value);
+        this.romGraphics.setBitsPerPixel(value);
     }
 
     BackgroundGraphics.prototype.draw = function(bmp, pal) {
-        return RomGraphics.draw(bmp, pal, this.arrRomGraphics);
+        return this.romGraphics.draw(bmp, pal, this.arrRomGraphics);
     }
 
     /**
@@ -68,8 +69,8 @@ var BackgroundGraphics = exports.BackgroundGraphics = function BackgroundGraphic
      * @param block
      *            The block to read graphics data from
      */
-    var $loadGraphics = function(block) {
-        RomGraphics.LoadGraphics(block);
+    BackgroundGraphics.prototype.$loadGraphics = function(block) {
+        this.romGraphics.LoadGraphics(block);
     }
 }).call(BackgroundGraphics.prototype);
 
