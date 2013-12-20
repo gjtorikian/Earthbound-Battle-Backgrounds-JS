@@ -17,7 +17,7 @@ var sizeof = require("util/sizeof");
 // Location of data within ROM
 // Size of data (if applicable)
 // private Rom Rom;
-var blockData = new Int16Array(1);
+// var blockData = new Int16Array(1);
 // private byte[] buffer; // for write operations
 var address;
 var pointer;
@@ -26,8 +26,7 @@ var writable;
 
 var blockOutput = new Int16Array(1);
 
-var Block = exports.Block = function(data, location, writable) {
-    this.pointer = -1;
+var Block = exports.Block = function Block(data, location, writable) {
     this.blockData = data;
     this.size = -1;
     this.address = location;
@@ -38,11 +37,11 @@ var Block = exports.Block = function(data, location, writable) {
 };
 
 (function(){
-    exports.getPointer = function() {
+    Block.prototype.getPointer = function() {
         return this.pointer;
     }
 
-    exports.write = function(value) {
+    Block.prototype.write = function(value) {
         if (this.pointer + sizeof.sizeofShort() >= this.address + this.size)
             throw new Error("Block write overflow!");
         this.blockData[this.pointer++] = value;
@@ -57,7 +56,7 @@ var Block = exports.Block = function(data, location, writable) {
      * @return An array containing the decompressed data.
      */
 
-    exports.decomp = function() {
+    Block.prototype.decomp = function() {
         var size = Rom.getCompressedSize(this.pointer, this.blockData);
         if (size < 1)
             throw new Error("Invalid compressed data: " + size);
@@ -80,7 +79,7 @@ var Block = exports.Block = function(data, location, writable) {
      * @return The 16-bit value at the current position.
      */
 
-    exports.readShort = function() {
+    Block.prototype.readShort = function() {
         return (this.blockData[this.pointer++]);
     }
 
@@ -88,13 +87,15 @@ var Block = exports.Block = function(data, location, writable) {
      * Reads a 32-bit integer from the block's current position and advances the
      * current position by 4 bytes.
      */
-    exports.readInt = function() {
+    Block.prototype.readInt = function() {
         return (this.blockData[this.pointer++] + (this.blockData[this.pointer++] << 8)
                 + (this.blockData[this.pointer++] << 16) + (this.blockData[this.pointer++] << 24));
     }
 
-    exports.readDoubleShort = function() {
-        return (this.blockData[this.pointer++] + (this.blockData[this.pointer++] << 8));
+    Block.prototype.readDoubleShort = function() {
+        var fakeShort = new Int16Array(1);
+        fakeShort[0] = (this.blockData[this.pointer++] + (this.blockData[this.pointer++] << 8));
+        return fakeShort;
     }
 }).call(Block.prototype);
 

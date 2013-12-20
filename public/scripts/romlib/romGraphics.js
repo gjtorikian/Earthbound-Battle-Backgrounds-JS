@@ -8,7 +8,8 @@ var width = 32;
 var height = 32;
 
 var RomGraphics = exports.RomGraphics = function RomGraphics() {
-
+    this.eh = 100;
+    this.ooh = 0;
 };
 
 (function(){
@@ -58,7 +59,7 @@ var RomGraphics = exports.RomGraphics = function RomGraphics() {
 
     // JNI C code 
     RomGraphics.prototype.draw = function(bmp, pal, arrRomGraphics) {
-        var data = bmp.data;
+        var data = bmp;
 
         var block = 0, tile = 0, subpal = 0;
         var i = 0, j = 0, n = 0, b1 = 0, b2 = 0;
@@ -112,14 +113,16 @@ var RomGraphics = exports.RomGraphics = function RomGraphics() {
 
                 var pos = (px * 4) + (py * stride);
 
+                if (this.ooh < this.eh) {
+                console.log(new Date().getTime() + " " + rgbArray)
+                    this.ooh++;
+                }
                 pixels[pos + 0] = (rgbArray >> 16) & 0xFF;
                 pixels[pos + 1] = (rgbArray >> 8) & 0xFF;
                 pixels[pos + 2] = (rgbArray) & 0xFF;
-                // pixels[pos + 3] = 255;
             }
         }
 
-        debugger;
         return pixels;
     }
 

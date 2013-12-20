@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 var _ = require("underscore");
 var LOG_TAG = "Rom";
 var RomClasses = require("romlib/romclasses");
-var block = require("romlib/block");
+var Block = require("romlib/block");
 
 var Rom = exports.Rom = function Rom() {
     this.objects = {}, self = this;
@@ -133,7 +133,7 @@ var Rom = exports.Rom = function Rom() {
 
         // For now, just return a readable block; we'll worry about
         // typing and free space later
-        return block.Block(this.romData, location, false);
+        return new Block.Block(this.romData, location, false);
     }
 
     /**

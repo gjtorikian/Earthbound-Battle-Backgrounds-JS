@@ -8,6 +8,7 @@ var Rom = require("romlib/Rom");
 var BackgroundPalette = exports.BackgroundPalette = function BackgroundPalette() {
 	this.colors = null;
     this.bpp = null;
+    this.address = 0;
     this.uniqueId();
     
 	return this;
@@ -86,12 +87,14 @@ var BackgroundPalette = exports.BackgroundPalette = function BackgroundPalette()
         for (var pal = 0; pal < count; pal++) {
             this.colors[pal] = new Array(Math.pow(2, this.bpp));
             for (var i = 0; i < Math.pow(2, this.bpp); i++) {
-                var clr16 = block.readDoubleShort();
+                var clr16 = block.readDoubleShort()[0];
 
                 var b = (((clr16 >> 10) & 31) * 8);
                 var g = (((clr16 >> 5) & 31) * 8);
                 var r = ((clr16 & 31) * 8);
-
+                if (this.address == 776618) {
+                    console.log(clr16, b, g, r)
+                }
                 // convert RGB to color int
                 // this code is straight out of Android: http://git.io/F1lZtw
                 this.colors[pal][i] = (0xFF << 24) | (r << 16) | (g << 8) | b;

@@ -9,8 +9,9 @@ var H = 256;
 var W = 256;
 
 var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
-    this.gfx = null, this.pal = null;
-    this.distort = Distorter.Distorter();
+    this.gfx = null, 
+    this.pal = null,
+    this.distort = Distorter.Distorter(),
     this.loadEntry(src, entry);
 
     return this;
@@ -110,11 +111,9 @@ var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
     }
 
     exports.initializeBitmap = function() {
-        var canvasTemp = document.createElement("canvas"),
-            tCtx = canvasTemp.getContext("2d");
-        var bmp =  tCtx.getImageData(0, 0, 256, 256);
-        bmp.data.set(this.gfx.draw(bmp, this.pal));
-        this.distort.setOriginal(bmp);
+        var pixels = new Int8Array(256 * 256 * 4);
+        pixels = this.gfx.draw(pixels, this.pal)
+        this.distort.setOriginal(pixels);
     }
 }).call(BackgroundLayer.prototype);
 

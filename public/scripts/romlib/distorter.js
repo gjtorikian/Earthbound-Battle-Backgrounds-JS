@@ -124,13 +124,8 @@ var Distorter = exports.Distorter = function() {
     }
 
     exports.ComputeFrame = function(dst, src, distortEffect, letterbox, ticks, alpha, erase, ampl, ampl_accel, s_freq, s_freq_accel, compr, compr_accel, speed) {
-        var dbuf = new ArrayBuffer(dst.data.length);
-        var dbuf8 = new Uint8ClampedArray(dbuf);
-        var bdst = new Uint32Array(dbuf);
-
-        var sbuf = new ArrayBuffer(dst.data.length);
-        var sbuf8 = new Uint8ClampedArray(sbuf);
-        var sdst = new Uint32Array(sbuf);
+        var bdst = dst.data;
+        var bsrc = src;
 
         // TODO: hardcoing is bad.
         var dstStride = 1024;
@@ -176,13 +171,13 @@ var Distorter = exports.Distorter = function() {
             for (x = 0; x < 256; x++)
             {
                 var bpos = x * 4 + y * dstStride;
-                // if (y < letterbox || y > 224 - letterbox)
-                // {
-                //     bdst[bpos + 2 ] = 0;
-                //     bdst[bpos + 1 ] = 0;
-                //     bdst[bpos + 0 ] = 0;
-                //     continue;
-                // }
+                if (y < letterbox || y > 224 - letterbox)
+                {
+                    bdst[bpos + 2 ] = 0;
+                    bdst[bpos + 1 ] = 0;
+                    bdst[bpos + 0 ] = 0;
+                    continue;
+                }
                 var dx = x;
 
                 if (distortEffect == 1
@@ -198,28 +193,26 @@ var Distorter = exports.Distorter = function() {
                 // Either copy or add to the destination bitmap
                 if (erase == 1)
                 {
-                    var value = x * y & 0xff;
-                    var randomnumber=Math.floor(Math.random()*25)
-                    // bdst[bpos] =
-                    //     (255  ) |    // alpha
-                    //     (value << randomnumber) |    // blue
-                    //     (value <<  randomnumber) |    // green
-                    //      value;            // red
-                    bdst[bpos + 0 ] = 255;
-                    bdst[bpos + 1 ] = value << randomnumber; //(alpha * bsrc[spos + 2 ]);
-                    bdst[bpos + 2 ] = value << randomnumber; //(alpha * bsrc[spos + 1 ]);
-                    bdst[bpos + 3 ] = value ; //(alpha * bsrc[spos + 0 ]);
+                    bdst[bpos + 3 ] = 255;
+                    bdst[bpos + 2 ] = (alpha * bsrc[spos + 2 ]);
+                    bdst[bpos + 1 ] = (alpha * bsrc[spos + 1 ]);
+                    bdst[bpos + 0 ] = (alpha * bsrc[spos + 0 ]);
                 }
                 else
                 {
-                    // bdst[bpos + 2 ] += (alpha * bsrc[spos + 2 ]);
-                    // bdst[bpos + 1 ] += (alpha * bsrc[spos + 1 ]);
-                    // bdst[bpos + 0 ] += (alpha * bsrc[spos + 0 ]);
+                    bdst[bpos + 3 ] = 255;
+                    bdst[bpos + 2 ] += (alpha * bsrc[spos + 2 ]);
+                    bdst[bpos + 1 ] += (alpha * bsrc[spos + 1 ]);
+                    bdst[bpos + 0 ] += (alpha * bsrc[spos + 0 ]);
+                }
+                if (x < 5) {         
+                  // console.log("x " + x + " y " + y + " bsrc " + bsrc[bpos + 3 ] + " " + bsrc[bpos + 2 ] + " " + bsrc[bpos + 1 ] + " " + bsrc[bpos + 0 ])
+                  // console.log("x " + x + " y " + y + " bdst " + bdst[bpos + 3 ] + " " + bdst[bpos + 2 ] + " " + bdst[bpos + 1 ] + " " + bdst[bpos + 0 ])
                 }
             }
         }
 
-        return dbuf8;
+        return bdst;
     }
 
     exports.DistortionEffect = function() {
