@@ -20,18 +20,8 @@ var Engine = exports.Engine = function() {
 
 					var imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
 
-					var buf = new ArrayBuffer(imageData.data.length);
-					var buf8 = new Uint8ClampedArray(buf);
-					var data = new Uint32Array(buf);
-					    
-					// Determine whether Uint32 is little- or big-endian.
-					data[1] = 0x0a0b0c0d;
-					    
-					var isLittleEndian = !(buf[4] === 0x0a && buf[5] === 0x0b && buf[6] === 0x0c && buf[7] === 0x0d);
-
-		    	pix = layer1.overlayFrame(imageData, aspectRatio, tick, alpha, true);
-			    // imageData = layer2.overlayFrame(imageData, aspectRatio, tick, parseFloat(0.5), false);
-
+		    	var bitmap = layer1.overlayFrame(imageData.data, aspectRatio, tick, alpha, true);
+			    bitmap = layer2.overlayFrame(bitmap, aspectRatio, tick, parseFloat(0.5), false);
 					
 			    tick += (frameskip);
           // var buf = new ArrayBuffer(imageData.data.length);
@@ -50,7 +40,7 @@ var Engine = exports.Engine = function() {
 					//     }
 					// }
 
-					imageData.data.set(pix);
+					imageData.data.set(bitmap);
 
 					ctx.putImageData(imageData, 0, 0);
 			    // }, 1000 / fps);

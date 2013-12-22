@@ -61,7 +61,7 @@ var Block = exports.Block = function Block(data, location, writable) {
         if (size < 1)
             throw new Error("Invalid compressed data: " + size);
 
-        blockOutput = new Int16Array(size);
+        var blockOutput = new Int16Array(size);
         var read = 0;
 
         blockOutput = Rom.decomp(this.pointer, this.blockData, blockOutput, read);

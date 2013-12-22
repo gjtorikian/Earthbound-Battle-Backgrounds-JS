@@ -8,10 +8,10 @@ var Distorter = require("romlib/Distorter");
 var H = 256;
 var W = 256;
 
-var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
+var BackgroundLayer = exports.BackgroundLayer = function BackgroundLayer(src, entry) {
     this.gfx = null, 
     this.pal = null,
-    this.distort = Distorter.Distorter(),
+    this.distort = new Distorter.Distorter(),
     this.loadEntry(src, entry);
 
     return this;
@@ -22,15 +22,15 @@ var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
     /**
      * The index of the layer entry that was loaded
      */
-    exports.getEntry = function() {
+    BackgroundLayer.prototype.getEntry = function() {
         return this.entry;
     }
 
-    exports.getBitmap = function() {
+    BackgroundLayer.prototype.getBitmap = function() {
         return this.bmp;
     }
 
-    exports.getDistorter = function() {
+    BackgroundLayer.prototype.getDistorter = function() {
         return this.distort;
     }
 
@@ -49,20 +49,20 @@ var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
      *            Whether or not to clear the destination bitmap before
      *            rendering
      */
-    exports.overlayFrame = function(dst, letterbox, ticks, alpha, erase) {
+    BackgroundLayer.prototype.overlayFrame = function(dst, letterbox, ticks, alpha, erase) {
         return this.distort.overlayFrame(dst, letterbox, ticks, alpha, erase);
     }
 
     // TODO technically these shouldn't be exported--they're internal
-    exports.loadGraphics = function(src, n) {
+    BackgroundLayer.prototype.loadGraphics = function(src, n) {
         this.gfx = src.getObjectByType("BackgroundGraphics", n);
     }
 
-    exports.loadPalette = function(src, n) {
+    BackgroundLayer.prototype.loadPalette = function(src, n) {
         this.pal = src.getObjectByType("BackgroundPalette", n);
     }
 
-    exports.loadEffect = function(src, n) {
+    BackgroundLayer.prototype.loadEffect = function(src, n) {
         var effect = src.getObjectByType("BattleBGEffect", n);
 
         this.distort.effect.setAmplitude(effect.getAmplitude());
@@ -78,16 +78,16 @@ var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
 
         if (effect.getType() == 1)
             this.distort.effect.setEffect(
-                    Distorter.DistortionEffect().Type.Horizontal);
+                    this.distort.effect.Type().Horizontal);
         else if (effect.getType() == 3)
             this.distort.effect.setEffect(
-                    Distorter.DistortionEffect().Type.Vertical);
+                    this.distort.effect.Type().Vertical);
         else
             this.distort.effect.setEffect(
-                    Distorter.DistortionEffect().Type.HorizontalInterlaced);
+                    this.distort.effect.Type().HorizontalInterlaced);
     }
 
-    exports.loadEntry = function(src, n) {
+    BackgroundLayer.prototype.loadEntry = function(src, n) {
         this.entry = n;
         var bg = src.getObjectByTypename("BattleBG", n);
 
@@ -110,8 +110,8 @@ var BackgroundLayer = exports.BackgroundLayer = function(src, entry) {
         this.initializeBitmap();
     }
 
-    exports.initializeBitmap = function() {
-        var pixels = new Int8Array(256 * 256 * 4);
+    BackgroundLayer.prototype.initializeBitmap = function() {
+        var pixels = new Int16Array(256 * 256 * 4);
         pixels = this.gfx.draw(pixels, this.pal)
         this.distort.setOriginal(pixels);
     }

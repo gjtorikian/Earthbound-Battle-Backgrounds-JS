@@ -92,9 +92,7 @@ var BackgroundPalette = exports.BackgroundPalette = function BackgroundPalette()
                 var b = (((clr16 >> 10) & 31) * 8);
                 var g = (((clr16 >> 5) & 31) * 8);
                 var r = ((clr16 & 31) * 8);
-                if (this.address == 776618) {
-                    console.log(clr16, b, g, r)
-                }
+
                 // convert RGB to color int
                 // this code is straight out of Android: http://git.io/F1lZtw
                 this.colors[pal][i] = (0xFF << 24) | (r << 16) | (g << 8) | b;

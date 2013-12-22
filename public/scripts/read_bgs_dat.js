@@ -41,10 +41,10 @@ oReq.onload = function (oEvent) {
         var layer2_val = 269;
 
         console.log("Creating layer 1: " + layer1_val);
-        var layer1 = BackgroundLayer.BackgroundLayer(Rom, layer1_val);
+        var layer1 = new BackgroundLayer.BackgroundLayer(Rom, layer1_val);
 
         console.log("Creating layer 2: " + layer2_val);
-        var layer2 = BackgroundLayer.BackgroundLayer(Rom, layer2_val);
+        var layer2 = new BackgroundLayer.BackgroundLayer(Rom, layer2_val);
 
         var frameskip = 3;
         var aspectRatio = 16;   
