@@ -1,12 +1,13 @@
 define(function(require, exports, module) {
 
-var DistortionEffect = exports.DistortionEffect = function() {
+// N.B. it's important to set the types as "short," so Int16Array works fine enough
+var DistortionEffect = exports.DistortionEffect = function DistortionEffect() {
     this.type = null;
 };
 
 (function(){
 
-    exports.Type = function() {
+    DistortionEffect.prototype.Type = function() {
         return {
         "Invalid": 0,
         "Horizontal": 1,
@@ -15,112 +16,119 @@ var DistortionEffect = exports.DistortionEffect = function() {
         }
     }
 
-    exports.getDistortionEffect = function() {
+    DistortionEffect.prototype.getDistortionEffect = function() {
         return this.Type();
     }
 
     /**
      * Gets or sets the type of distortion effect to use.
      */
-    exports.getEffect = function() {
+    DistortionEffect.prototype.getEffect = function() {
         return this.type;
     }
 
-    exports.getEffectAsInt = function() {
+    DistortionEffect.prototype.getEffectAsInt = function() {
         return this.type;
     }
 
-    exports.setEffect = function(value) {
+    DistortionEffect.prototype.setEffect = function(value) {
         this.type = value;
     }
 
     /**
      * Gets or sets the amplitude of the distortion effect
      */
-    exports.getAmplitude = function() {
-        return ampl;
+    DistortionEffect.prototype.getAmplitude = function() {
+        return this.ampl[0];
     }
 
-    exports.setAmplitude = function(value) {
-        ampl = value;
+    DistortionEffect.prototype.setAmplitude = function(value) {
+        this.ampl = new Int16Array(1);
+        this.ampl[0] = value;
     }
 
     /**
      * Gets or sets the spatial frequency of the distortion effect
      */
-    exports.getFrequency = function() {
-        return s_freq;
+    DistortionEffect.prototype.getFrequency = function() {
+        return this.sFreq[0];
     }
 
-    exports.setFrequency = function(value) {
-        s_freq = value;
+    DistortionEffect.prototype.setFrequency = function(value) {
+        this.sFreq = new Int16Array(1);
+        this.sFreq[0] = value;
     }
 
     /**
      * The amount to add to the amplitude value every iteration.
      */
-    exports.getAmplitudeAcceleration = function() {
-        return ampl_accel;
+    DistortionEffect.prototype.getAmplitudeAcceleration = function() {
+        return this.amplAccel[0];
     }
 
-    exports.setAmplitudeAcceleration = function(value) {
-        ampl_accel = value;
+    DistortionEffect.prototype.setAmplitudeAcceleration = function(value) {
+        this.amplAccel = new Int16Array(1);
+        this.amplAccel[0] = value;
     }
 
     /**
      * The amount to add to the frequency value each iteration.
      */
-    exports.getFrequencyAcceleration = function() {
-        return s_freq_accel;
+    DistortionEffect.prototype.getFrequencyAcceleration = function() {
+        return this.sFreqAccel[0];
     }
 
-    exports.setFrequencyAcceleration = function(value) {
-        s_freq_accel = value;
+    DistortionEffect.prototype.setFrequencyAcceleration = function(value) {
+        this.sFreqAccel = new Int16Array(1);
+        this.sFreqAccel[0] = value;
     }
 
     /**
      * Compression factor
      */
-    exports.getCompression = function() {
-        return compr;
+    DistortionEffect.prototype.getCompression = function() {
+        return this.compr[0];
     }
 
-    exports.setCompression = function(value) {
-        compr = value;
+    DistortionEffect.prototype.setCompression = function(value) {
+        this.compr = new Int16Array(1);
+        this.compr[0] = value;
     }
 
     /**
      * Change in the compression value every iteration
      */
-    exports.getCompressionAcceleration = function() {
-        return compr_accel;
+    DistortionEffect.prototype.getCompressionAcceleration = function() {
+        return this.comprAccel[0];
     }
 
-    exports.setCompressionAcceleration = function(value) {
-        compr_accel = value;
+    DistortionEffect.prototype.setCompressionAcceleration = function(value) {
+        this.comprAccel = new Int16Array(1);
+        this.comprAccel[0] = value;
     }
 
     /**
      * Offset for starting time.
      */
-    exports.getStartTime = function() {
-        return start;
+    DistortionEffect.prototype.getStartTime = function() {
+        return this.start;
     }
 
-    exports.setStartTime = function(value) {
-        start = value;
+    DistortionEffect.prototype.setStartTime = function(value) {
+        this.start = value;
     }
 
     /**
      * Gets or sets the "speed" of the distortion. 0 = no animation, 127 =
      * very fast, 255 = very slow for some reason
      */
-    exports.getSpeed = function() {
-        return speed;
+    DistortionEffect.prototype.getSpeed = function() {
+        return this.speed[0];
     }
 
-    exports.setSpeed = function(value) {
-        speed = value;
+    DistortionEffect.prototype.setSpeed = function(value) {
+        this.speed = new Int16Array(1);
+        this.speed[0] = value;
     }
 }).call(DistortionEffect.prototype);
 

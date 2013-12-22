@@ -37,8 +37,8 @@ oReq.onload = function (oEvent) {
 
         console.log("Starting engine...");
 
-        var layer1_val = 270;
-        var layer2_val = 269;
+        var layer1_val = 221;
+        var layer2_val = 222;
 
         console.log("Creating layer 1: " + layer1_val);
         var layer1 = new BackgroundLayer.BackgroundLayer(Rom, layer1_val);
@@ -49,7 +49,7 @@ oReq.onload = function (oEvent) {
         var frameskip = 3;
         var aspectRatio = 16;   
 
-        var fps = 15;
+        var fps = 10;
         var alpha = parseFloat(0.5);
 
         if (layer2.getEntry() == 0)

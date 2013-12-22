@@ -8,7 +8,7 @@ var types = {};
  * This registry is static, but the class is declared non-static mainly so you
  * can instantiate it and use its indexer. :P
  */
-var RomClasses = exports.RomClasses = function(name, age) {
+var RomClasses = exports.RomClasses = function() {
 
 };
 

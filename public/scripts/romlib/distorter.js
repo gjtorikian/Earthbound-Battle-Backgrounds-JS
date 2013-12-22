@@ -25,11 +25,11 @@ var Distorter = exports.Distorter = function Distorter() {
     // requiring that all previous frames be computed before any given desired
     // frame.)
 
-    this.effect = DistortionEffect;
+    this.effect = new DistortionEffect.DistortionEffect();
 
     // TODO: new this.DistortionEffect[4] did not work, is this appropriate?
-    this.dist = [DistortionEffect, DistortionEffect,
-                 DistortionEffect, DistortionEffect];
+    this.dist = [new DistortionEffect.DistortionEffect(), new DistortionEffect.DistortionEffect(),
+                 new DistortionEffect.DistortionEffect(), new DistortionEffect.DistortionEffect()];
     this.current_dist = 1
 
     this.bmpSrc = null;
@@ -52,7 +52,7 @@ var Distorter = exports.Distorter = function Distorter() {
     }
 
     Distorter.prototype.getEffectAsInt = function() {
-        return this.effect.getDistortionEffect();
+        return this.effect.type;
     }
 
     Distorter.prototype.setEffect = function(value) {
@@ -70,7 +70,7 @@ var Distorter = exports.Distorter = function Distorter() {
     Distorter.prototype.overlayFrame = function(dst, letterbox, ticks, alpha, erase) {
         var e = erase ? 1 : 0;
 
-        return this.ComputeFrame(dst, this.bmpSrc, this.effect.getEffectAsInt(), letterbox, ticks, alpha, e,
+        return this.ComputeFrame(dst, this.bmpSrc, this.getEffectAsInt(), letterbox, ticks, alpha, e,
                this.effect.getAmplitude(), this.effect.getAmplitudeAcceleration(),
                this.effect.getFrequency(), this.effect.getFrequencyAcceleration(),
                this.effect.getCompression(), this.effect.getCompressionAcceleration(),
