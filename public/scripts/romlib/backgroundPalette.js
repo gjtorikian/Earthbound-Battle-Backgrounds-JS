@@ -15,7 +15,7 @@ var BackgroundPalette = exports.BackgroundPalette = function BackgroundPalette()
 };
 
 (function(){
-    BackgroundPalette.prototype.name = function() { 
+    exports.name = this.name = function() { 
         return LOG_TAG;
     };
     

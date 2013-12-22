@@ -1,9 +1,8 @@
 define(function(require, exports, module) {
 
 var LOG_TAG = "BattleBGEffect";
-var dataBBGE = new Int16Array(17);
+var dataBBGE = new Uint8Array(17);
 var BattleBGEffect = exports.BattleBGEffect = function() {
-
     this.uniqueId();
 };
 
@@ -75,6 +74,7 @@ var BattleBGEffect = exports.BattleBGEffect = function() {
     }
 
     this.getSpeed = function() {
+        console.log(dataBBGE[14])
         return dataBBGE[14];
     }
 

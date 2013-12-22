@@ -16,7 +16,7 @@ var BackgroundGraphics = exports.BackgroundGraphics = function BackgroundGraphic
 };
 
 (function(){
-    BackgroundGraphics.prototype.name = function() { 
+    exports.name = this.name = function() { 
         return LOG_TAG;
     };
     

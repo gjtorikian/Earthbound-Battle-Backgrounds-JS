@@ -51,7 +51,7 @@ var Distorter = exports.Distorter = function Distorter() {
         return this.effect;
     }
 
-    Distorter.prototype.getEffectAs= function() {
+    Distorter.prototype.getEffectAsInt = function() {
         return this.effect.getDistortionEffect();
     }
 

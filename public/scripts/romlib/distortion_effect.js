@@ -1,24 +1,22 @@
 define(function(require, exports, module) {
 
-var DistortionEffect = exports.DistortionEffect = function DistortionEffect() {
-    this.Type = {
-        "Invalid": 0,
-        "Horizontal": 1,
-        "HorizontalInterlaced": 2,
-        "Vertical": 3
-    }
-
+var DistortionEffect = exports.DistortionEffect = function() {
     this.type = null;
 };
 
 (function(){
 
     exports.Type = function() {
-        return this.Type;
+        return {
+        "Invalid": 0,
+        "Horizontal": 1,
+        "HorizontalInterlaced": 2,
+        "Vertical": 3
+        }
     }
 
     exports.getDistortionEffect = function() {
-        return this.Type[this.type];
+        return this.Type();
     }
 
     /**
@@ -29,7 +27,7 @@ var DistortionEffect = exports.DistortionEffect = function DistortionEffect() {
     }
 
     exports.getEffectAsInt = function() {
-        return this.getDistortionEffect();
+        return this.type;
     }
 
     exports.setEffect = function(value) {

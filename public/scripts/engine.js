@@ -10,40 +10,31 @@ var Engine = exports.Engine = function() {
 	var c = document.getElementById("canvas");
 	var ctx = c.getContext("2d");
 	var canvasWidth = 256, canvasHeight = 256;
-	exports.start = function(layer1, layer2, tick, fps, aspectRatio, frameskip, alpha) {
+	exports.start = function(layer1, layer2, fps, aspectRatio, frameskip, alpha) {
 
+    var tick = 0;
+		var imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
+		var then = Date.now(), startTime = then, elapsed;
+		var fpsInterval = 1000 / fps;
 
 		function krakenFrame() {
+		    	requestAnimationFrame(krakenFrame);
 		    // setTimeout(function() {
-		    	// console.log("Rendering tick " + tick)
-		    	// requestAnimationFrame(krakenFrame);
+		    	var now = Date.now();
+		    	elapsed = now - then;
+		    	// console.log("Rendering tick " + tick);
+			    if (elapsed > fpsInterval) {
+			    		then = now - (elapsed % fpsInterval);
+				    	var bitmap = layer1.overlayFrame(imageData.data, aspectRatio, tick, alpha, true);
+					    bitmap = layer2.overlayFrame(bitmap, aspectRatio, tick, parseFloat(0.5), false);
+							
+					    tick += (frameskip);
 
-					var imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
+							imageData.data.set(bitmap);
 
-		    	var bitmap = layer1.overlayFrame(imageData.data, aspectRatio, tick, alpha, true);
-			    bitmap = layer2.overlayFrame(bitmap, aspectRatio, tick, parseFloat(0.5), false);
-					
-			    tick += (frameskip);
-          // var buf = new ArrayBuffer(imageData.data.length);
-					// var buf8 = new Uint8ClampedArray(buf);
-					// var data = new Uint32Array(buf);
-
-					// for (var y = 0; y < canvasHeight; ++y) {
-					//     for (var x = 0; x < canvasWidth; ++x) {
-					//         var value = x * y & 0xff;
-					//         var randomnumber=Math.floor(Math.random()*25)
-					//         data[y * canvasWidth + x] =
-					//             (255  ) |    // alpha
-					//             (value << randomnumber) |    // blue
-					//             (value <<  randomnumber) |    // green
-					//              value;            // red
-					//     }
-					// }
-
-					imageData.data.set(bitmap);
-
-					ctx.putImageData(imageData, 0, 0);
-			    // }, 1000 / fps);
+							ctx.putImageData(imageData, 0, 0);
+			    }
+			    // }, 9000 / fps);
 		}
 
 		krakenFrame();
