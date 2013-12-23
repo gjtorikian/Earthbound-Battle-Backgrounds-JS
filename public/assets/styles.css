@@ -1,14 +1,13 @@
-.col-centered {
-    float: none;
-    margin: 0 auto;
-}
-
 .form-control {
   width: 80%;
 }
 
 .btn-generate {
   width: 100%;
+}
+
+.form-group {
+  font-size: 12px;
 }
 
 /* Space out content a bit */

@@ -5,10 +5,12 @@
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 <link rel="stylesheet" href="./assets/styles.css">
 <script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="./assets/utils.js"></script>
 <script src="./assets/form.js"></script>
 <script src="./assets/history.js"></script>
 <script src="./assets/history.adapter.jquery.js"></script>
 
+<!-- all of that up there is just crap for the site! now the real fun begins. -->
 <script type="text/javascript">
 var require = {
     baseUrl: "lib",
@@ -29,42 +31,85 @@ var require = {
 
 <body>
   <div class="container">
-    <div class="jumbotron">
-      <canvas id="ebbb-holder" width="256" height="256">
-        Canvas.
-      </canvas>
-    </div>
+
     <div class="row">
-      <div class="col-md-8 col-centered">
-        <form class="form-horizontal" role="form">
+      <div class="col-md-5">
+        <canvas id="ebbb-holder" width="256" height="256">
+          Canvas.
+        </canvas>
+      </div>
 
-          <div class="form-group">
-            <label for="layer1" class="col-sm-2 control-label">Layer 1</label>
-            <div class="col-sm-10">
-              <select id="layer1" class="form-control">
-                <!-- generated in forms.js -->
-              </select>
+      <div class="form col-md-7">
+        <form class="form-horizontal settings" role="form">
+        <div class="row">
+          <div class="col-sm-6">
+              <h6>Change Background Animation</h6>
+              <div class="row">
+                <div class="form-group col-sm-6">
+                  <label for="layer1" class="control-label">Layer 1</label>
+                  <div>
+                    <select id="layer1" class="form-control">
+                      <!-- generated in forms.js -->
+                    </select>
+                  </div>
+                </div>
+
+                <div class="form-group col-sm-6">
+                  <label for="layer2" class="control-label">Layer 2</label>
+                  <div>
+                    <select id="layer2" class="form-control">
+                      <!-- generated in forms.js -->
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="suggested" class="control-label">Suggested Layers</label>
+                <div>
+                  <select id="suggested" class="form-control">
+                    <option>1</option>
+                    <option>2</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-centered">
+                  <button type="button" class="btn btn-default">Random Layers</button>
+                </div>
+              </div>
             </div>
-          </div>
+            <div class="col-sm-6">
+              <h6>Change Presentation</h6>
+              <div class="form-group">
+                <label for="aspect" class="control-label">Aspect Ratio</label>
+                <div>
+                  <select id="aspect" class="form-control">
+                    <!-- generated in forms.js -->
+                  </select>
+                </div>
+              </div>
 
-
-          <div class="form-group">
-            <label for="layer2" class="col-sm-2 control-label">Layer 2</label>
-            <div class="col-sm-10">
-              <select id="layer2" class="form-control">
-                <!-- generated in forms.js -->
-              </select>
+              <div class="form-group">
+                <label for="frameskip" class="control-label">Frameskip</label>
+                <div>
+                  <select id="frameskip" class="form-control">
+                    <!-- generated in forms.js -->
+                  </select>
+                </div>
+              </div>
             </div>
-          </div>
-        </form>
+            </form>
       </div>
     </div>
+
     <div class="row">
-      <div class="col-md-8 col-centered">
+      <div class="col-md-8">
           <h1>What is this?</h1>
           <p>An Earthbound Battle Backgrounds generator.</p>
       </div>
     </div>
+
     <div class="footer">
       <iframe src="http://ghbtns.com/github-btn.html?user=gjtorikian&repo=Earthbound-Battle-Backgrounds&type=watch&count=true"
     allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
