@@ -2,3 +2,7 @@
     float: none;
     margin: 0 auto;
 }
+
+.form-control {
+  width: 80%;
+}

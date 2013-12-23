@@ -4,6 +4,8 @@
 <title>Earthbound Battle Backgrounds</title>
 <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
 <link rel="stylesheet" href="./assets/styles.css">
+<script src="//code.jquery.com/jquery-2.0.3.min.js"></script>
+<script src="./assets/form.js"></script>
 
 <script type="text/javascript">
 var require = {
@@ -30,6 +32,35 @@ var require = {
         <canvas id="ebbb-holder" width="256" height="256">
           Canvas.
         </canvas>
+      </div>
+      <div class="col-md-5 col-centered">
+        <form class="form-horizontal" role="form">
+
+          <div class="form-group">
+            <label for="layer1" class="col-sm-2 control-label">Layer 1</label>
+            <div class="col-sm-10">
+              <select id="layer1" class="form-control">
+                <!-- generated in forms.js -->
+              </select>
+            </div>
+          </div>
+
+
+          <div class="form-group">
+            <label for="layer1" class="col-sm-2 control-label">Layer 2</label>
+            <div class="col-sm-10">
+              <select id="layer2" class="form-control">
+                <!-- generated in forms.js -->
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+              <button type="submit" class="btn btn-default">Sign in</button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
   </div>
