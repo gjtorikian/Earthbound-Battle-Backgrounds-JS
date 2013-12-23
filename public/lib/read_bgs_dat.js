@@ -9,6 +9,7 @@ var BattleBG = require("pkhack/BattleBG");
 var BackgroundGraphics = require("romlib/BackgroundGraphics");
 var BackgroundPalette = require("romlib/BackgroundPalette");
 var BackgroundLayer = require("romlib/BackgroundLayer");
+
 try {
     Rom.registerType("BattleBGEffect", BattleBGEffect, BattleBGEffect.Handler);
     Rom.registerType("BattleBG", BattleBG, BattleBG.Handler);
@@ -18,12 +19,12 @@ try {
     console.error("Error initializing ROM library: " + e);
 }
 
-// TODO: don't make Rom global?
-window.Rom = Rom.Rom();
+// TODO: is this nice? it looks not nice.
+Rom.Rom();
 
 // start opening the data file
 var oReq = new XMLHttpRequest();
-oReq.open("GET", "/bgs.dat", true);
+oReq.open("GET", "lib/bgs.dat", true);
 oReq.responseType = "arraybuffer";
 
 oReq.onload = function (oEvent) {
