@@ -3,7 +3,7 @@ define(function(require, exports, module) {
 var BackgroundLayer = require("romlib/backgroundLayer");
 
 var Engine = exports.Engine = function() {
-
+  this.id = -1;
 };
 
 (function() {
@@ -20,7 +20,7 @@ var Engine = exports.Engine = function() {
         bitmap;
 
     function krakenFrame() {
-      requestAnimationFrame(krakenFrame);
+      this.id = requestAnimationFrame(krakenFrame);
 
       var now = Date.now();
       elapsed = now - then;
@@ -40,6 +40,8 @@ var Engine = exports.Engine = function() {
       }
     }
 
+    if (this.id > 0)
+      window.cancelAnimationFrame(this.id);
     krakenFrame();
 }
 
