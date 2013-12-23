@@ -10,6 +10,8 @@ var BackgroundGraphics = require("romlib/BackgroundGraphics");
 var BackgroundPalette = require("romlib/BackgroundPalette");
 var BackgroundLayer = require("romlib/BackgroundLayer");
 
+var Engine = require("engine");
+
 try {
     Rom.registerType("BattleBGEffect", BattleBGEffect, BattleBGEffect.Handler);
     Rom.registerType("BattleBG", BattleBG, BattleBG.Handler);
@@ -40,7 +42,6 @@ oReq.onload = function (oEvent) {
 oReq.send(null);
 
 var setupEngine = exports.setupEngine = function setupEngine() {
-  var engine = require("engine");
 
   console.log("Starting engine...");
 
@@ -65,7 +66,7 @@ var setupEngine = exports.setupEngine = function setupEngine() {
   if (layer2.getEntry() == 0)
     alpha = parseFloat(1.0);
 
-  engine.start(layer1, layer2, fps, aspectRatio, frameskip, alpha);
+  Engine.start(layer1, layer2, fps, aspectRatio, frameskip, alpha);
 }
 
 });

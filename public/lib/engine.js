@@ -1,26 +1,30 @@
 define(function(require, exports, module) {
 
 var BackgroundLayer = require("romlib/backgroundLayer");
-
+var frameId = -1;
 var Engine = exports.Engine = function() {
-  this.id = -1;
+
 };
 
 (function() {
-  var c = document.getElementById("ebbb-holder");
-  var ctx = c.getContext("2d");
-  var canvasWidth = 256, canvasHeight = 256;
-
   // the animation loop
   exports.start = function(layer1, layer2, fps, aspectRatio, frameskip, alpha) {
     var tick = 0,
-        imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight),
         then = Date.now(), startTime = then, elapsed,
         fpsInterval = 1000 / fps,
         bitmap;
 
+    var canvas = document.getElementById("ebbb-holder");
+    var ctx = canvas.getContext("2d");
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+
+    var canvasWidth = 256, canvasHeight = 256,
+        imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
+
     function krakenFrame() {
-      this.id = requestAnimationFrame(krakenFrame);
+      frameId = requestAnimationFrame(krakenFrame);
 
       var now = Date.now();
       elapsed = now - then;
@@ -40,8 +44,8 @@ var Engine = exports.Engine = function() {
       }
     }
 
-    if (this.id > 0)
-      window.cancelAnimationFrame(this.id);
+    if (frameId > 0)
+      window.cancelAnimationFrame(frameId);
     krakenFrame();
 }
 
