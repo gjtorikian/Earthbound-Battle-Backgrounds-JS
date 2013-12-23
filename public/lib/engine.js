@@ -7,7 +7,7 @@ var Engine = exports.Engine = function() {
 };
 
 (function() {
-  var c = document.getElementById("canvas");
+  var c = document.getElementById("ebbb-holder");
   var ctx = c.getContext("2d");
   var canvasWidth = 256, canvasHeight = 256;
 
