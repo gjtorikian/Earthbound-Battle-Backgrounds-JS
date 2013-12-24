@@ -39,6 +39,8 @@ function parseLayerParam(number) {
     return null;
   else if (num < 0 || num > 326)
     return null;
+  else if (num == 0)
+    return "0";
 
   return num;
 }
@@ -59,6 +61,8 @@ function parseAspectRatioParam(number) {
     return null;
   else if (num != 0 && num != 16 && num != 48 && num != 64)
     return null;
+  else if (num == 0)
+    return "0";
 
   return num;
 }

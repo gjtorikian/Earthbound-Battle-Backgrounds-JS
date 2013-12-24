@@ -49,8 +49,17 @@ var setupEngine = exports.setupEngine = function setupEngine() {
 
   var params = getJsonFromUrl();
 
-  var layer1_val = parseLayerParam(params.layer1) || 270;
-  var layer2_val = parseLayerParam(params.layer2) || 269;
+  // what is this second Number parse for? "0" is a valid number, but it yields false in the || statement!
+  var layer1_val = Number(parseLayerParam(params.layer1) || 270);
+  var layer2_val = Number(parseLayerParam(params.layer2) || 269);
+  var frameskip = parseFrameskip(params.frameskip) || 3;
+  var aspectRatio = Number(parseAspectRatioParam(params.aspectRatio) || 16);
+
+  var fps = 10;
+  var alpha = parseFloat(0.5);
+
+  if (layer2_val == 0)
+    alpha = parseFloat(1.0);
 
   console.log("Creating layer 1: " + layer1_val);
   var layer1 = new BackgroundLayer.BackgroundLayer(Rom, layer1_val);
@@ -58,17 +67,8 @@ var setupEngine = exports.setupEngine = function setupEngine() {
   console.log("Creating layer 2: " + layer2_val);
   var layer2 = new BackgroundLayer.BackgroundLayer(Rom, layer2_val);
 
-  var frameskip = parseFrameskip(params.frameskip) || 3;
-  var aspectRatio = parseAspectRatioParam(params.aspectRatio) || 16;
-
-  var fps = 10;
-  var alpha = parseFloat(0.5);
-
-  if (layer2.getEntry() == 0)
-    alpha = parseFloat(1.0);
-
-  document.getElementById("layer1").selectedIndex = layer1_val;
-  document.getElementById("layer2").selectedIndex = layer2_val;
+  document.getElementById("layer1").selectedIndex = layer1_val + 1;
+  document.getElementById("layer2").selectedIndex = layer2_val + 1;
   document.getElementById("frameskip").selectedIndex = frameskip - 1;
   document.getElementById("aspectRatio").selectedIndex = ratioValues[String(aspectRatio)];
   document.getElementById("randomLayer").onclick = randomLayer;
