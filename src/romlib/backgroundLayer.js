@@ -2,8 +2,8 @@ define(function(require, exports, module) {
 
 var LOG_TAG = "BackgroundLayer";
 
-var BackgroundGraphics = require("romlib/BackgroundGraphics");
-var Distorter = require("romlib/Distorter");
+var BackgroundGraphics = require("romlib/backgroundGraphics");
+var Distorter = require("romlib/distorter");
 
 var H = 256;
 var W = 256;

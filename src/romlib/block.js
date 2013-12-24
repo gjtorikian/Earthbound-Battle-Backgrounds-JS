@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 
-var Rom = require("romlib/Rom");
+var Rom = require("romlib/rom");
 
 /*
  Represents a chunk of the ROM's data requested by an object for reading or

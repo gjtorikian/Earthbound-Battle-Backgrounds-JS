@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 
-var RomObject = require("romlib/RomObject");
+var RomObject = require("romlib/romObject");
 var BackgroundPalette = require("romlib/backgroundPalette");
 var BackgroundGraphics = require("romlib/backgroundGraphics");
 

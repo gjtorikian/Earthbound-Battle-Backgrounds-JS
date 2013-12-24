@@ -1,14 +1,14 @@
 define(function(require, exports, module) {
 "use strict";
 
-var Rom = require("romlib/Rom");
+var Rom = require("romlib/rom");
 
-var BattleBGEffect = require("pkhack/BattleBGEffect");
-var BattleBG = require("pkhack/BattleBG");
+var BattleBGEffect = require("pkhack/battleBGEffect");
+var BattleBG = require("pkhack/battleBG");
 
-var BackgroundGraphics = require("romlib/BackgroundGraphics");
-var BackgroundPalette = require("romlib/BackgroundPalette");
-var BackgroundLayer = require("romlib/BackgroundLayer");
+var BackgroundGraphics = require("romlib/backgroundGraphics");
+var BackgroundPalette = require("romlib/backgroundPalette");
+var BackgroundLayer = require("romlib/backgroundLayer");
 
 var Engine = require("engine");
 

@@ -2,8 +2,8 @@ define(function(require, exports, module) {
 
 var LOG_TAG = "BackgroundPalette";
 
-var RomObject = require("romlib/RomObject");
-var Rom = require("romlib/Rom");
+var RomObject = require("romlib/romObject");
+var Rom = require("romlib/rom");
 
 var BackgroundPalette = exports.BackgroundPalette = function BackgroundPalette() {
 	this.colors = null;
