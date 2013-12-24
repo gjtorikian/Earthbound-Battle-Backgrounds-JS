@@ -115,26 +115,41 @@ var require = {
       </div>
     </div>
     <div class="row">
-      <div class="col-md-8">
-      <iframe src="http://ghbtns.com/github-btn.html?user=gjtorikian&repo=Earthbound-Battle-Backgrounds-JS&type=watch&count=true"
-    allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
-      <iframe src="http://ghbtns.com/github-btn.html?user=gjtorikian&repo=Earthbound-Battle-Backgrounds-JS&type=fork&count=true"
-    allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
-      <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-text="SMAAAASH!! Earthbound's battle backgrounds generated entirely in Javascript http://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/" data-via="gjtorikian">Tweet</a>
-      <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
+      <div class="col-md-12">
+        <iframe src="http://ghbtns.com/github-btn.html?user=gjtorikian&repo=Earthbound-Battle-Backgrounds-JS&type=watch&count=true"
+      allowtransparency="true" frameborder="0" scrolling="0" width="110" height="20"></iframe>
+        <iframe src="http://ghbtns.com/github-btn.html?user=gjtorikian&repo=Earthbound-Battle-Backgrounds-JS&type=fork&count=true"
+      allowtransparency="true" frameborder="0" scrolling="0" width="95" height="20"></iframe>
+        <a href="https://twitter.com/share" class="twitter-share-button" data-lang="en" data-text="SMAAAASH!! Earthbound's battle backgrounds generated entirely in Javascript http://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/" data-via="gjtorikian">Tweet</a>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");</script>
       </div>
     </div>
     <div class="row">
-      <div class="col-md-8">
-          <h1>What is this?</h1>
-          <p>An Earthbound Battle Backgrounds generator.</p>
-          <h1>List of backgrounds</h1>
-          <p>Follow <a href="/samples">this link</a>.</p>
+      <div class="col-md-12">
+        <hr />
+        <p>Earthbound Battle Background JS is exactly what its name implies: the battle backgrounds from the SNES RPG Earthbound/Mother 2, rendered entirely in JavaScript.</p>
+        <p>For more information, see <a href="https://github.com/gjtorikian/Earthbound-Battle-Backgrounds-JS">the project's README and source code</a>. You might also like <a href="https://github.com/gjtorikian/Earthbound-Battle-Backgrounds">the Android Live Wallpaper version</a>.
+
+        <h3>How it works</h3>
+        <p>Every battle background is composed of two layers, each with 326 possible styles (including "blank"). There are 326 * 326 = 106,276 possible different background combinations. Obviously, this many don't exist in the game--they only <em>potentially</em> exist.</p>
+        <p>The data for each of the 326 styles are bundled within the SNES cartridge. Tiles are constructed from various memory addresses in Earthbound game data. Each background also has its own distortion effect.</p>
+
+        <h3>List of backgrounds</h3>
+        <p>For a list of every possible background, <a href="/samples">visit this link</a>.</p>
+        <p>It's pretty damn hard to find out which battle backgrounds correspond to which enemies. You can review the list of enemies matched with known battle backgrounds to try and get your favorite on the <strong>Suggested Layers</strong> option. If you discover a new one, please, make a pull request and I'll add it to the list, giving you full credit!</p>
+
+        <h3>Why does this exist?</h3>
+        <p>Because it can.</p>
+        <p>If you happen to know Shigesato Itoi, tell him about this! I'm a huge fan of his work.</p>
+
+        <h3>History</h3>
+        <p>About three years ago, Mr. Accident of forum.starmen.net provided me with the original battle background generation code, which was a C# project that uses the battle backgrounds as Windows screensavers. He also provided me with help along the way, and as far as I'm aware, he discovered the math behind it all, including the entire Offset function calculation. <em>This port would be nothing without him.</em></p>
+        <p>After that, I created the Android live wallpapers in 2010. I worked on this JavaScript version off and on throughout 2013, and finished it in mid-December.</p>
       </div>
     </div>
 
     <div class="footer">
-      &copy; 2014. MIT licensed. Please don't sue me.
+      &copy; 2014. MIT licensed. In no way endorsed or affiliated by Nintendo, Ape, HAL Laboratory, e.t.c. Please don't sue.
     </div>
   </div>
   <script type="text/javascript">

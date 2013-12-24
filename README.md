@@ -2,32 +2,29 @@ Earthbound Battle Backgrounds JS
 ============================================
 
 Earthbound Battle Background JS is exactly what its name implies: the battle
-backgrounds from the SNES RPG Earthbound, rendered entirely in JavaScript.
-
-Every battle background is composed of two layers, each with 326 possible
-styles (including "blank"). Thus, there are 326 * 326 = 106,276 possible
-different background combinations. Obviously, this many don't exist in the
-game--they only _potentially_ exist.
-
-It's pretty damn hard to find out which battle backgrounds correspond to which
-enemies. You can review the list of enemies matched with known battle
-backgrounds to try and get your favorite on the *Suggested Layers* option. If
-you discover a new one, please, email me and I'll add it to the list, giving
-you full credit! You can find a COMPLETE list of potential battle backgrounds
-by going here: [http://eblw.galaxyclock.com](http://eblw.galaxyclock.com).
+backgrounds from the SNES RPG Earthbound/Mother 2, rendered entirely in
+JavaScript.
 
 If you like this project, you might also like the [Earthbound Battle
 Backgrounds Live
 Wallpaper](https://github.com/gjtorikian/Earthbound-Battle-Backgrounds/), which
 is a Java/Android implementation.
 
-### How it Works
+## How it works
 
-The data for each of the 326 styles are bundled within the app. Tiles are
+Every battle background is composed of two layers, each with 326 possible
+styles (including "blank"). Thus, there are 326 * 326 = 106,276 possible
+different background combinations. Obviously, this many don't exist in the
+game--they only _potentially_ exist.
+
+The data for each of the 326 styles are bundled within the SNES cartridge.
+Tiles are
 constructed from various memory addresses in Earthbound game data. To create
 the distortion effect, the following function is used:
 
+```
 Offset (y, t) = A sin ( F*y + S*t )
+```
 
 where:
 
@@ -51,6 +48,17 @@ the given number of pixels
 
 Different backgrounds use different distortion effects.
 
+## List of backgrounds
+
+For a list of every possible background, visit [this
+link](http://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/samples).
+
+It's pretty damn hard to find out which battle backgrounds correspond to which
+enemies. You can review the list of enemies matched with known battle
+backgrounds to try and get your favorite on the **Suggested Layers** option. If
+you discover a new one, please, email me and I'll add it to the list, giving
+you full credit!
+
 ## Running locally
 
 Make sure you have Node.js and NPM on your system. Then:
@@ -61,14 +69,30 @@ node server.js
 open http://localhost:8888
 ```
 
-### License
+Note that this code runs entirely in the browser! Node is only used to start an
+Express server.
+
+## Why is this code so terrible?
+
+The code might look terrible to you for one of two reasons:
+
+1. I have no goddamn clue how JavaScript's "prototypical OOP" is supposed to
+work. No clue at all. Add `requirejs` to the mix so that I can get some
+modularity, and yeah, you'll see a bunch of messy parenthesis and brackets.
+Sorry.
+
+2. The pointer calculations depend on a bunch of bitwise operations.
+These calculations depend on values being `short`--that is, fitting within a
+certain byte address. Since JavaScript doesn't have types, you'll see me cheat
+in a few places by doing `Int8Array(1)`, and messing with the value added to
+the index.
+
+## License
 
 This app is in no way endorsed or affiliated by Nintendo, Ape, HAL Laboratory,
-Shigesato Itoi, e.t.c. It's licensed under the GPL License, Version 3. You may
-obtain a copy of the License at
-[http://www.gnu.org/licenses](http://www.gnu.org/licenses).
+Shigesato Itoi, e.t.c. It's licensed under MIT.
 
-### Credits
+## Credits
 
 I am entirely indebted to Mr. Accident of forum.starmen.net for the original
 battle background generation code, which was a C# project that uses the battle
@@ -80,6 +104,3 @@ him.*
 Additionally, everyone who worked on PK Hack or was even associated with the
 project. It's incredible to witness such a powerful community of fans who have
 turned a wonderful game inside-out over and over again.
-
-And thank you to the people on StackOverflow and the NDK Group who answered my
-repetitive questions with patience and clarity.
