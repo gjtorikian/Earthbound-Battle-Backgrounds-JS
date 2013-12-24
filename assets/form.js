@@ -4,35 +4,44 @@ var suggestedLayers = {
 }
 
 $( document ).ready(function() {
-
   createLayerDropdown();
 
-  var History = window.History;
+  setupDropdownPushStates();
 
-  History.Adapter.bind(window,'statechange',function() { // Note: We are using statechange instead of popstate
-    var r = require("read_bgs_dat");
-    r.setupEngine();
+
+  window.History.Adapter.bind(window,'statechange',function() {
+    require("read_bgs_dat").setupEngine();
   });
 
-  setupDropdownListeners();
+
 });
 
 function createLayerDropdown() {
   var optionHtml = "";
   for (var i = 0; i < 327; i++) {
-    optionHtml += "<option>" + i + "</option>";
+    optionHtml += "<option value='" + i + "'>" + i + "</option>";
   }
   $( "#layer1" ).append(optionHtml);
   $( "#layer2" ).append(optionHtml);
 }
 
-function setupDropdownListeners() {
+function setupDropdownPushStates() {
+
   $( "#layer1" ).change(function() {
     var value = $(this).val();
     History.pushState( {layer1: value}, document.title, setUrlFromString("layer1=" + value));
   });
   $( "#layer2" ).change(function() {
     var value = $(this).val();
-    History.pushState( {layer1: value}, document.title, setUrlFromString("layer2=" + value));
+    History.pushState( {layer2: value}, document.title, setUrlFromString("layer2=" + value));
   });
+  $( "#aspectRatio" ).change(function() {
+    var value = $(this).val();
+    History.pushState( {aspectRatio: value}, document.title, setUrlFromString("aspectRatio=" + value));
+  });
+  $( "#frameskip" ).change(function() {
+    var value = $(this).val();
+    History.pushState( {frameskip: value}, document.title, setUrlFromString("frameskip=" + value));
+  });
+
 }

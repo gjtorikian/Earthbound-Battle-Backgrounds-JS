@@ -82,10 +82,13 @@ var require = {
             <div class="col-sm-6">
               <h6>Change Presentation</h6>
               <div class="form-group">
-                <label for="aspect" class="control-label">Aspect Ratio</label>
+                <label for="aspectRatio" class="control-label">Aspect Ratio</label>
                 <div>
-                  <select id="aspect" class="form-control">
-                    <!-- generated in forms.js -->
+                  <select id="aspectRatio" class="form-control">
+                    <option value="0">Fullscreen (8:7)</option>
+                    <option value="16">Wide Letterbox (4:3)</option>
+                    <option value="48">Medium Letterbox (2:1)</option>
+                    <option value="64">Narrow Letterbox (8:3)</option>
                   </select>
                 </div>
               </div>
@@ -94,7 +97,16 @@ var require = {
                 <label for="frameskip" class="control-label">Frameskip</label>
                 <div>
                   <select id="frameskip" class="form-control">
-                    <!-- generated in forms.js -->
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
                   </select>
                 </div>
               </div>

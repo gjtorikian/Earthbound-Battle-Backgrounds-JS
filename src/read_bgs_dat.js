@@ -24,6 +24,8 @@ try {
 // TODO: is this nice? it looks not nice.
 Rom.Rom();
 
+var ratioValues = { '0': 0, '16': 1, '48': 2, '64': 3}
+
 // start opening the data file
 var oReq = new XMLHttpRequest();
 oReq.open("GET", "src/bgs.dat", true);
@@ -47,9 +49,8 @@ var setupEngine = exports.setupEngine = function setupEngine() {
 
   var params = getJsonFromUrl();
 
-  // default values
-  var layer1_val = Number(params.layer1) || 221;
-  var layer2_val = Number(params.layer2) || 222;
+  var layer1_val = parseLayerParam(params.layer1) || 270;
+  var layer2_val = parseLayerParam(params.layer2) || 269;
 
   console.log("Creating layer 1: " + layer1_val);
   var layer1 = new BackgroundLayer.BackgroundLayer(Rom, layer1_val);
@@ -57,14 +58,19 @@ var setupEngine = exports.setupEngine = function setupEngine() {
   console.log("Creating layer 2: " + layer2_val);
   var layer2 = new BackgroundLayer.BackgroundLayer(Rom, layer2_val);
 
-  var frameskip = 3;
-  var aspectRatio = 16;
+  var frameskip = parseFrameskip(params.frameskip) || 3;
+  var aspectRatio = parseAspectRatioParam(params.aspectRatio) || 16;
 
   var fps = 10;
   var alpha = parseFloat(0.5);
 
   if (layer2.getEntry() == 0)
     alpha = parseFloat(1.0);
+
+  document.getElementById("layer1").selectedIndex = layer1_val;
+  document.getElementById("layer2").selectedIndex = layer2_val;
+  document.getElementById("frameskip").selectedIndex = frameskip - 1;
+  document.getElementById("aspectRatio").selectedIndex = ratioValues[String(aspectRatio)];
 
   Engine.start(layer1, layer2, fps, aspectRatio, frameskip, alpha);
 }

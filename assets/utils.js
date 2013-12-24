@@ -32,3 +32,33 @@ function setUrlFromString(value) {
 
   return "?" + result.join("&");
 }
+
+function parseLayerParam(number) {
+  var num = Number(number);
+  if (num == NaN)
+    return null;
+  else if (num < 0 || num > 326)
+    return null;
+
+  return num;
+}
+
+function parseFrameskip(number) {
+  var num = Number(number);
+  if (num == NaN)
+    return null;
+  else if (num < 1 || num > 10)
+    return null;
+
+  return num;
+}
+
+function parseAspectRatioParam(number) {
+  var num = Number(number);
+  if (num == NaN)
+    return null;
+  else if (num != 0 && num != 16 && num != 48 && num != 64)
+    return null;
+
+  return num;
+}
