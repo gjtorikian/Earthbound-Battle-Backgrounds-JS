@@ -17,7 +17,7 @@ styles (including "blank"). Thus, there are 326 * 326 = 106,276 possible
 different background combinations. Obviously, this many don't exist in the
 game--they only _potentially_ exist.
 
-The data for each of the 326 styles are bundled within the SNES cartridge.
+The data for each of the 326 styles is bundled within the SNES cartridge.
 Tiles are
 constructed from various memory addresses in Earthbound game data. To create
 the distortion effect, the following function is used:
