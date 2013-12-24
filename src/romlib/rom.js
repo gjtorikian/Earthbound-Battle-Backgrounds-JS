@@ -2,7 +2,7 @@ define(function(require, exports, module) {
 
 var _ = require("underscore");
 var LOG_TAG = "Rom";
-var RomClasses = require("romlib/romclasses");
+var RomClasses = require("romlib/romClasses");
 var Block = require("romlib/block");
 
 var Rom = exports.Rom = function Rom() {

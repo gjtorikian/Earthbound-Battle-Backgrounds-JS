@@ -1,6 +1,6 @@
 define(function(require, exports, module) {
 
-var RomGraphics = require("romlib/romgraphics");
+var RomGraphics = require("romlib/romGraphics");
 var Rom = require("romlib/rom");
 
 var LOG_TAG = "BackgroundGraphics";
