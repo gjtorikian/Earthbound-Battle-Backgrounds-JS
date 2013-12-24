@@ -26,7 +26,7 @@ Rom.Rom();
 
 // start opening the data file
 var oReq = new XMLHttpRequest();
-oReq.open("GET", "lib/bgs.dat", true);
+oReq.open("GET", "src/bgs.dat", true);
 oReq.responseType = "arraybuffer";
 
 oReq.onload = function (oEvent) {
