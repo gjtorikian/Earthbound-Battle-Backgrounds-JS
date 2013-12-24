@@ -6,8 +6,12 @@
   width: 100%;
 }
 
-.form-group {
-  font-size: 12px;
+.form-control {
+  width: 100%;
+}
+
+.btn-random-container {
+  padding-top: 7px;
 }
 
 /* Space out content a bit */
