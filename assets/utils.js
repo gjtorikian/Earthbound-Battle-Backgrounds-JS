@@ -6,7 +6,7 @@ function getJsonFromUrl() {
 
   var data = query.split("&");
   var result = {};
-  for(var i=0; i<data.length; i++) {
+  for (var i=0; i<data.length; i++) {
     var item = data[i].split("=");
     result[item[0]] = item[1];
   }
