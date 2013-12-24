@@ -24,6 +24,7 @@ try {
 // TODO: is this nice? it looks not nice.
 Rom.Rom();
 
+// ugghhhhhhhhh
 var ratioValues = { '0': 0, '16': 1, '48': 2, '64': 3}
 
 // start opening the data file
@@ -44,7 +45,6 @@ oReq.onload = function (oEvent) {
 oReq.send(null);
 
 var setupEngine = exports.setupEngine = function setupEngine() {
-
   console.log("Starting engine...");
 
   var params = getJsonFromUrl();
@@ -71,6 +71,8 @@ var setupEngine = exports.setupEngine = function setupEngine() {
   document.getElementById("layer2").selectedIndex = layer2_val;
   document.getElementById("frameskip").selectedIndex = frameskip - 1;
   document.getElementById("aspectRatio").selectedIndex = ratioValues[String(aspectRatio)];
+  document.getElementById("randomLayer").onclick = randomLayer;
+  document.getElementById("randomLayer").onkeydown = randomLayer;
 
   Engine.start(layer1, layer2, fps, aspectRatio, frameskip, alpha);
 }

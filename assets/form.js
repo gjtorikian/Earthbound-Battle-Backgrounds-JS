@@ -45,3 +45,10 @@ function setupDropdownPushStates() {
   });
 
 }
+
+function randomLayer() {
+  document.getElementById("layer1").selectedIndex = String(Math.floor(Math.random() * 327));
+  document.getElementById("layer1").onchange();
+  document.getElementById("layer2").selectedIndex = String(Math.floor(Math.random() * 327));
+  document.getElementById("layer2").onchange();
+};
