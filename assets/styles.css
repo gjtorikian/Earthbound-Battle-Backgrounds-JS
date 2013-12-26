@@ -1,8 +1,4 @@
 .form-control {
-  width: 80%;
-}
-
-.form-control {
   width: 100%;
 }
 
@@ -10,33 +6,24 @@
   padding-top: 7px;
 }
 
-/* Space out content a bit */
 body {
   padding-top: 20px;
   padding-bottom: 20px;
 }
 
 .footer {
-  padding-left: 15px;
-  padding-right: 15px;
-}
-
-
-/* Custom page footer */
-.footer {
-  padding-top: 19px;
+  font-size: 12px;
+  padding: 20px 15px 15px;
   color: #777;
   border-top: 1px solid #e5e5e5;
 }
 
-/* Customize container */
 @media (min-width: 768px) {
   .container {
     max-width: 730px;
   }
 }
 
-/* Responsive: Portrait tablets and up */
 @media screen and (min-width: 768px) {
   .footer {
     padding-left: 0;
