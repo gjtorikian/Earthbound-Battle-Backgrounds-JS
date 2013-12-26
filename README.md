@@ -2,7 +2,7 @@ Earthbound Battle Backgrounds JS
 ============================================
 
 Earthbound Battle Background JS is exactly what its name implies: the battle
-backgrounds from the SNES RPG Earthbound/Mother 2, rendered entirely in
+backgrounds from the SNES RPG Earthbound/Mother 2, rendered entirely in client-side
 JavaScript.
 
 If you like this project, you might also like the [Earthbound Battle
