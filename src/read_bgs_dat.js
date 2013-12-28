@@ -28,21 +28,18 @@ Rom.Rom();
 var ratioValues = { '0': 0, '16': 1, '48': 2, '64': 3}
 
 // start opening the data file
-var oReq = new XMLHttpRequest();
-oReq.open("GET", "src/bgs.dat", true);
-oReq.responseType = "arraybuffer";
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "src/bgs.dat", true);
+xhr.responseType = "arraybuffer";
 
-oReq.onload = function (oEvent) {
-  var arrayBuffer = oReq.response;
-  if (arrayBuffer) {
-    // unlike Java, I don't need to read and convert this stream. woo!
-    var byteArray = new Uint8Array(arrayBuffer);
-    Rom.open(byteArray);
-    setupEngine();
-  }
+xhr.onload = function (oEvent) {
+  // unlike Java, I don't need to read and convert this stream. woo!
+  var byteArray = new Uint8Array(this.response);
+  Rom.open(byteArray);
+  setupEngine();
 }
 
-oReq.send(null);
+xhr.send();
 
 var setupEngine = exports.setupEngine = function setupEngine() {
   console.log("Starting engine...");
