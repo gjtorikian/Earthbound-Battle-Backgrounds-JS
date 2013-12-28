@@ -3,7 +3,16 @@ var suggestedLayers = {
   "New Age Retro Hippie (270 / 279)": [270, 269]
 }
 
+var layer1, layer2, suggested, aspectRatio, frameskip, read_bgs_dat;
+
 document.addEventListener('DOMContentLoaded', function() {
+  // lol
+  layer1 = document.getElementById("layer1");
+  layer2 = document.getElementById("layer2");
+  suggested = document.getElementById("suggested");
+  aspectRatio = document.getElementById("aspectRatio");
+  frameskip = document.getElementById("frameskip");
+
   createLayerDropdown();
   createSuggestedLayersDropdown();
   setupDropdownPushStates();
@@ -18,8 +27,8 @@ function createLayerDropdown() {
   for (var i = 0; i < 327; i++) {
     optionHtml += "<option value='" + i + "'>" + i + "</option>";
   }
-  document.getElementById("layer1").innerHTML = optionHtml;
-  document.getElementById("layer2").innerHTML = optionHtml;
+  layer1.innerHTML = optionHtml;
+  layer2.innerHTML = optionHtml;
 }
 
 function createSuggestedLayersDropdown() {
@@ -30,35 +39,35 @@ function createSuggestedLayersDropdown() {
       optionHtml += "<option value='" + key + "'>" + key + "</option>";
     }
   }
-  document.getElementById("suggested").innerHTML = optionHtml;
+  suggested.innerHTML = optionHtml;
 }
 
 function setupDropdownPushStates() {
 
-  document.getElementById("layer1").onchange = function(e) {
+  layer1.onchange = function(e) {
     var value = this.value;
     History.pushState( {layer1: value}, document.title, setUrlFromString("layer1=" + value));
   };
 
-  document.getElementById("layer2").onchange = function(e) {
+  layer2.onchange = function(e) {
     var value = this.value;
     History.pushState( {layer2: value}, document.title, setUrlFromString("layer2=" + value));
   };
 
-  document.getElementById("suggested").onchange = function(e) {
+  suggested.onchange = function(e) {
     var value = this.value;
-    document.getElementById("layer1").selectedIndex = suggestedLayers[value][0] + 1;
-    document.getElementById("layer1").onchange();
-    document.getElementById("layer2").selectedIndex = suggestedLayers[value][1] + 1;
-    document.getElementById("layer2").onchange();
+    layer1.selectedIndex = suggestedLayers[value][0] + 1;
+    layer1.onchange();
+    layer2.selectedIndex = suggestedLayers[value][1] + 1;
+    layer2.onchange();
   };
 
-  document.getElementById("aspectRatio").onchange = function(e) {
+  aspectRatio.onchange = function(e) {
     var value = this.value;
     History.pushState( {aspectRatio: value}, document.title, setUrlFromString("aspectRatio=" + value));
   };
 
-  document.getElementById("frameskip" ).onchange  = function(e) {
+  frameskip.onchange  = function(e) {
     var value = this.value;
     History.pushState( {frameskip: value}, document.title, setUrlFromString("frameskip=" + value));
   };
@@ -66,8 +75,8 @@ function setupDropdownPushStates() {
 }
 
 function randomLayer() {
-  document.getElementById("layer1").selectedIndex = String(Math.floor(Math.random() * 327));
-  document.getElementById("layer1").onchange();
-  document.getElementById("layer2").selectedIndex = String(Math.floor(Math.random() * 327));
-  document.getElementById("layer2").onchange();
+  layer1.selectedIndex = String(Math.floor(Math.random() * 327));
+  layer1.onchange();
+  layer2.selectedIndex = String(Math.floor(Math.random() * 327));
+  layer2.onchange();
 };
