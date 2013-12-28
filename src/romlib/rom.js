@@ -1,9 +1,10 @@
 define(function(require, exports, module) {
 
-var _ = require("underscore");
 var LOG_TAG = "Rom";
+
 var RomClasses = require("romlib/romClasses");
 var Block = require("romlib/block");
+var Utils = require("romlib/utils");
 
 var Rom = exports.Rom = function Rom() {
   this.objects = {}, self = this;
@@ -13,7 +14,8 @@ var Rom = exports.Rom = function Rom() {
   // New step: every ROM needs to have its own instance of
   // each type handler.
   this.handlers = {};
-  _.each(_.values(RomClasses.getTypes()), function(e) {
+  var typeValues = RomClasses.getTypes();
+  Utils.each(Utils.values(RomClasses.getTypes()), function(e) {
       if (e.Handler != null) {
           self.handlers[e.Type.name()] = e.Handler;
       }
@@ -38,7 +40,7 @@ var Rom = exports.Rom = function Rom() {
     this.loaded = true;
     var self = this;
 
-    _.each(this.handlers, function(handler, key) {
+    Utils.each(this.handlers, function(handler, key) {
         console.log(LOG_TAG + ": Reading " + key);
         handler(self);
         console.log(LOG_TAG + ": Read " + key);
@@ -78,7 +80,7 @@ var Rom = exports.Rom = function Rom() {
   }
 
   exports.getObjectByTypename = function(typename, index) {
-    var type = _.findWhere(RomClasses.getTypes(), {ID: typename});
+    var type = Utils.findWhere(RomClasses.getTypes(), {ID: typename});
     var obj = this.objects[type.ID];
 
     try {

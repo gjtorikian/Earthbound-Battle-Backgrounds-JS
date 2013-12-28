@@ -2,6 +2,8 @@ define(function(require, exports, module) {
 
 var types = {};
 
+var Utils = require("romlib/utils");
+
 /**
  * Used to maintain a registry of available ROM object types.
  *
@@ -27,7 +29,7 @@ var RomClasses = exports.RomClasses = function() {
    * Gets a collection of entries for all registered classes.
    */
   exports.getTypes = function() {
-    return _.values(types);
+    return Utils.values(types);
   }
 
   /**
@@ -49,7 +51,7 @@ var RomClasses = exports.RomClasses = function() {
     var added = false;
     // Check for collisions
 
-    _.each(_.values(types), function(e) {
+    Utils.each(Utils.values(types), function(e) {
         if (e.ID == id) {
             // throw new Exception("Type ID '" + id
             // + "' is already registered.");
