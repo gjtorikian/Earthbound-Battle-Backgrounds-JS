@@ -44,7 +44,7 @@ xhr.send();
 var setupEngine = exports.setupEngine = function setupEngine() {
   console.log("Starting engine...");
 
-  var params = getJsonFromUrl();
+  var params = getJsonFromUrl(), loader = null;
 
   // what is this second Number parse for? "0" is a valid number, but it yields false in the || statement!
   var layer1_val = Number(parseLayerParam(params.layer1) || 270);
@@ -70,6 +70,9 @@ var setupEngine = exports.setupEngine = function setupEngine() {
   document.getElementById("aspectRatio").selectedIndex = ratioValues[String(aspectRatio)];
   document.getElementById("randomLayer").onclick = randomLayer;
   document.getElementById("randomLayer").onkeydown = randomLayer;
+
+  if (loader = document.getElementById("loading-indicator"))
+    loader.parentNode.removeChild(loader);
 
   Engine.start(layer1, layer2, fps, aspectRatio, frameskip, alpha);
 }
