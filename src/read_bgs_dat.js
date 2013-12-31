@@ -71,8 +71,10 @@ var setupEngine = exports.setupEngine = function setupEngine() {
   document.getElementById("randomLayer").onclick = randomLayer;
   document.getElementById("randomLayer").onkeydown = randomLayer;
 
-  if (loader = document.getElementById("loading-indicator"))
+  if (loader = document.getElementById("loading-indicator")) {
+    document.getElementById("ebbb-holder").className = "";
     loader.parentNode.removeChild(loader);
+  }
 
   Engine.start(layer1, layer2, fps, aspectRatio, frameskip, alpha);
 }

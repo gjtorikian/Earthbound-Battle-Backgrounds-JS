@@ -31,6 +31,10 @@ body {
   }
 }
 
+.hidden {
+  display: none;
+}
+
 /* Thanks, http://tobiasahlin.com/spinkit/ ! */
 
 .spinner {
