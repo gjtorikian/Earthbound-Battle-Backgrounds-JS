@@ -87,6 +87,9 @@ certain byte address. Since JavaScript doesn't have types, you'll see me cheat
 in a few places by doing `Int8Array(1)`, and messing with the value added to
 the index.
 
+I've also intentionally chosen not to pull in libraries like jQuery or Underscore,
+simply because I didn't want to.
+
 ## License
 
 This app is in no way endorsed or affiliated by Nintendo, Ape, HAL Laboratory,
