@@ -1,3 +1,5 @@
+for i in 0..20
+  text = <<EOS
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
@@ -12,9 +14,9 @@ _gaq.push(['_setAccount', 'UA-46624461-1']);
 _gaq.push(['_trackPageview']);
 
 (function() {
-	var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-	ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-	var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+  ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
 })();
 
 </script>
@@ -23,7 +25,6 @@ _gaq.push(['_trackPageview']);
 <h1>Earthbound Battle Backgrounds</h1>
 <p>Presented here for the first time online (?) are all 52,650 <em>potential</em> Earthbound/Mother 2 battle backgrounds. Click any square to see the full-size image. (I'm not sure why some have black borders.) The images on this page won't distort and are static.</p>
 <p>This site is intended as a reference companion to the <a href="http://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/">JavaScript simulation</a>, the <a href="https://github.com/gjtorikian/Earthbound-Battle-Backgrounds">Android live wallpaper app</a>, the <a href="http://forum.starmen.net/forum/Fan/Games/Kraken-EB-Battle-Animation-Screensaver/first">Earthbound battle animation screensaver</a>, as well as any general Earthbound/Mother 2 fan.</p>
-
 
 <div id="navcontainer">
 <ul>
@@ -50,5 +51,34 @@ _gaq.push(['_trackPageview']);
 <li><a href="set21.html">Set 21: 320 - 326</a></li>
 </ul>
 </div>
-</body>
-</html>
+EOS
+
+  layer_lower = i * 16
+  layer_upper = layer_lower + 15
+
+  # printing tragically cut short.
+  if i == 20
+    layer_lower = 320
+    layer_upper = 326
+  end
+
+  text << "<h2>Set #{i + 1}: #{layer_lower} - #{layer_upper}</h2>\n"
+  text << "<table width='190' border='1'>\n<tr>\n"
+  text << "<th></th>"
+  for l1 in layer_lower..layer_upper
+    text << "<th width='50' scope='col'>#{l1}</th>\n"
+  end
+  text << "</tr>\n"
+
+  for l2 in 0..326
+    text << "<tr>\n"
+    text << "<td class='row'>#{l2}</td>"
+    for l1 in layer_lower..layer_upper
+      text << "<td><div class='container'><a href='http://s3.amazonaws.com/eb_livewallpaper/layer1_#{l1}_layer2_#{l2}.png' target='_blank'><img src='http://s3.amazonaws.com/eb_livewallpaper/layer1_#{l1}_layer2_#{l2}.png' width='150' height='150' />Layer 1: #{l1}<br/>Layer 2: #{l2}</a></div></td>\n"
+    end
+    text << "<tr>\n"
+  end
+  text <<"</table></body></html>"
+
+  File.open("set#{i + 1}.html", 'w') { |file| file.write(text) }
+end

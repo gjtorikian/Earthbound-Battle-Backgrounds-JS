@@ -35,6 +35,12 @@ body {
   display: none;
 }
 
+/* for the samples page */
+.row {
+  font-weight: bold;
+  text-align: center;
+}
+
 /* Thanks, http://tobiasahlin.com/spinkit/ ! */
 
 .spinner {

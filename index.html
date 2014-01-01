@@ -127,8 +127,8 @@ var require = {
         <p>For more information, see <a href="https://github.com/gjtorikian/Earthbound-Battle-Backgrounds-JS">the project's README and source code</a>. You might also like <a href="https://github.com/gjtorikian/Earthbound-Battle-Backgrounds">the Android Live Wallpaper version</a>.
 
         <h3>How it works</h3>
-        <p>Every battle background is composed of two layers, each with 326 possible styles (including "blank"). There are 326 * 326 = 106,276 possible different background combinations. Obviously, this many don't exist in the game--they only <em>potentially</em> exist.</p>
-        <p>The data for each of the 326 styles is bundled within the SNES cartridge. Tiles are constructed from various memory addresses in Earthbound game data. Each background also has its own distortion effect.</p>
+        <p>Every battle background is composed of two layers, each with 327 possible styles (including "blank"/zero). The layer styles can be interchanged, such that <a href="http://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/?layer1=50&layer2=300">Layer 1: 50 and Layer 2: 300</a> is the same as <a href="http://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/?layer1=300&layer2=50">Layer 1: 300 and Layer 2: 50</a>. Thus, there are C(n,r) = 52,650 possible different background combinations. Obviously, this many don't exist in the game--they only <em>potentially</em> exist.</p>
+        <p>The data for each of the 327 styles is bundled within the SNES cartridge. Tiles are constructed from various memory addresses in Earthbound game data. Each background also has its own distortion effect.</p>
 
         <h3>List of backgrounds</h3>
         <p>For a list of every possible background, <a href="./samples">visit this link</a>.</p>

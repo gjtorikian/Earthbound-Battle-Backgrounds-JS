@@ -12,12 +12,14 @@ is a Java/Android implementation.
 
 ## How it works
 
-Every battle background is composed of two layers, each with 326 possible
-styles (including "blank"). Thus, there are 326 * 326 = 106,276 possible
-different background combinations. Obviously, this many don't exist in the
-game--they only _potentially_ exist.
+Every battle background is composed of two layers, each with 327 possible
+styles (including "blank"/zero). The layer styles can be interchanged, such that 
+[Layer 1: 50 and Layer 2: 300](http://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/?layer1=50&layer2=300)
+is the same as [Layer 1: 300 and Layer 2: 50](http://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/?layer1=300&layer2=50).
+Thus, there are C(n,r) = 52,650 possible different background combinations. Obviously, 
+this many don't exist in the game--they only _potentially_ exist.
 
-The data for each of the 326 styles is bundled within the SNES cartridge.
+The data for each of the 327 styles is bundled within the SNES cartridge.
 Tiles are
 constructed from various memory addresses in Earthbound game data. To create
 the distortion effect, the following function is used:
