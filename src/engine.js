@@ -19,7 +19,6 @@ var Engine = exports.Engine = function() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-
     var canvasWidth = 256, canvasHeight = 256,
         imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
 
