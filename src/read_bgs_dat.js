@@ -29,12 +29,21 @@ var ratioValues = { '0': 0, '16': 1, '48': 2, '64': 3}
 
 // start opening the data file
 var xhr = new XMLHttpRequest();
-xhr.open("GET", "src/bgs.dat", true);
+xhr.open("GET", "src/dat/truncated_bgs.dat", true);
 xhr.responseType = "arraybuffer";
 
+// unlike Java, I don't need to read and convert this stream. woo!
 xhr.onload = function (oEvent) {
-  // unlike Java, I don't need to read and convert this stream. woo!
-  var byteArray = new Uint8Array(this.response);
+  // N.B. rather than transfer a 776 KB file (bgs.dat), we'll save speed, and pass
+  // along the truncated version (~ 121 KB). the frontmatter of the .dat file is
+  // just empty padding anyway. in an ideal world, this would be unnecessary, 
+  // and i'd redo the pointer hex math in all the `readBlock` calls
+  var bgsData = new Uint8Array(this.response);
+  var padding = new Uint8Array(655872);
+  var byteArray = new Uint8Array(padding.byteLength + bgsData.byteLength);
+  byteArray.set(new Uint8Array(padding), 0);
+  byteArray.set(new Uint8Array(bgsData), padding.byteLength);
+
   Rom.open(byteArray);
   setupEngine();
 }
