@@ -46,20 +46,26 @@ function setupDropdownPushStates() {
 
   layer1.onchange = function(e) {
     var value = this.value;
+    if (value < 0)
+      value = 0;
     History.pushState( {layer1: value}, document.title, setUrlFromString("layer1=" + value));
   };
 
   layer2.onchange = function(e) {
     var value = this.value;
+    if (value < 0)
+      value = 0;
     History.pushState( {layer2: value}, document.title, setUrlFromString("layer2=" + value));
   };
 
   suggested.onchange = function(e) {
     var value = this.value;
-    layer1.selectedIndex = suggestedLayers[value][0] + 1;
-    layer1.onchange();
-    layer2.selectedIndex = suggestedLayers[value][1] + 1;
-    layer2.onchange();
+    try {
+      layer1.selectedIndex = suggestedLayers[value][0] + 1;
+      layer1.onchange();
+      layer2.selectedIndex = suggestedLayers[value][1] + 1;
+      layer2.onchange();
+    } catch (e) {}
   };
 
   aspectRatio.onchange = function(e) {
