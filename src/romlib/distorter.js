@@ -3,38 +3,38 @@ define(function(require, exports, module) {
 var DistortionEffect = require('./distortion_effect');
 
 var Distorter = exports.Distorter = function Distorter() {
-    // There is some redundancy here: 'effect' is currently what is used
-    // in computing frames, although really there should be a list of
-    // four different effects ('dist') which are used in sequence.
-    //
-    // 'dist' is currently unused, but ComputeFrame should be changed to
-    // make use of it as soon as the precise nature of effect sequencing
-    // can be determined.
-    //
-    // The goal is to make Distorter a general-purpose BG effect class that
-    // can be used to show either a single distortion effect, or to show the
-    // entire sequence of effects associated with a background entry (including
-    // scrolling and Palette animation, which still need to be implemented).
-    //
-    // Also note that "current_dist" should not be used. Distorter should be
-    // a "temporally stateless" class, meaning that all temporal effects should
-    // be computed at once, per request, rather than maintaining an internal
-    // tick count. (The idea being that it should be fast to compute any
-    // individual
-    // frame. Since it is certainly possible to do this, there is no sense
-    // requiring that all previous frames be computed before any given desired
-    // frame.)
+  // There is some redundancy here: 'effect' is currently what is used
+  // in computing frames, although really there should be a list of
+  // four different effects ('dist') which are used in sequence.
+  //
+  // 'dist' is currently unused, but ComputeFrame should be changed to
+  // make use of it as soon as the precise nature of effect sequencing
+  // can be determined.
+  //
+  // The goal is to make Distorter a general-purpose BG effect class that
+  // can be used to show either a single distortion effect, or to show the
+  // entire sequence of effects associated with a background entry (including
+  // scrolling and Palette animation, which still need to be implemented).
+  //
+  // Also note that "current_dist" should not be used. Distorter should be
+  // a "temporally stateless" class, meaning that all temporal effects should
+  // be computed at once, per request, rather than maintaining an internal
+  // tick count. (The idea being that it should be fast to compute any
+  // individual
+  // frame. Since it is certainly possible to do this, there is no sense
+  // requiring that all previous frames be computed before any given desired
+  // frame.)
 
-    this.effect = new DistortionEffect.DistortionEffect();
+  this.effect = new DistortionEffect.DistortionEffect();
 
-    // TODO: new this.DistortionEffect[4] did not work, is this appropriate?
-    this.dist = [new DistortionEffect.DistortionEffect(), new DistortionEffect.DistortionEffect(),
-                 new DistortionEffect.DistortionEffect(), new DistortionEffect.DistortionEffect()];
-    this.current_dist = 1
+  // TODO: new this.DistortionEffect[4] did not work, is this appropriate?
+  this.dist = [new DistortionEffect.DistortionEffect(), new DistortionEffect.DistortionEffect(),
+               new DistortionEffect.DistortionEffect(), new DistortionEffect.DistortionEffect()];
+  this.current_dist = 1
 
-    this.bmpSrc = null;
+  this.bmpSrc = null;
 
-    return this;
+  return this;
 };
 
 (function(){

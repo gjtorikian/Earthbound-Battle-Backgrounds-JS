@@ -72,7 +72,7 @@ EOS
 
   for l2 in 0..326
     text << "<tr>\n"
-    text << "<td class='row'>#{l2}</td>"
+    text << "<td class='row-indicator'>#{l2}</td>"
     for l1 in layer_lower..layer_upper
       text << "<td><div class='container'><a href='http://s3.amazonaws.com/eb_livewallpaper/layer1_#{l1}_layer2_#{l2}.png' target='_blank'><img src='http://s3.amazonaws.com/eb_livewallpaper/layer1_#{l1}_layer2_#{l2}.png' width='150' height='150' />Layer 1: #{l1}<br/>Layer 2: #{l2}</a></div></td>\n"
     end

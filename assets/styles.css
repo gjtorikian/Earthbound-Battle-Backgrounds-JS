@@ -36,7 +36,7 @@ body {
 }
 
 /* for the samples page */
-.row {
+.row-indicator {
   font-weight: bold;
   text-align: center;
 }
