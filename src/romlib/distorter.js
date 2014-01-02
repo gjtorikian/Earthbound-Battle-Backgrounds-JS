@@ -92,9 +92,12 @@ var Distorter = exports.Distorter = function Distorter() {
       @return The distortion offset for the given (y,t) coordinates
   */
   Distorter.prototype.getAppliedOffset = function(y, t, distortEffect, ampl, ampl_accel, s_freq, s_freq_accel, compr, compr_accel, speed) {
-    var C1 = 1 / 512.0;
-    var C2 = 8.0 * Math.PI  / (1024 * 256);
-    var C3 = Math.PI  / 60.0;
+    // N.B. another discrepancy from Java--these values should be "short," and
+    // must have a specific precision. this seems to effect backgrounds with
+    // distortEffect == 1
+    var C1 = (1 / 512.0).toFixed(6);
+    var C2 = (8.0 * Math.PI / (1024 * 256)).toFixed(6);
+    var C3 = (Math.PI / 60.0).toFixed(6);
 
     // Compute "current" values of amplitude, frequency, and compression
     var amplitude = (ampl + ampl_accel * t * 2);
@@ -102,15 +105,15 @@ var Distorter = exports.Distorter = function Distorter() {
     var compression = (compr + compr_accel * t * 2);
 
     // Compute the value of the sinusoidal line offset function
-    var S = Math.floor(C1 * amplitude * Math.sin(C2 * frequency * y + C3 * speed * t));
+    var S = Math.round(C1 * amplitude * Math.sin((C2 * frequency * y + C3 * speed * t).toFixed(6)));
 
     if (distortEffect == 1)
     {
         return S;
     }
-    else if(distortEffect == 2)
+    else if (distortEffect == 2)
     {
-        return (y % 2) == 0? -S : S;
+        return (y % 2) == 0 ? -S : S;
     }
     else if (distortEffect == 3)
     {
