@@ -6,7 +6,10 @@ var suggestedLayers = {
 var layer1, layer2, suggested, aspectRatio, frameskip, read_bgs_dat;
 
 document.addEventListener('DOMContentLoaded', function() {
-  // lol
+  if (true || navigator.userAgent.match('CriOS')) {
+    document.getElementById("ios-message").className = "col-xs-6";
+  }
+
   layer1 = document.getElementById("layer1");
   layer2 = document.getElementById("layer2");
   suggested = document.getElementById("suggested");

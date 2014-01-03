@@ -1,3 +1,8 @@
+#ios-message {
+  display: block;
+  padding-top: 15px;
+}
+
 .form-control {
   width: 100%;
 }
