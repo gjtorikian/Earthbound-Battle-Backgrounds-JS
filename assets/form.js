@@ -6,7 +6,7 @@ var suggestedLayers = {
 var layer1, layer2, suggested, aspectRatio, frameskip, read_bgs_dat;
 
 document.addEventListener('DOMContentLoaded', function() {
-  if (true || navigator.userAgent.match('CriOS')) {
+  if ( /(iPad|iPhone|iPod)/g.test(navigator.userAgent) && !/CriOS/.test(navigator.userAgent)) {
     document.getElementById("ios-message").className = 
       document.getElementById("ios-message").className.replace( /hidden/ , '' );
   }
