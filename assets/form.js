@@ -7,7 +7,8 @@ var layer1, layer2, suggested, aspectRatio, frameskip, read_bgs_dat;
 
 document.addEventListener('DOMContentLoaded', function() {
   if (true || navigator.userAgent.match('CriOS')) {
-    document.getElementById("ios-message").className = "col-xs-6";
+    document.getElementById("ios-message").className = 
+      document.getElementById("ios-message").className.replace( /hidden/ , '' );
   }
 
   layer1 = document.getElementById("layer1");

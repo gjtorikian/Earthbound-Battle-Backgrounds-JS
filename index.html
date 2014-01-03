@@ -25,7 +25,7 @@ var require = {
   <div class="container">
 
     <div class="row">
-      <div class="col-xs-6 col-sm-5">
+      <div class="col-xs-5">
         <div id="loading-indicator" class="spinner">
           <div class="cube1"></div>
           <div class="cube2"></div>
@@ -34,10 +34,7 @@ var require = {
           Canvas.
         </canvas>
       </div>
-      <div class="col-xs-6 hidden" id="ios-message">
-        <p>Note: you might be using iOS, with a browser that's not Safari. Apple <a href="http://daringfireball.net/2011/03/nitro_ios_43">intentionally impedes JavaScript performance for browsers that aren't Safari</a>. Therefore, for the best performance of this demonstration on iOS, I unfortunately suggest you use Safari. Or, <a href="http://www.idownloadblog.com/2012/07/30/nitrous/">jailbreak your device</a> to allow the code to run smoothly in <em>any</em> browser.</p>
-      </div>  
-      <div class="col-xs-12 col-sm-7">
+      <div class="col-xs-7">
         <div class="row">
           <div class="col-sm-6">
               <h6>Change Background Animation</h6>
@@ -110,6 +107,11 @@ var require = {
           </div>
         </div>
       </div>
+    </div>
+    <div class="row hidden" id="ios-message">
+      <div class="col-xs-12 alert alert-warning">
+        <p>Note: you might be using iOS, with a browser that's not Safari. Apple <a href="http://daringfireball.net/2011/03/nitro_ios_43">intentionally impedes JavaScript performance for browsers that aren't Safari</a>. Therefore, for the best performance of this demonstration on iOS, I unfortunately suggest you use Safari, or view it on your computer. Or, <a href="http://www.idownloadblog.com/2012/07/30/nitrous/">jailbreak your device</a> to allow the code to run smoothly in <em>any</em> browser.</p>
+      </div>  
     </div>
     <div class="row">
       <div class="col-xs-12">
