@@ -29,7 +29,7 @@ var ratioValues = { '0': 0, '16': 1, '48': 2, '64': 3}
 
 // start opening the data file
 var xhr = new XMLHttpRequest();
-xhr.open("GET", "src/dat/truncated_bgs.dat", true);
+xhr.open("GET", "src/data/truncated_bgs.dat", true);
 xhr.responseType = "arraybuffer";
 
 // unlike Java, I don't need to read and convert this stream. woo!
