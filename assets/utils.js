@@ -72,5 +72,5 @@ function isIOS() {
 }
 
 function isSafari() {
-  /CPU.*OS \d_\d/.test(navigator.userAgent);
+  return /CPU.*OS \d_\d/.test(navigator.userAgent);
 }
