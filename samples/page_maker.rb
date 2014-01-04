@@ -74,7 +74,13 @@ EOS
     text << "<tr>\n"
     text << "<td class='row-indicator'>#{l2}</td>"
     for l1 in layer_lower..layer_upper
-      text << "<td><div class='container'><a href='http://s3.amazonaws.com/eb_livewallpaper/layer1_#{l1}_layer2_#{l2}.png' target='_blank'><img src='http://s3.amazonaws.com/eb_livewallpaper/layer1_#{l1}_layer2_#{l2}.png' width='150' height='150' />Layer 1: #{l1}<br/>Layer 2: #{l2}</a></div></td>\n"
+      l1_text = l1.to_s
+      l2_text = l2.to_s
+      l1_padding_length = 3 - l1.to_s.length
+      l2_padding_length = 3 - l2.to_s.length
+      l1_padding_length.times { l1_text.insert(0, "0")} 
+      l2_padding_length.times { l2_text.insert(0, "0")}
+      text << "<td><div class='container'><a href='http://s3.amazonaws.com/eb_bb/layer1_#{l1_text}_layer2_#{l2_text}.png' target='_blank'><img src='http://s3.amazonaws.com/eb_bb/layer1_#{l1_text}_layer2_#{l2_text}.png' width='150' height='150' />Layer 1: #{l1}<br/>Layer 2: #{l2}</a></div></td>\n"
     end
     text << "<tr>\n"
   end
