@@ -72,5 +72,5 @@ function isIOS() {
 }
 
 function isSafari() {
-  return /CPU.*OS \d_\d/.test(navigator.userAgent);
+  return /\(KHTML, like Gecko\)\s+Version\//gi.test(navigator.userAgent);
 }
