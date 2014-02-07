@@ -212,7 +212,7 @@ var suggestedLayers = {
   "Bionic Kraken (109 / 0)": [109, 0],
   "Carbon Dog (166 / 165)": [166, 165],
   "French Kiss of Death (70 / 0)": [70, 0],
-  "Ness Nightmare (298 / 0)": [298, 0],
+  "Ness's Nightmare (298 / 0)": [298, 0],
   "Giygas, Heavily Armed Pokey (220 / 0)": [220, 0],
   "Giygas, Heavily Armed Pokey (222 / 221)": [222, 221],
   "Giygas (224 / 223)": [224, 223],
@@ -259,7 +259,7 @@ function createSuggestedLayersDropdown() {
 
   for (var key in suggestedLayers) {
     if (suggestedLayers.hasOwnProperty(key)) {
-      optionHtml += "<option value='" + key + "'>" + key + "</option>";
+      optionHtml += "<option value=\"" + key + "\">" + key + "</option>";
     }
   }
   suggested.innerHTML = optionHtml;
