@@ -108,7 +108,7 @@ var BackgroundLayer = exports.BackgroundLayer = function BackgroundLayer(src, en
   }
 
   BackgroundLayer.prototype.initializeBitmap = function() {
-    var pixels = new Int16Array(256 * 256 * 4);
+    var pixels = new Int16Array(W * H * 4);
     pixels = this.gfx.draw(pixels, this.pal)
     this.distort.setOriginal(pixels);
   }
