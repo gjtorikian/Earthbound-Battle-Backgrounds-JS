@@ -58,10 +58,10 @@ var setupEngine = exports.setupEngine = function setupEngine() {
   // what is this second Number parse for? "0" is a valid number, but it yields false in the || statement!
   var layer1_val = Number(parseLayerParam(params.layer1) || 270);
   var layer2_val = Number(parseLayerParam(params.layer2) || 269);
-  var frameskip = parseFrameskip(params.frameskip) || 3;
+  var frameskip = parseFrameskip(params.frameskip) || 1;
   var aspectRatio = Number(parseAspectRatioParam(params.aspectRatio) || 16);
 
-  var fps = 10;
+  var fps = 30;
   var alpha = parseFloat(0.5);
 
   if (layer2_val == 0)

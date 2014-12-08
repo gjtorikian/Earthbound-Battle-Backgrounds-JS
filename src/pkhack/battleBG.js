@@ -18,17 +18,17 @@ var BattleBG = exports.BattleBG = function() {
    *
    * 2 Bits per pixel
    *
-   * 3 Palette animation
+   * 3 Palette cycle type
    *
-   * 4 Palette animation info
+   * 4 Palette cycle #1 start
    *
-   * 5 Palette animation info (UNKNOWN, number of palettes?)
+   * 5 Palette cycle #1 end
    *
-   * 6 UNKNOWN
+   * 6 Palette cycle #2 start
    *
-   * 7 Palette animation speed
+   * 7 Palette cycle #2 end
    *
-   * 8 Screen shift
+   * 8 Palette cycle speed
    *
    * 9 Mov
    *
@@ -73,6 +73,48 @@ var BattleBG = exports.BattleBG = function() {
    */
   this.getBitsPerPixel = function() {
     return this.bbgData[2];
+  };
+
+  /**
+   * Which kind of palette cycle to use.
+   */
+  this.paletteCycleType = function() {
+    return this.bbgData[3];
+  };
+
+  /**
+   * Cycle 1 Start Index
+   */
+  this.paletteCycle1Start = function() {
+    return this.bbgData[4];
+  };
+
+  /**
+   * Cycle 1 End Index
+   */
+  this.paletteCycle1End = function() {
+    return this.bbgData[5];
+  };
+
+  /**
+   * Cycle 2 Start Index
+   */
+  this.paletteCycle2Start = function() {
+    return this.bbgData[6];
+  };
+
+  /**
+   * Cycle 2 End Index
+   */
+  this.paletteCycle2End = function() {
+    return this.bbgData[7];
+  };
+
+  /**
+   * Determines the animation speed of the palette cycle in frames the animation is held. (ie. 3 = palette changes every 3 frames, 60 = palette changes every 60 frames)
+   */
+  this.paletteCycleSpeed = function() {
+    return this.bbgData[8];
   };
 
   /**

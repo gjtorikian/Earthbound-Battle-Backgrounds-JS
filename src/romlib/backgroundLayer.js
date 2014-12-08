@@ -4,6 +4,7 @@ var LOG_TAG = "BackgroundLayer";
 
 var BackgroundGraphics = require("romlib/backgroundGraphics");
 var Distorter = require("romlib/distorter");
+var PaletteCycle = require("romlib/paletteCycle");
 
 var H = 256;
 var W = 256;
@@ -50,6 +51,10 @@ var BackgroundLayer = exports.BackgroundLayer = function BackgroundLayer(src, en
    *            rendering
    */
   BackgroundLayer.prototype.overlayFrame = function(dst, letterbox, ticks, alpha, erase) {
+    if (this.palCycle.cycle()) {
+      // normally the cart would just upload the new palette to VRAM. However, since we are instead using CANVAS, we need to make a new bitmap.
+      this.initializeBitmap();
+    }
     return this.distort.overlayFrame(dst, letterbox, ticks, alpha, erase);
   }
 
@@ -58,8 +63,16 @@ var BackgroundLayer = exports.BackgroundLayer = function BackgroundLayer(src, en
     this.gfx = src.getObjectByType("BackgroundGraphics", n);
   }
 
-  BackgroundLayer.prototype.loadPalette = function(src, n) {
-    this.pal = src.getObjectByType("BackgroundPalette", n);
+  BackgroundLayer.prototype.loadPalette = function(src, bg) {
+    this.palCycle = new PaletteCycle.PaletteCycle(
+      src.getObjectByType("BackgroundPalette", bg.getPaletteIndex()),
+      bg.paletteCycleType(),
+      bg.paletteCycle1Start(),
+      bg.paletteCycle1End(),
+      bg.paletteCycle2Start(),
+      bg.paletteCycle2End(),
+      bg.paletteCycleSpeed()
+    )
   }
 
   BackgroundLayer.prototype.loadEffect = function(src, n) {
@@ -90,7 +103,7 @@ var BackgroundLayer = exports.BackgroundLayer = function BackgroundLayer(src, en
 
     // Set graphics / Palette
     this.loadGraphics(src, bg.getGraphicsIndex());
-    this.loadPalette(src, bg.getPaletteIndex());
+    this.loadPalette(src, bg);
 
     var e = bg.getAnimation();
 
@@ -109,7 +122,7 @@ var BackgroundLayer = exports.BackgroundLayer = function BackgroundLayer(src, en
 
   BackgroundLayer.prototype.initializeBitmap = function() {
     var pixels = new Int16Array(W * H * 4);
-    pixels = this.gfx.draw(pixels, this.pal)
+    pixels = this.gfx.draw(pixels, this.palCycle)
     this.distort.setOriginal(pixels);
   }
 }).call(BackgroundLayer.prototype);

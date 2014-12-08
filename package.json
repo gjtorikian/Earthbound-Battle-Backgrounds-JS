@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Earthbound Battle Backgrounds",
   "dependencies": {
-    "express": ""
+    "express": ">= 3.0.0 < 4"
   },
   "main": "index",
   "engines": {
