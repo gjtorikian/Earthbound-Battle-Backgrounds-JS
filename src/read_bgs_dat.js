@@ -12,6 +12,8 @@ var BackgroundLayer = require("romlib/backgroundLayer");
 
 var Engine = require("engine");
 
+var g_oAnimator = new Engine.EB_Animator();
+
 try {
     Rom.registerType("BattleBGEffect", BattleBGEffect, BattleBGEffect.Handler);
     Rom.registerType("BattleBG", BattleBG, BattleBG.Handler);
@@ -36,7 +38,7 @@ xhr.responseType = "arraybuffer";
 xhr.onload = function (oEvent) {
   // N.B. rather than transfer a 776 KB file (bgs.dat), we'll save speed, and pass
   // along the truncated version (~ 121 KB). the frontmatter of the .dat file is
-  // just empty padding anyway. in an ideal world, this would be unnecessary, 
+  // just empty padding anyway. in an ideal world, this would be unnecessary,
   // and i'd redo the pointer hex math in all the `readBlock` calls
   var bgsData = new Uint8Array(this.response);
   var padding = new Uint8Array(655872);
@@ -45,13 +47,20 @@ xhr.onload = function (oEvent) {
   byteArray.set(new Uint8Array(bgsData), padding.byteLength);
 
   Rom.open(byteArray);
-  setupEngine();
+  exports.setupEngine();
 }
 
 xhr.send();
 
-var setupEngine = exports.setupEngine = function setupEngine() {
+exports.setupEngine = function () {
+
   console.log("Starting engine...");
+
+/*
+
+   TODO: ITERATE LAYERS
+   TODO: CANVAS ALPHA MERGE
+*/
 
   var params = getJsonFromUrl(), loader = null;
 
@@ -85,7 +94,7 @@ var setupEngine = exports.setupEngine = function setupEngine() {
     loader.parentNode.removeChild(loader);
   }
 
-  Engine.start(layer1, layer2, fps, aspectRatio, frameskip, alpha);
+  g_oAnimator.start(layer1, layer2, fps, aspectRatio, frameskip, alpha);
 }
 
 });
