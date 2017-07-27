@@ -1,11 +1,29 @@
 {
   "name": "earthbound-battlebackgrounds",
   "version": "0.0.1",
-  "description": "Earthbound Battle Backgrounds",
-  "dependencies": {
-    "express": ">= 3.0.0 < 4"
+  "description": "Earthbound Battle Backgrounds, in your browser!",
+  "devDependencies": {
+    "babel-core": "^6.25.0",
+    "babel-eslint": "^7.2.3",
+    "babel-loader": "^7.1.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.5.2",
+    "babel-preset-stage-0": "^6.24.1",
+    "babili-webpack-plugin": "^0.1.2",
+    "binary-loader": "^0.0.1",
+    "eslint": "^4.1.1",
+    "eslint-plugin-filenames": "^1.2.0",
+    "express": ">= 3.0.0 < 4",
+    "string.prototype.padstart": "^3.0.0",
+    "webpack": "^3.0.0"
   },
-  "main": "index",
+  "main": "dist/index.js",
+  "scripts": {
+    "compile": "webpack",
+    "dev": "NODE_ENV=development webpack -d --watch",
+    "lint": "eslint src",
+    "prepublish": "npm run compile"
+  },
   "engines": {
     "node": ">= 0.8.0"
   }

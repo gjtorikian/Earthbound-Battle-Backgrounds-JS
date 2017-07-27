@@ -1,53 +1,58 @@
-define(function(require, exports, module) {
-
-var BackgroundLayer = require("romlib/backgroundLayer");
-var frameId = -1;
-var Engine = exports.Engine = function() {
-
-};
-
-(function() {
-  // the animation loop
-  exports.start = function(layer1, layer2, fps, aspectRatio, frameskip, alpha) {
-    var tick = 0,
-        then = Date.now(), startTime = then, elapsed,
-        fpsInterval = 1000 / fps,
-        bitmap;
-
-    var canvas = document.getElementById("ebbb-holder");
-    var ctx = canvas.getContext("2d");
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-    var canvasWidth = 256, canvasHeight = 256,
-        imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
-
-    function krakenFrame() {
-      frameId = requestAnimationFrame(krakenFrame);
-
-      var now = Date.now();
-      elapsed = now - then;
-
-      // console.log("Rendering tick " + tick);
-      if (elapsed > fpsInterval) {
-          then = now - (elapsed % fpsInterval);
-
-          bitmap = layer1.overlayFrame(imageData.data, aspectRatio, tick, alpha, true);
-          bitmap = layer2.overlayFrame(bitmap, aspectRatio, tick, parseFloat(0.5), false);
-
-          tick += (frameskip);
-
-          imageData.data.set(bitmap);
-
-          ctx.putImageData(imageData, 0, 0);
-      }
+let frameID = -1;
+export const SNES_WIDTH = 256;
+export const SNES_HEIGHT = 224;
+export default class Engine {
+  constructor(layers = [], {
+    fps = 30,
+    aspectRatio = 0,
+    frameSkip = 1,
+    alpha = [0.5, 0.5],
+    canvas = document.querySelector("canvas")
+  } = {}) {
+    this.layers = layers;
+    this.fps = fps;
+    this.aspectRatio = aspectRatio;
+    this.frameSkip = frameSkip;
+    this.alpha = alpha;
+    this.tick = 0;
+    this.canvas = canvas;
+  }
+  animate() {
+    let then = Date.now();
+    let elapsed;
+    const fpsInterval = 1000 / this.fps;
+    let bitmap;
+    const canvas = this.canvas;
+    const context = canvas.getContext("2d");
+    if (this.layers[0].entry && !this.layers[1].entry) {
+      this.alpha[0] = 1;
+      this.alpha[1] = 0;
     }
-
-    if (frameId > 0)
-      window.cancelAnimationFrame(frameId);
-    krakenFrame();
+    if (!this.layers[0].entry && this.layers[1].entry) {
+      this.alpha[0] = 0;
+      this.alpha[1] = 1;
+    }
+    context.imageSmoothingEnabled = false;
+    canvas.width = SNES_WIDTH;
+    canvas.height = SNES_HEIGHT;
+    const image = context.getImageData(0, 0, canvas.width, canvas.height);
+    const drawFrame = () => {
+      frameID = requestAnimationFrame(drawFrame);
+      const now = Date.now();
+      elapsed = now - then;
+      if (elapsed > fpsInterval) {
+        then = now - (elapsed % fpsInterval);
+        for (let i = 0; i < this.layers.length; ++i) {
+          bitmap = this.layers[i].overlayFrame(image.data, this.aspectRatio, this.tick, this.alpha[i], i === 0);
+        }
+        this.tick += this.frameSkip;
+        image.data.set(bitmap);
+        context.putImageData(image, 0, 0);
+      }
+    };
+    if (frameID > 0) {
+      global.cancelAnimationFrame(frameID);
+    }
+    drawFrame();
+  }
 }
-
-}).call(Engine.prototype);
-
-});
