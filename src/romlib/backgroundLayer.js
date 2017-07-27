@@ -6,20 +6,13 @@ var BackgroundGraphics = require("romlib/backgroundGraphics");
 var Distorter = require("romlib/distorter");
 var PaletteCycle = require("romlib/paletteCycle");
 
-const H = 256;
-const W = 256;
+var H = 256;
+var W = 256;
 
 var BackgroundLayer = exports.BackgroundLayer = function BackgroundLayer(src, entry) {
-
-  this.gfx      = null;
-  this.pal      = null;
-  this.palCycle = null;
-
-  this.pixels = new Int16Array(W * H * 4);
-
-  this.distort = new Distorter.Distorter();
-  this.distort.setOriginal(this.pixels);
-
+  this.gfx = null,
+  this.pal = null,
+  this.distort = new Distorter.Distorter(),
   this.loadEntry(src, entry);
 
   return this;
@@ -58,16 +51,10 @@ var BackgroundLayer = exports.BackgroundLayer = function BackgroundLayer(src, en
    *            rendering
    */
   BackgroundLayer.prototype.overlayFrame = function(dst, letterbox, ticks, alpha, erase) {
-
-    // 20160105: CREATE AND BIND WRITING BITMAP ONCE AT OBJECT CREATE TIME, REUSE
-    //           ON SUBSEQUENT CALLS, DEPRECATED .initializeBitmap()
-    //           REMOVED CALL TO .initializeBitmap() IN .loadEntry()
-    if( this.palCycle !== null ) {
-
-      this.palCycle.cycle();
-      this.gfx.draw(this.pixels, this.palCycle);
+    if (this.palCycle.cycle()) {
+      // normally the cart would just upload the new palette to VRAM. However, since we are instead using CANVAS, we need to make a new bitmap.
+      this.initializeBitmap();
     }
-
     return this.distort.overlayFrame(dst, letterbox, ticks, alpha, erase);
   }
 
@@ -77,7 +64,6 @@ var BackgroundLayer = exports.BackgroundLayer = function BackgroundLayer(src, en
   }
 
   BackgroundLayer.prototype.loadPalette = function(src, bg) {
-
     this.palCycle = new PaletteCycle.PaletteCycle(
       src.getObjectByType("BackgroundPalette", bg.getPaletteIndex()),
       bg.paletteCycleType(),
@@ -112,7 +98,6 @@ var BackgroundLayer = exports.BackgroundLayer = function BackgroundLayer(src, en
   }
 
   BackgroundLayer.prototype.loadEntry = function(src, n) {
-
     this.entry = n;
     var bg = src.getObjectByTypename("BattleBG", n);
 
@@ -131,8 +116,15 @@ var BackgroundLayer = exports.BackgroundLayer = function BackgroundLayer(src, en
         this.loadEffect(src, e2);
     else
         this.loadEffect(src, e1);
+
+    this.initializeBitmap();
   }
 
+  BackgroundLayer.prototype.initializeBitmap = function() {
+    var pixels = new Int16Array(W * H * 4);
+    pixels = this.gfx.draw(pixels, this.palCycle)
+    this.distort.setOriginal(pixels);
+  }
 }).call(BackgroundLayer.prototype);
 
 });

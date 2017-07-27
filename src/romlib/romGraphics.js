@@ -79,44 +79,38 @@ var RomGraphics = exports.RomGraphics = function RomGraphics() {
   }
 
   RomGraphics.prototype.drawTile = function(pixels, stride, x, y, pal, tile, subpal, vflip, hflip) {
-
-    var i, j, px, py, pos, arSubpal, rgbArray;
-
-    arSubpal = pal.getColors(subpal);
-
-    if( vflip != 1 )
-      vflip = 0;
+    var i, j, px, py;
 
     for (i = 0; i < 8; i++) {
+        for (j = 0; j < 8; j++) {
+            var rgbArray = this.getRGBPal(pal, tile, subpal, i, j);
 
-      // 20160105: REMOVED FROM INNER LOOP
-      if (hflip == 1)
-          px = x + 7 - i;
-      else
-          px = x + i;
+            if (hflip == 1)
+                px = x + 7 - i;
+            else
+                px = x + i;
 
-      for (j = 0; j < 8; j++) {
+            if (vflip == 1)
+                py = y + 7 - j;
+            else
+                py = y + j;
 
-// TODO: ENSURE THAT arSubpal AND arrRomGraphics HAVE BEEN ALLOCATED EFFICIENTLY
-// TODO: START CONVERTING TO SHADER
+            var pos = (px * 4) + (py * stride);
 
-          // LOOKUP PIXEL COLOR FROM PALETTE
-          rgbArray = arSubpal[ this.tiles[tile][i][j] ];
-
-          if (vflip == 1)
-              py = y + 7 - j;
-          else
-              py = y + j;
-
-          pos = (px * 4) + (py * stride);
-
-          pixels[pos + 0] = (rgbArray >> 16) & 0xFF;
-          pixels[pos + 1] = (rgbArray >> 8) & 0xFF;
-          pixels[pos + 2] = (rgbArray) & 0xFF;
-      }
+            pixels[pos + 0] = (rgbArray >> 16) & 0xFF;
+            pixels[pos + 1] = (rgbArray >> 8) & 0xFF;
+            pixels[pos + 2] = (rgbArray) & 0xFF;
+        }
     }
 
     return pixels;
+  }
+
+  RomGraphics.prototype.getRGBPal = function(pal, tile, subpal, i, j) {
+    var pos = this.tiles[tile][i][j];
+    var colorChunk = pal.getColors(subpal)[pos];
+
+    return colorChunk;
   }
 
   /**
