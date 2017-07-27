@@ -1,53 +1,111 @@
 define(function(require, exports, module) {
 
-var BackgroundLayer = require("romlib/backgroundLayer");
-var frameId = -1;
-var Engine = exports.Engine = function() {
+  // 20160105: OO-style animation controller, mostly to persist
+  //           things that can or need to be preserved between calls to .start()
+  //           like canvas, bitmap, timeout/animframe handles
+  var EB_Animator = exports.EB_Animator = function EB_Animator() {
 
-};
+    this.hTimeout = false;
+    this.hFrame   = false;
 
-(function() {
-  // the animation loop
-  exports.start = function(layer1, layer2, fps, aspectRatio, frameskip, alpha) {
-    var tick = 0,
-        then = Date.now(), startTime = then, elapsed,
-        fpsInterval = 1000 / fps,
-        bitmap;
+    this.tick   = 0;
+    this.bitmap = null;
 
-    var canvas = document.getElementById("ebbb-holder");
-    var ctx = canvas.getContext("2d");
+    this.canvas = document.getElementById("ebbb-holder");
+    this.ctx    = this.canvas.getContext("2d");
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    // NOTE: THESE ARE THE PIXEL DIMENSIONS WITHIN THE CANVAS --
+    //       DIFFERENT FROM THE STYLE DIMENSIONS THAT SET THE CANVAS SIZE ON THE PAGE
+    // SET EXPLICITLY TO MATCH SOURCE TILING
+    this.canvas.width  = 256;
+    this.canvas.height = 224;
 
-    var canvasWidth = 256, canvasHeight = 256,
-        imageData = ctx.getImageData(0, 0, canvasWidth, canvasHeight);
+    // 20160105: SUPERFLUOUS DUE TO CLEAR FLAG ON FIRST overlayFrame()
+    //this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
 
-    function krakenFrame() {
-      frameId = requestAnimationFrame(krakenFrame);
+    this.imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
 
-      var now = Date.now();
-      elapsed = now - then;
+    return this;
+  };
 
-      // console.log("Rendering tick " + tick);
-      if (elapsed > fpsInterval) {
-          then = now - (elapsed % fpsInterval);
+  (function() {
 
-          bitmap = layer1.overlayFrame(imageData.data, aspectRatio, tick, alpha, true);
-          bitmap = layer2.overlayFrame(bitmap, aspectRatio, tick, parseFloat(0.5), false);
+    // 20160105: requestAnimationFrame passes a high-resolution timestamp
+    //           parameter to supplied callback.  oTSHighRes is it.
+    EB_Animator.prototype.krakenFrame = function( oTSHighRes ) {
 
-          tick += (frameskip);
+    /*
+    // exports ???
+    // call
 
-          imageData.data.set(bitmap);
+     CanvasRenderingContext2D.globalAlpha
+     CanvasRenderingContext2D.drawImage
+     sin warp horz
+     overlay
+     color cycle
+    */
+      var oThis = this;
 
-          ctx.putImageData(imageData, 0, 0);
+      this.layer1.overlayFrame(
+        this.imageData.data,
+        this.aspectRatio,
+        this.tick,
+        this.alpha,
+        true
+      );
+
+      this.layer2.overlayFrame(
+        this.imageData.data,
+        this.aspectRatio,
+        this.tick,
+        parseFloat(0.5),
+        false
+      );
+
+      this.tick += this.frameskip;
+
+      this.ctx.putImageData(this.imageData, 0, 0);
+
+      // 20160105: USE setTimeout INSTEAD OF TIMESTAMP ARITHMETIC TO
+      //           THROTTLE FPS FOR requestAnimationFrame
+      //           [lighter on cpu cycles than the spinlock-lite it replaced]
+      this.hTimeout = setTimeout( function() {
+
+        this.hFrame = window.requestAnimationFrame( function(tsHR) {
+          oThis.krakenFrame(tsHR);
+        });
+
+      }, 1000 / this.fps);
+    };
+
+    // LOAD/UPDATE ANIMATION PARAMETERS AND RESTART ANIMATION
+    EB_Animator.prototype.start = function(layer1, layer2, fps, aspectRatio, frameskip, alpha) {
+
+      this.tick = 0;
+
+      this.layer1      = layer1;
+      this.layer2      = layer2;
+      this.fps         = fps;
+      this.aspectRatio = aspectRatio;
+      this.frameskip   = frameskip;
+      this.alpha       = alpha;
+
+      // PREVENT CREATION OF MULTIPLE RENDER CALLBACK CYCLES ON PARAMETER CHANGE
+      if( this.hTimeout !== false ) {
+
+        window.clearTimeout(this.hTimeout);
+        this.hTimeout = false;
       }
+
+      if( this.hFrame !== false ) {
+
+        window.cancelAnimationFrame(this.hFrame);
+        this.hFrame = false;
+      }
+
+      this.krakenFrame();
     }
 
-    if (frameId > 0)
-      window.cancelAnimationFrame(frameId);
-    krakenFrame();
-}
-
-}).call(Engine.prototype);
+  }).call(EB_Animator.prototype);
 
 });

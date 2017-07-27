@@ -38,6 +38,7 @@ var Distorter = exports.Distorter = function Distorter() {
 };
 
 (function(){
+
   Distorter.prototype.getDistortions = function() {
     return this.dist;
   }
@@ -76,6 +77,25 @@ var Distorter = exports.Distorter = function Distorter() {
            this.effect.getSpeed());
   }
 
+  Distorter.prototype.setOffsetConstants = function(
+    ticks, ampl, ampl_accel, s_freq, s_freq_accel, compr, compr_accel, speed) {
+
+    // N.B. another discrepancy from Java--these values should be "short," and
+    // must have a specific precision. this seems to effect backgrounds with
+    // distortEffect == 1
+    const C1 = (1.0 / 512.0);
+    const C2 = (8.0 * Math.PI / (1024 * 256));
+    const C3 = (Math.PI / 60.0);
+
+    // Compute "current" values of amplitude, frequency, and compression
+    var t2 = ticks * 2;
+
+    this.sclAmpl  = C1 * (ampl   + (ampl_accel   * t2));
+    this.sclFreq  = C2 * (s_freq + (s_freq_accel * t2));
+    this.sclCompr = 1.0 + ((compr  + (compr_accel  * t2)) / 256.0);
+    this.sclSpeed = C3 * speed * ticks;
+  };
+
   /*
       Evaluates the distortion effect at the given destination line and
       time value and returns the computed offset value.
@@ -91,21 +111,16 @@ var Distorter = exports.Distorter = function Distorter() {
       @param t The number of ticks since beginning animation
       @return The distortion offset for the given (y,t) coordinates
   */
-  Distorter.prototype.getAppliedOffset = function(y, t, distortEffect, ampl, ampl_accel, s_freq, s_freq_accel, compr, compr_accel, speed) {
-    // N.B. another discrepancy from Java--these values should be "short," and
-    // must have a specific precision. this seems to effect backgrounds with
-    // distortEffect == 1
-    var C1 = (1 / 512.0).toFixed(6);
-    var C2 = (8.0 * Math.PI / (1024 * 256)).toFixed(6);
-    var C3 = (Math.PI / 60.0).toFixed(6);
+  Distorter.prototype.getAppliedOffset = function(y, distortEffect) {
 
-    // Compute "current" values of amplitude, frequency, and compression
-    var amplitude = (ampl + ampl_accel * t * 2);
-    var frequency = (s_freq + s_freq_accel * t * 2);
-    var compression = (compr + compr_accel * t * 2);
+    // 20160105: removed all calls to .toFixed(6) (which converts to string
+    //           that has to be re-converted to number) while discarding
+    //           precision prematurely.
 
     // Compute the value of the sinusoidal line offset function
-    var S = Math.round(C1 * amplitude * Math.sin((C2 * frequency * y + C3 * speed * t).toFixed(6)));
+    var S = Math.round(
+      this.sclAmpl * Math.sin( (this.sclFreq * y) + this.sclSpeed )
+    );
 
     if (distortEffect == 1)
     {
@@ -117,7 +132,7 @@ var Distorter = exports.Distorter = function Distorter() {
     }
     else if (distortEffect == 3)
     {
-        var L = Math.floor(y * (1 + compression / 256.0) + S) % 256;
+        var L = Math.floor((y * this.sclCompr) + S) % 256;
         if (L < 0) L = 256 + L;
         if (L > 255) L = 256 - L;
 
@@ -128,12 +143,13 @@ var Distorter = exports.Distorter = function Distorter() {
   }
 
   Distorter.prototype.ComputeFrame = function(dst, src, distortEffect, letterbox, ticks, alpha, erase, ampl, ampl_accel, s_freq, s_freq_accel, compr, compr_accel, speed) {
+
     var bdst = dst;
     var bsrc = src;
 
     // TODO: hardcoing is bad.
-    var dstStride = 1024;
-    var srcStride = 1024;
+    const dstStride = 1024;
+    const srcStride = 1024;
 
     /*
         Given the list of 4 distortions and the tick count, decide which
@@ -161,11 +177,25 @@ var Distorter = exports.Distorter = function Distorter() {
         Heh.
     */
 
-    var x = 0, y = 0;
+    // 20160105: PRE-CALC CONSTANTS BEFORE SCANLINE LOOP TO AVOID
+    //           REDUNDANT RE-CALCULATION
+    this.setOffsetConstants(
+      ticks,
+      ampl,
+      ampl_accel,
+      s_freq,
+      s_freq_accel,
+      compr,
+      compr_accel,
+      speed
+    );
+
+    var x, y, bpos, spos, dx;
 
     for (y = 0; y < 224; y++)
     {
-        S = this.getAppliedOffset(y, ticks, distortEffect, ampl, ampl_accel, s_freq, s_freq_accel, compr, compr_accel, speed);
+        S = this.getAppliedOffset(y, distortEffect);
+
         L = y;
 
         if (distortEffect == 3) {
@@ -174,40 +204,45 @@ var Distorter = exports.Distorter = function Distorter() {
 
         for (x = 0; x < 256; x++)
         {
-            var bpos = x * 4 + y * dstStride;
+            bpos = x * 4 + y * dstStride;
+
             if (y < letterbox || y > 224 - letterbox)
             {
-                bdst[bpos + 2 ] = 0;
-                bdst[bpos + 1 ] = 0;
-                bdst[bpos + 0 ] = 0;
+                bdst[bpos + 2] = 0;
+                bdst[bpos + 1] = 0;
+                bdst[bpos + 0] = 0;
                 continue;
             }
-            var dx = x;
 
-            if (distortEffect == 1
-                    || distortEffect == 2)
+            dx = x;
+
+            if ( (distortEffect == 1) || (distortEffect == 2) )
             {
                 dx = (x + S) % 256;
-                if (dx < 0) dx = 256 + dx;
-                if (dx > 255) dx = 256 - dx;
+
+                if (dx < 0)
+                  dx = 256 + dx;
+
+                // 20160105: THIS CONDITIONAL WILL NEVER BE MET
+                // if (dx > 255) dx = 256 - dx;
             }
 
-            var spos = dx * 4 + L * srcStride;
+            spos = dx * 4 + L * srcStride;
 
             // Either copy or add to the destination bitmap
             if (erase == 1)
             {
-                bdst[bpos + 3 ] = 255;
-                bdst[bpos + 2 ] = (alpha * bsrc[spos + 2 ]);
-                bdst[bpos + 1 ] = (alpha * bsrc[spos + 1 ]);
-                bdst[bpos + 0 ] = (alpha * bsrc[spos + 0 ]);
+                bdst[bpos + 3] = 255;
+                bdst[bpos + 2] = (alpha * bsrc[spos + 2]);
+                bdst[bpos + 1] = (alpha * bsrc[spos + 1]);
+                bdst[bpos + 0] = (alpha * bsrc[spos + 0]);
             }
             else
             {
-                bdst[bpos + 3 ] = 255;
-                bdst[bpos + 2 ] += (alpha * bsrc[spos + 2 ]);
-                bdst[bpos + 1 ] += (alpha * bsrc[spos + 1 ]);
-                bdst[bpos + 0 ] += (alpha * bsrc[spos + 0 ]);
+                bdst[bpos + 3] = 255;
+                bdst[bpos + 2] += (alpha * bsrc[spos + 2]);
+                bdst[bpos + 1] += (alpha * bsrc[spos + 1]);
+                bdst[bpos + 0] += (alpha * bsrc[spos + 0]);
             }
         }
     }
