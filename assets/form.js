@@ -242,6 +242,10 @@ document.addEventListener('DOMContentLoaded', function() {
   createLayerDropdown();
   createSuggestedLayersDropdown();
   setupDropdownPushStates();
+
+  window.History.Adapter.bind(window,'statechange',function() {
+    setupEngine();
+  });
 });
 
 function createLayerDropdown() {
