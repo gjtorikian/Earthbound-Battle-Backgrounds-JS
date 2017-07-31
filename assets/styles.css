@@ -46,55 +46,21 @@ body {
   text-align: center;
 }
 
-/* Thanks, http://tobiasahlin.com/spinkit/ ! */
-
-.spinner {
-  margin: 100px auto;
-  width: 32px;
-  height: 32px;
-  position: relative;
-  margin-bottom: 129px;
+canvas, canvas-overlay {
+  display: block;
 }
-
-.cube1, .cube2 {
-  background-color: #333;
-  width: 10px;
-  height: 10px;
-  position: absolute;
-  top: 0;
-  left: 0;
-  
-  -webkit-animation: cubemove 1.8s infinite ease-in-out;
-  animation: cubemove 1.8s infinite ease-in-out;
+canvas-overlay {
+  background-color: black;
+  opacity: 1;
+  will-change: opacity;
+  transition: 2s opacity;
+  z-index: 1;
 }
-
-.cube2 {
-  -webkit-animation-delay: -0.9s;
-  animation-delay: -0.9s;
-}
-
-@-webkit-keyframes cubemove {
-  25% { -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5) }
-  50% { -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg) }
-  75% { -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5) }
-  100% { -webkit-transform: rotate(-360deg) }
-}
-
-@keyframes cubemove {
-  25% { 
-    transform: translateX(42px) rotate(-90deg) scale(0.5);
-    -webkit-transform: translateX(42px) rotate(-90deg) scale(0.5);
-  } 50% { 
-    transform: translateX(42px) translateY(42px) rotate(-179deg);
-    -webkit-transform: translateX(42px) translateY(42px) rotate(-179deg);
-  } 50.1% { 
-    transform: translateX(42px) translateY(42px) rotate(-180deg);
-    -webkit-transform: translateX(42px) translateY(42px) rotate(-180deg);
-  } 75% { 
-    transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
-    -webkit-transform: translateX(0px) translateY(42px) rotate(-270deg) scale(0.5);
-  } 100% { 
-    transform: rotate(-360deg);
-    -webkit-transform: rotate(-360deg);
-  }
+canvas {
+  image-rendering: optimizeSpeed;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: -o-crisp-edges;
+  image-rendering: pixelated;
+  -ms-interpolation-mode: nearest-neighbor;
 }
