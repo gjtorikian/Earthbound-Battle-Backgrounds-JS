@@ -21,8 +21,7 @@
   "scripts": {
     "compile": "webpack",
     "dev": "NODE_ENV=development webpack -d --watch",
-    "lint": "eslint src",
-    "prepublish": "npm run compile"
+    "lint": "eslint src"
   },
   "engines": {
     "node": ">= 0.8.0"
