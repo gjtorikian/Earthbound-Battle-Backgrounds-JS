@@ -226,7 +226,7 @@ var layer1, layer2, suggested, aspectRatio, frameskip, read_bgs_dat;
 
 document.addEventListener('DOMContentLoaded', function() {
   if ( isIOS() && !isSafari()) {
-    document.getElementById("ios-message").className = 
+    document.getElementById("ios-message").className =
       document.getElementById("ios-message").className.replace( /hidden/ , '' );
   }
 
@@ -235,14 +235,13 @@ document.addEventListener('DOMContentLoaded', function() {
   suggested = document.getElementById("suggested");
   aspectRatio = document.getElementById("aspectRatio");
   frameskip = document.getElementById("frameskip");
+  randomLayer = document.getElementById("randomLayer");
+
+  randomLayer.onclick = setRandomLayer;
 
   createLayerDropdown();
   createSuggestedLayersDropdown();
   setupDropdownPushStates();
-
-  window.History.Adapter.bind(window,'statechange',function() {
-    require("read_bgs_dat").setupEngine();
-  });
 });
 
 function createLayerDropdown() {
@@ -271,6 +270,7 @@ function setupDropdownPushStates() {
     var value = this.value;
     if (value < 0)
       value = 0;
+    document.engine.layers[0] = new document.BackgroundLayer(value);
     History.pushState( {layer1: value}, document.title, setUrlFromString("layer1=" + value));
   };
 
@@ -278,6 +278,7 @@ function setupDropdownPushStates() {
     var value = this.value;
     if (value < 0)
       value = 0;
+    document.engine.layers[1] = new document.BackgroundLayer(value);
     History.pushState( {layer2: value}, document.title, setUrlFromString("layer2=" + value));
   };
 
@@ -303,9 +304,10 @@ function setupDropdownPushStates() {
 
 }
 
-function randomLayer() {
+function setRandomLayer() {
   layer1.selectedIndex = String(Math.floor(Math.random() * 327));
-  layer1.onchange();
   layer2.selectedIndex = String(Math.floor(Math.random() * 327));
+  // Fake an onchange to set URL and redraw scene
+  layer1.onchange();
   layer2.onchange();
 };
