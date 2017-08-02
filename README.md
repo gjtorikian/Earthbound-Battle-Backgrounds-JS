@@ -13,10 +13,10 @@ is a Java/Android implementation.
 ## How it works
 
 Every battle background is composed of two layers, each with 327 possible
-styles (including "blank"/zero). The layer styles can be interchanged, such that 
+styles (including "blank"/zero). The layer styles can be interchanged, such that
 [Layer 1: 50 and Layer 2: 300](http://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/?layer1=50&layer2=300)
 is the same as [Layer 1: 300 and Layer 2: 50](http://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/?layer1=300&layer2=50).
-Thus, there are C(n,r) = 52,650 possible different background combinations. Obviously, 
+Thus, there are C(n,r) = 52,650 possible different background combinations. Obviously,
 this many don't exist in the game--the SNES's graphical capabilities only allow it to
 properly render 3,176 of these combinations, and of those, only 225 are ever used.
 
@@ -74,24 +74,6 @@ open http://localhost:8888
 
 Note that this code runs entirely in the browser! Node is only used to start an
 Express server.
-
-## Why is this code so terrible?
-
-The code might look terrible to you for one of two reasons:
-
-1. I have no goddamn clue how JavaScript's "prototypical OOP" is supposed to
-work. No clue at all. Add `requirejs` to the mix so that I can get some
-modularity, and yeah, you'll see a bunch of messy parenthesis and brackets.
-Sorry.
-
-2. The pointer calculations depend on a bunch of bitwise operations.
-These calculations depend on values being `short`--that is, fitting within a
-certain byte address. Since JavaScript doesn't have types, you'll see me cheat
-in a few places by doing `Int8Array(1)`, and messing with the value added to
-the index.
-
-I've also intentionally chosen not to pull in libraries like jQuery or Underscore,
-simply because I didn't want to.
 
 ## License
 
