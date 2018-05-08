@@ -13,7 +13,7 @@ var setupEngine = exports.setupEngine = function setupEngine() {
   var layer1_val = Number(parseLayerParam(params.layer1) || 270);
   var layer2_val = Number(parseLayerParam(params.layer2) || 269);
   var frameskip = parseFrameskip(params.frameskip) || 1;
-  var aspectRatio = Number(parseAspectRatioParam(params.aspectRatio) || 16);
+  var aspectRatio = Number(parseAspectRatioParam(params.aspectRatio) || 0);
 
   var fps = 30;
   var alpha = parseFloat(0.5);
@@ -28,6 +28,10 @@ var setupEngine = exports.setupEngine = function setupEngine() {
 
   // Create animation engine
   const engine = new Engine([layer1, layer2], {
+    fps: fps,
+    aspectRatio: aspectRatio,
+    frameSkip: frameskip,
+    alpha: [alpha, alpha],
   	canvas: document.querySelector("canvas")
   });
 

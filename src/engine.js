@@ -2,20 +2,14 @@ let frameID = -1;
 export const SNES_WIDTH = 256;
 export const SNES_HEIGHT = 224;
 export default class Engine {
-  constructor(layers = [], {
-    fps = 30,
-    aspectRatio = 0,
-    frameSkip = 1,
-    alpha = [0.5, 0.5],
-    canvas = document.querySelector("canvas")
-  } = {}) {
+  constructor(layers = [], opts) {
     this.layers = layers;
-    this.fps = fps;
-    this.aspectRatio = aspectRatio;
-    this.frameSkip = frameSkip;
-    this.alpha = alpha;
+    this.fps = opts.fps;
+    this.aspectRatio = opts.aspectRatio;
+    this.frameSkip = opts.frameSkip;
+    this.alpha = opts.alpha;
+    this.canvas = opts.canvas;
     this.tick = 0;
-    this.canvas = canvas;
   }
   animate() {
     let then = Date.now();
