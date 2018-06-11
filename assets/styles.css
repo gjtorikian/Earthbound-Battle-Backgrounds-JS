@@ -1,43 +1,14 @@
-#ios-message {
-  display: block;
-  padding-top: 15px;
-}
-
-.form-control {
-  width: 100%;
-}
-
-.btn-random-container {
-  padding-top: 7px;
-}
-
-body {
-  padding-top: 20px;
-  padding-bottom: 20px;
-}
-
-.footer {
-  font-size: 12px;
-  padding: 20px 15px 15px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
-}
-
-@media (min-width: 768px) {
-  .container {
-    max-width: 730px;
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .footer {
-    padding-left: 0;
-    padding-right: 0;
-  }
+a.pointer {
+  cursor: pointer;
 }
 
 .hidden {
-  display: none;
+  display: hidden;
+}
+
+#ios-message {
+  display: block;
+  padding-top: 15px;
 }
 
 /* for the samples page */
