@@ -70,6 +70,12 @@ function parseAspectRatioParam(number) {
   return num;
 }
 
+function parseFullscreen(fullscreen) {
+  if (fullscreen == "true") {
+    setupFullscreen();
+  }
+}
+
 function isIOS() {
   return /(iPad|iPhone|iPod)/gi.test(navigator.userAgent);
 }

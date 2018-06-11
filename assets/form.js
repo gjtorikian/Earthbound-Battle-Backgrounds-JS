@@ -222,7 +222,7 @@ var suggestedLayers = {
   "Giygas (265 / 0)": [265, 0]
 }
 
-var layer1, layer2, suggested, aspectRatio, frameskip, read_bgs_dat;
+var content, layer1, layer2, suggested, aspectRatio, frameskip, read_bgs_dat;
 
 document.addEventListener('DOMContentLoaded', function() {
   if (isIOS() && !isSafari()) {
@@ -230,6 +230,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById("ios-message").className.replace( /hidden/ , '' );
   }
 
+  content = document.querySelector("section#everything");
   layer1 = document.getElementById("layer1");
   layer2 = document.getElementById("layer2");
   suggested = document.getElementById("suggested");
@@ -238,13 +239,16 @@ document.addEventListener('DOMContentLoaded', function() {
   randomLayer = document.getElementById("randomLayer");
   fullscreen = document.getElementById("fullscreen");
 
-  randomLayer.onclick = setRandomLayer;
-  fullscreen.onclick = setupFullscreen;
+  // okay, we haven't gone fullscreen
+  if (content) {
+    randomLayer.onclick = setRandomLayer;
+    fullscreen.onclick = setupFullscreen;
+    createLayerDropdown();
+    createSuggestedLayersDropdown();
+    setupDropdownPushStates();
+    setupSelectedValues();
 
-  createLayerDropdown();
-  createSuggestedLayersDropdown();
-  setupDropdownPushStates();
-  setupSelectedValues();
+  }
 
   window.History.Adapter.bind(window, 'statechange', function() {
     setupEngine();
@@ -335,7 +339,11 @@ function setupSelectedValues() {
   var frameskipReplace = "value=\"" + canvas.dataset.frameskip + "\"";
   frameskip.innerHTML = frameskip.innerHTML.replace(new RegExp(frameskipReplace), "selected " + frameskipReplace);
 }
+
 function setupFullscreen() {
-  canvas = document.querySelector("canvas");
-  console.log("ok i did it");
+  var canvas = document.querySelector("canvas");
+  var content = document.querySelector("section#everything");
+  canvas.setAttribute("id", "full");
+  content.innerHTML = "";
+  History.pushState( {fullscreen: true}, document.title, setUrlFromString("fullscreen=" + true));
 };

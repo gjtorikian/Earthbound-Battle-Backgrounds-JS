@@ -9,7 +9,17 @@
 <script src="./assets/form.js"></script>
 <script src="./assets/history.js"></script>
 <script src="./assets/history.adapter.native.js"></script>
-
+<style>
+	canvas#full {
+		padding: 0;
+		margin: 0;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+</style>
 <!-- all of that up there is just crap for the site! now the real fun begins. -->
 
 </head>
@@ -20,6 +30,7 @@
     <canvas class="center"></canvas>
   </section>
 
+  <section id="everything">
   <section class="mb4">
     <div class="dt mw6 center pt0 pb5 pv5-m pv1-ns">
       <a class="github-button" href="https://github.com/gjtorikian/Earthbound-Battle-Backgrounds-JS" data-count-href="/gjtorikian/Earthbound-Battle-Backgrounds-JS/stargazers" data-show-count>Star</a>
@@ -122,6 +133,7 @@
     <small class="f6 db tc">© 2018 MIT licensed. In no way endorsed or affiliated by Nintendo, Ape, HAL Laboratory, <em>etc.</em> Please don't sue me.</small>
   </footer>
 
+  </section>
 
   <script src="dist/index.js"></script>
   <script>setTimeout(() => document.querySelector("canvas-overlay").style.opacity = 0)</script>

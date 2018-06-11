@@ -12,6 +12,7 @@ var setupEngine = exports.setupEngine = function setupEngine() {
   var layer2_val = parseLayerParam(params.layer2, { firstLayer: false });
   var frameskip = parseFrameskipParam(params.frameskip);
   var aspectRatio = parseAspectRatioParam(params.aspectRatio);
+  parseFullscreen(params.fullscreen);
 
   var fps = 30;
   var alpha = parseFloat(0.5);
