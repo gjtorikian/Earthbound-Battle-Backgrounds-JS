@@ -236,8 +236,10 @@ document.addEventListener('DOMContentLoaded', function() {
   aspectRatio = document.getElementById("aspectRatio");
   frameskip = document.getElementById("frameskip");
   randomLayer = document.getElementById("randomLayer");
+  fullscreen = document.getElementById("fullscreen");
 
   randomLayer.onclick = setRandomLayer;
+  fullscreen.onclick = setupFullscreen;
 
   createLayerDropdown();
   createSuggestedLayersDropdown();
@@ -314,4 +316,9 @@ function setRandomLayer() {
   // Fake an onchange to set URL and redraw scene
   layer1.onchange();
   layer2.onchange();
+};
+
+function setupFullscreen() {
+  canvas = document.querySelector("canvas");
+  console.log("ok i did it");
 };
