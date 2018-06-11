@@ -225,7 +225,7 @@ var suggestedLayers = {
 var layer1, layer2, suggested, aspectRatio, frameskip, read_bgs_dat;
 
 document.addEventListener('DOMContentLoaded', function() {
-  if ( isIOS() && !isSafari()) {
+  if (isIOS() && !isSafari()) {
     document.getElementById("ios-message").className =
       document.getElementById("ios-message").className.replace( /hidden/ , '' );
   }
@@ -244,17 +244,20 @@ document.addEventListener('DOMContentLoaded', function() {
   createLayerDropdown();
   createSuggestedLayersDropdown();
   setupDropdownPushStates();
+  setupSelectedValues();
 
-  window.History.Adapter.bind(window,'statechange',function() {
+  window.History.Adapter.bind(window, 'statechange', function() {
     setupEngine();
   });
 });
 
 function createLayerDropdown() {
-  var optionHtml = "<option value='-1'></option>";
+  var canvas = document.querySelector("canvas");
+  var optionHtml = "";
   for (var i = 0; i < 327; i++) {
     optionHtml += "<option value='" + i + "'>" + i + "</option>";
   }
+
   layer1.innerHTML = optionHtml;
   layer2.innerHTML = optionHtml;
 }
@@ -318,6 +321,20 @@ function setRandomLayer() {
   layer2.onchange();
 };
 
+function setupSelectedValues() {
+  var canvas = document.querySelector("canvas");
+
+  var layerOneReplace = "value=\"" + canvas.dataset.layerOne + "\"";
+  var layerTwoReplace = "value=\"" + canvas.dataset.layerTwo + "\"";
+  layer1.innerHTML = layer1.innerHTML.replace(new RegExp(layerOneReplace), "selected " + layerOneReplace);
+  layer2.innerHTML = layer2.innerHTML.replace(new RegExp(layerTwoReplace), "selected " + layerTwoReplace);
+
+  var aspectRatioReplace = "value=\"" + canvas.dataset.aspectRatio + "\"";
+  aspectRatio.innerHTML = aspectRatio.innerHTML.replace(new RegExp(aspectRatioReplace), "selected " + aspectRatioReplace);
+
+  var frameskipReplace = "value=\"" + canvas.dataset.frameskip + "\"";
+  frameskip.innerHTML = frameskip.innerHTML.replace(new RegExp(frameskipReplace), "selected " + frameskipReplace);
+}
 function setupFullscreen() {
   canvas = document.querySelector("canvas");
   console.log("ok i did it");
