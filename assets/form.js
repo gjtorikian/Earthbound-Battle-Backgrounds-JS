@@ -283,7 +283,7 @@ function setupDropdownPushStates() {
     var value = this.value;
     if (value < 0)
       value = 0;
-    document.engine.layers[0] = new document.BackgroundLayer(value);
+    document.engine.layers[0] = new document.BackgroundLayer(value, ROM);
     History.pushState( {layer1: value}, document.title, setUrlFromString("layer1=" + value));
   };
 
@@ -291,7 +291,7 @@ function setupDropdownPushStates() {
     var value = this.value;
     if (value < 0)
       value = 0;
-    document.engine.layers[1] = new document.BackgroundLayer(value);
+    document.engine.layers[1] = new document.BackgroundLayer(value, ROM);
     History.pushState( {layer2: value}, document.title, setUrlFromString("layer2=" + value));
   };
 
