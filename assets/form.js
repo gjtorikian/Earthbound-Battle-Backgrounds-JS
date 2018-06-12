@@ -347,3 +347,10 @@ function setupFullscreen() {
   content.innerHTML = "";
   History.pushState( {fullscreen: true}, document.title, setUrlFromString("fullscreen=" + true));
 };
+
+document.addEventListener('keyup', function (event) {
+  if (event.keyCode == 27) {
+    History.pushState({fullscreen: null}, document.title, setUrlFromString('fullscreen='))
+    location.reload() // TODO: lol reload everything? really?
+  }
+})
