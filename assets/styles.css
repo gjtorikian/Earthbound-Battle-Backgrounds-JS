@@ -3,12 +3,7 @@ a.pointer {
 }
 
 .hidden {
-  display: hidden;
-}
-
-#ios-message {
-  display: block;
-  padding-top: 15px;
+  display: none;
 }
 
 /* for the samples page */

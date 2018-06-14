@@ -225,11 +225,6 @@ var suggestedLayers = {
 var content, layer1, layer2, suggested, aspectRatio, frameskip, read_bgs_dat;
 
 document.addEventListener('DOMContentLoaded', function() {
-  if (isIOS() && !isSafari()) {
-    document.getElementById("ios-message").className =
-      document.getElementById("ios-message").className.replace( /hidden/ , '' );
-  }
-
   content = document.querySelector("section#everything");
   layer1 = document.getElementById("layer1");
   layer2 = document.getElementById("layer2");
@@ -342,15 +337,18 @@ function setupSelectedValues() {
 
 function setupFullscreen() {
   var canvas = document.querySelector("canvas");
-  var content = document.querySelector("section#everything");
+  var content = document.querySelector("section#not-canvas");
   canvas.setAttribute("id", "full");
-  content.innerHTML = "";
+  content.classList.add("hidden");
   History.pushState( {fullscreen: true}, document.title, setUrlFromString("fullscreen=" + true));
 };
 
 document.addEventListener('keyup', function (event) {
   if (event.keyCode == 27) {
-    History.pushState({fullscreen: null}, document.title, setUrlFromString('fullscreen='))
-    location.reload() // TODO: lol reload everything? really?
+    var canvas = document.querySelector("canvas");
+    var content = document.querySelector("section#not-canvas");
+    canvas.setAttribute("id", "");
+    content.classList.remove("hidden");
+    History.pushState({fullscreen: null}, document.title, setUrlFromString('fullscreen=false'))
   }
 })
