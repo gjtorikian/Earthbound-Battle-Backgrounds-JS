@@ -20,7 +20,8 @@
     "compile": "webpack",
     "lint": "standard *.js src/**/*.js --fix",
     "prepublishOnly": "npm run compile",
-    "start": "NODE_ENV=development webpack -d --watch"
+    "start": "node server",
+    "watch": "NODE_ENV=development webpack -d --watch"
   },
   "engines": {
     "node": ">= 0.8.0"

@@ -69,7 +69,7 @@ Make sure you have Node.js and NPM on your system. Then:
 ``` bash
 npm install
 npm run dev
-node server.js
+npm start
 open http://localhost:8888
 ```
 
