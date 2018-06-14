@@ -69,7 +69,7 @@ Make sure you have Node.js and NPM on your system. Then:
 ``` bash
 npm install
 npm run dev
-node server.js
+npm start
 open http://localhost:8888
 ```
 
@@ -90,7 +90,7 @@ way, and as far as I'm aware, he discovered the math behind it all, including
 the entire Offset function calculation. *This port would be nothing without
 him.*
 
-In 2016, @kdex [rewrote](https://github.com/kdex/earthbound-battle-backgrounds) much of my shitty JS into nice and clean ES2016 code, for which I am grateful. As of [`dc877f33`](https://github.com/gjtorikian/Earthbound-Battle-Backgrounds-JS/commit/dc877f33e5637291c7aa93c75dd1e5d615aca567), the entirety of his modifications have been brought over here. **He is better at this than me.**
+In 2016, @kdex [rewrote](https://github.com/kdex/earthbound-battle-backgrounds) much of my shitty JS into nice and clean ES2016 code, for which I am grateful. As of [`dc877f33`](https://github.com/gjtorikian/Earthbound-Battle-Backgrounds-JS/commit/dc877f33e5637291c7aa93c75dd1e5d615aca567), the entirety of his modifications have been brought over here.
 
 Additionally, everyone who worked on PK Hack or was even associated with the
 project. It's incredible to witness such a powerful community of fans who have

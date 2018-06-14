@@ -1,148 +1,138 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <title>Earthbound Battle Backgrounds</title>
-<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://unpkg.com/tachyons/css/tachyons.min.css">
 <link rel="stylesheet" href="./assets/styles.css">
 <link rel="shortcut icon" href="./favicon.ico" type="image/x-icon">
 <script src="./assets/utils.js"></script>
 <script src="./assets/form.js"></script>
 <script src="./assets/history.js"></script>
 <script src="./assets/history.adapter.native.js"></script>
-
+<style>
+  canvas#full {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+</style>
 <!-- all of that up there is just crap for the site! now the real fun begins. -->
 
 </head>
 
-<body>
-  <div class="container">
+<body class="w-100 sans-serif">
+  <section class="pv2">
+    <canvas-overlay></canvas-overlay>
+    <canvas class="center"></canvas>
+  </section>
 
-    <div class="row">
-      <div class="col-xs-5">
-        <canvas-overlay style="opacity: 0;"></canvas-overlay>
-        <canvas width="256" height="224"></canvas>
-      </div>
-      <div class="col-xs-7">
-        <div class="row">
-          <div class="col-sm-6">
-              <h6>Change Background Animation</h6>
-              <div class="row">
-                <div class="col-sm-6">
-                  <label for="layer1" class="control-label">Layer 1</label>
-                  <div>
-                    <select id="layer1" class="form-control">
-                      <!-- generated in forms.js -->
-                    </select>
-                  </div>
-                </div>
-
-                <div class="col-sm-6">
-                  <label for="layer2" class="control-label">Layer 2</label>
-                  <div>
-                    <select id="layer2" class="form-control">
-                      <!-- generated in forms.js -->
-                    </select>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <label for="suggested" class="control-label">Suggested Layers</label>
-                <div>
-                  <select id="suggested" class="form-control">
-                    <option>1</option>
-                    <option>2</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <div class="btn-random-container">
-                  <button type="button" id="randomLayer" class="btn btn-default">Random Layers</button>
-                </div>
-              </div>
-          </div>
-          <div class="col-sm-6">
-              <h6>Change Presentation</h6>
-              <div>
-                <label for="aspectRatio" class="control-label">Aspect Ratio</label>
-                <div>
-                  <select id="aspectRatio" class="form-control">
-                    <option value="0">Fullscreen (8:7)</option>
-                    <option value="16">Wide Letterbox (4:3)</option>
-                    <option value="48">Medium Letterbox (2:1)</option>
-                    <option value="64">Narrow Letterbox (8:3)</option>
-                  </select>
-                </div>
-              </div>
-
-              <div>
-                <label for="frameskip" class="control-label">Frameskip</label>
-                <div>
-                  <select id="frameskip" class="form-control">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
-                    <option value="10">10</option>
-                  </select>
-                </div>
-              </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="row hidden" id="ios-message">
-      <div class="col-xs-12 alert alert-warning">
-        <p>Note: you might be using iOS, with a browser that's not Safari. Apple <a href="http://daringfireball.net/2011/03/nitro_ios_43">intentionally impedes JavaScript performance for browsers that aren't Safari</a>. Therefore, for the best performance of this demonstration on iOS, I unfortunately suggest you use Safari, or view it on your computer. Or, <a href="http://www.idownloadblog.com/2012/07/30/nitrous/">jailbreak your device</a> to allow the code to run smoothly in <em>any</em> browser.</p>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <hr />
-        <!-- Place this tag where you want the button to render. -->
+  <section id="everything">
+    <section id="canvas-container" class="mb1">
+      <div class="dt mw6 center pt0 pb5 pv5-m pv1-ns">
         <a class="github-button" href="https://github.com/gjtorikian/Earthbound-Battle-Backgrounds-JS" data-count-href="/gjtorikian/Earthbound-Battle-Backgrounds-JS/stargazers" data-show-count>Star</a>
         <!-- Place this tag right after the last button or just before your close body tag. -->
         <script async defer id="github-bjs" src="https://buttons.github.io/buttons.js"></script>
         <a href="https://twitter.com/share" class="twitter-share-button" data-url="https://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/" data-text="SMAAAASH!! Earthbound's battle backgrounds generated entirely in JavaScript" data-via="gjtorikian">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
-        </li>
+        <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>
+      </div>
+    </section>
+
+  <section id="not-canvas">
+    <section id="forms">
+      <div class="mw9 center ph3-ns">
+        <div class="cf ph2-ns">
+          <div class="fl w-100 w-50-ns pa2">
+            <div class="pv2">
+              <form class="pa2 black-80">
+                <label for="layer1" class="f5 b db mv2 mb2">Layer 1</label>
+                <select id="layer1" class="w-100 db h2 f5 bg-near-white ba b--sliver">
+                  <!-- generated in forms.js -->
+                </select>
+
+                <label for="layer2" class="f5 b db mv2 mb2">Layer 2</label>
+                <select id="layer2" class="w-100 db h2 f5 bg-near-white ba b--sliver">
+                  <!-- generated in forms.js -->
+                </select>
+
+                <label for="suggested" class="f5 b db mv2 mb2">Suggested Layers</label>
+                <select id="suggested" class="w-100 db h2 f5 bg-near-white ba b--sliver">
+                  <!-- generated in forms.js -->
+                </select>
+
+                <a id="randomLayer" class="pointer f5 link dim ba ph3 pv2 mv2 mb2 dib black">Random Layers</a>
+              </form>
+            </div>
+          </div>
+
+        <div class="fl w-100 w-50-ns pa2">
+          <div class="pv2">
+            <form class="pa2 black-80">
+              <label for="aspectRatio" class="f5 b db mv2 mb2">Aspect Ratio</label>
+              <select id="aspectRatio" class="w-100 db h2 f5 bg-near-white ba b--sliver">
+                <option value="0">Full (8:7)</option>
+                <option value="16">Wide Letterbox (4:3)</option>
+                <option value="48">Medium Letterbox (2:1)</option>
+                <option value="64">Narrow Letterbox (8:3)</option>
+              </select>
+
+              <label for="frameskip" class="f5 b db mv2 mb2">Frameskip</label>
+              <select id="frameskip" class="w-100 db h2 f5 bg-near-white ba b--sliver">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+              </select>
+
+              <div class="w-100 db h2 f5"></div>
+              <div class="w-100 db h2 f5"></div>
+
+              <a id="fullscreen" class="pointer f5 link dim ba ph3 pv2 mv2 mb2 dib black">Go fullscreen!</a> <span class="f6">Hit <kbd>ESC</kbd> to exit.</span>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col-xs-12">
-        <hr />
-        <p>Earthbound Battle Background JS is exactly what its name implies: the battle backgrounds from the SNES RPG Earthbound/Mother 2, rendered entirely in client-side JavaScript.</p>
-        <p>For more information, see <a href="https://github.com/gjtorikian/Earthbound-Battle-Backgrounds-JS">the project's README and source code</a>. You might also like <a href="https://github.com/gjtorikian/Earthbound-Battle-Backgrounds">the Android Live Wallpaper version</a>.
+  </section>
 
-        <h3>How it works</h3>
-        <p>Every battle background is composed of two layers, each with 327 possible styles (including "blank"/zero). The layer styles can be interchanged, such that <a href="http://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/?layer1=50&layer2=300">Layer 1: 50 and Layer 2: 300</a> is the same as <a href="http://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/?layer1=300&layer2=50">Layer 1: 300 and Layer 2: 50</a>. Thus, there are C(n,r) = 52,650 possible different background combinations. Obviously, this many don't exist in the game--the SNES's graphical capabilities only allow it to properly render 3,176 of these combinations, and of those, only 225 are ever used.</p>
-        <p>The data for each of the 327 styles is bundled within the SNES cartridge. Tiles are constructed from various memory addresses in Earthbound game data. Each background also has its own distortion effect.</p>
+    <section class="center pa3 ph5-ns">
+      <h3>What this is</h3>
+      <p class="lh-copy">Earthbound Battle Background JS is exactly what its name implies: the battle backgrounds from the SNES RPG Earthbound/Mother 2, rendered entirely in client-side JavaScript.</p>
+      <p class="lh-copy">For more information, see <a href="https://github.com/gjtorikian/Earthbound-Battle-Backgrounds-JS">the project's README and source code</a>. You might also like <a href="https://github.com/gjtorikian/Earthbound-Battle-Backgrounds">the Android Live Wallpaper version</a>.
 
-        <h3>List of backgrounds</h3>
-        <p>For a list of every possible background, <a href="./samples">visit this link</a>.</p>
-        <p>It's pretty damn hard to find out which battle backgrounds correspond to which enemies. You can review the list of enemies matched with known battle backgrounds to try and get your favorite on the <strong>Suggested Layers</strong> option. If you discover a new one, please, make a pull request and I'll add it to the list, giving you full credit!</p>
+      <h3>How it works</h3>
+      <p class="lh-copy">Every battle background is composed of two layers, each with 327 possible styles (including "blank"/zero). The layer styles can be interchanged, such that <a href="http://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/?layer1=50&layer2=300">Layer 1: 50 and Layer 2: 300</a> is the same as <a href="http://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/?layer1=300&layer2=50">Layer 1: 300 and Layer 2: 50</a>. Thus, there are C(n,r) = 52,650 possible different background combinations. Obviously, this many don't exist in the game--the SNES's graphical capabilities only allow it to properly render 3,176 of these combinations, and of those, only 225 are ever used.</p>
+      <p class="lh-copy">The data for each of the 327 styles is bundled within the SNES cartridge. Tiles are constructed from various memory addresses in Earthbound game data. Each background also has its own distortion effect.</p>
 
-        <h3>Why does this exist?</h3>
-        <p>Because it can.</p>
-        <p>If you happen to know Shigesato Itoi, tell him about this! I'm a huge fan of his work.</p>
+      <h3>List of backgrounds</h3>
+      <p class="lh-copy">For a list of every possible background, <a href="./samples">visit this link</a>.</p>
+      <p class="lh-copy">It's pretty damn hard to find out which battle backgrounds correspond to which enemies. You can review the list of enemies matched with known battle backgrounds to try and get your favorite on the <strong>Suggested Layers</strong> option. If you discover a new one, please, make a pull request and I'll add it to the list, giving you full credit!</p>
 
-        <h3>History</h3>
-        <p>Around 2010, Mr. Accident of forum.starmen.net provided me with the original battle background generation code, which was a C# project that uses the battle backgrounds as Windows screensavers. He also provided me with help along the way, and as far as I'm aware, he discovered the math behind it all, including the entire Offset function calculation. <em>This port would be nothing without him.</em></p>
-        <p>After that, I created the Android live wallpapers in 2010. I worked on this JavaScript version off and on throughout 2013, and finished it in mid-December.</p>
-        <p>In 2016, <a href="https://github.com/kdex"><strong>@kdex</strong></a> <a href="https://github.com/kdex/earthbound-battle-backgrounds">rewrote</a> much of my shitty JS into nice and clean ES2016 code, for which I am grateful. As of <a href="https://github.com/gjtorikian/Earthbound-Battle-Backgrounds-JS/commit/dc877f33e5637291c7aa93c75dd1e5d615aca567"><code>dc877f33</code></a>, the entirety of his modifications have been brought over here. <strong>He is better at this than me.</strong>
-      </div>
-    </div>
+      <h3>Why does this exist?</h3>
+      <p class="lh-copy">Because it can.</p>
+      <p class="lh-copy">If you happen to know Shigesato Itoi, tell him about this! I'm a huge fan of his work.</p>
 
-    <div class="footer">
-      <p>&copy;2017. MIT licensed. In no way endorsed or affiliated by Nintendo, Ape, HAL Laboratory, <em>etc.</em> Please don't sue me.</p>
-    </div>
-  </div>
+      <h3>History</h3>
+      <p class="lh-copy">Around 2010, Mr. Accident of forum.starmen.net provided me with the original battle background generation code, which was a C# project that uses the battle backgrounds as Windows screensavers. He also provided me with help along the way, and as far as I'm aware, he discovered the math behind it all, including the entire Offset function calculation. <em>This port would be nothing without him.</em></p>
+      <p class="lh-copy">After that, I created the Android live wallpapers in 2010. I worked on this JavaScript version off and on throughout 2013, and finished it in mid-December.</p>
+      <p class="lh-copy">In 2016, <a href="https://github.com/kdex"><strong>@kdex</strong></a> <a href="https://github.com/kdex/earthbound-battle-backgrounds">rewrote</a> much of my shitty JS into nice and clean ES2016 code, for which I am grateful. As of <a href="https://github.com/gjtorikian/Earthbound-Battle-Backgrounds-JS/commit/dc877f33e5637291c7aa93c75dd1e5d615aca567"><code>dc877f33</code></a>, the entirety of his modifications have been brought over here.</p>
+    </section>
 
+    <footer class="pv2 ph3 ph5-m ph6-l mid-gray">
+      <small class="f6 db tc">© 2018 MIT licensed. In no way endorsed or affiliated by Nintendo, Ape, HAL Laboratory, <em>etc.</em> Please don't sue me.</small>
+    </footer>
+
+    </section>
+  </section>
   <script src="dist/index.js"></script>
   <script>setTimeout(() => document.querySelector("canvas-overlay").style.opacity = 0)</script>
   <script type="text/javascript">

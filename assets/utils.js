@@ -33,38 +33,47 @@ function setUrlFromString(value) {
   return "?" + result.join("&");
 }
 
-function parseLayerParam(number) {
+function parseLayerParam(number, options) {
+  var defaultLayer = options.firstLayer ? 270 : 269;
+  var canvas = document.querySelector("canvas");
   var num = Number(number);
-  if (num == NaN)
-    return null;
+  if (isNaN(num))
+    num = defaultLayer;
   else if (num < 0 || num > 326)
-    return null;
-  else if (num == 0)
-    return "0";
+    num = defaultLayer;
 
+  options.firstLayer ? (canvas.dataset.layerOne = num) : (canvas.dataset.layerTwo = num);
   return num;
 }
 
-function parseFrameskip(number) {
+function parseFrameskipParam(number) {
+  var canvas = document.querySelector("canvas");
   var num = Number(number);
-  if (num == NaN)
-    return null;
+  if (isNaN(num))
+    return num = 1;
   else if (num < 1 || num > 10)
-    return null;
+    return num = 1;
 
+  canvas.dataset.frameskip = num;
   return num;
 }
 
 function parseAspectRatioParam(number) {
+  var canvas = document.querySelector("canvas");
   var num = Number(number);
-  if (num == NaN)
-    return null;
+  if (isNaN(num))
+    return num = 0;
   else if (num != 0 && num != 16 && num != 48 && num != 64)
-    return null;
-  else if (num == 0)
-    return "0";
+    return num = 0;
 
+  canvas.dataset.aspectRatio = num;
   return num;
+}
+
+function parseFullscreen(fullscreen) {
+  if (fullscreen == "true") {
+    setupFullscreen();
+  }
 }
 
 function isIOS() {
