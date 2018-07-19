@@ -11,7 +11,7 @@ export default class Engine {
     this.canvas = opts.canvas
     this.tick = 0
   }
-  animate () {
+  animate (debug) {
     let then = Date.now()
     let elapsed
     const fpsInterval = 1000 / this.fps
@@ -37,6 +37,9 @@ export default class Engine {
       if (elapsed > fpsInterval) {
         then = now - (elapsed % fpsInterval)
         for (let i = 0; i < this.layers.length; ++i) {
+          if (debug) {
+            console.log(canvas.toDataURL())
+          }
           bitmap = this.layers[i].overlayFrame(image.data, this.aspectRatio, this.tick, this.alpha[i], i === 0)
         }
         this.tick += this.frameSkip

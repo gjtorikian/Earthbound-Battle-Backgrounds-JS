@@ -16,6 +16,8 @@ var setupEngine = exports.setupEngine = function setupEngine() {
   let aspectRatio = parseAspectRatioParam(params.aspectRatio)
   parseFullscreen(params.fullscreen)
 
+  let debug = params.debug === "true";
+
   let fps = 30
   let alpha = parseFloat(0.5)
 
@@ -38,7 +40,7 @@ var setupEngine = exports.setupEngine = function setupEngine() {
   })
 
   document.engine = engine
-  document.engine.animate()
+  document.engine.animate(debug)
 }
 
 setupEngine();
