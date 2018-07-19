@@ -331,7 +331,7 @@ function setupSelectedValues () {
 
 function setupFullscreen () {
   var canvas = document.querySelector('canvas')
-  var content = document.querySelector('section#not-canvas')
+  var content = document.querySelector('section#everything')
   canvas.setAttribute('id', 'full')
   content.classList.add('hidden')
   History.pushState({fullscreen: true}, document.title, setUrlFromString('fullscreen=' + true))
@@ -340,7 +340,7 @@ function setupFullscreen () {
 document.addEventListener('keyup', function (event) {
   if (event.keyCode == 27) {
     var canvas = document.querySelector('canvas')
-    var content = document.querySelector('section#not-canvas')
+    var content = document.querySelector('section#everything')
     canvas.setAttribute('id', '')
     content.classList.remove('hidden')
     History.pushState({fullscreen: null}, document.title, setUrlFromString('fullscreen=false'))
