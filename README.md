@@ -68,7 +68,7 @@ Make sure you have Node.js and NPM on your system. Then:
 
 ``` bash
 npm install
-npm run dev
+npm run watch
 npm start
 open http://localhost:8888
 ```
