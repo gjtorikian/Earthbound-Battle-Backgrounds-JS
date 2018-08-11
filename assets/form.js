@@ -288,9 +288,9 @@ function setupDropdownPushStates () {
   suggested.onchange = function (e) {
     var value = this.value
     try {
-      layer1.selectedIndex = suggestedLayers[value][0] + 1
+      layer1.selectedIndex = suggestedLayers[value][0]
       layer1.onchange()
-      layer2.selectedIndex = suggestedLayers[value][1] + 1
+      layer2.selectedIndex = suggestedLayers[value][1]
       layer2.onchange()
     } catch (e) {}
   }
