@@ -14,8 +14,8 @@ is a Java/Android implementation.
 
 Every battle background is composed of two layers, each with 327 possible
 styles (including "blank"/zero). The layer styles can be interchanged, such that
-[Layer 1: 50 and Layer 2: 300](http://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/?layer1=50&layer2=300)
-is the same as [Layer 1: 300 and Layer 2: 50](http://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/?layer1=300&layer2=50).
+[Layer 1: 50 and Layer 2: 300](https://gjtorikian.com/Earthbound-Battle-Backgrounds-JS/?layer1=50&layer2=300)
+is the same as [Layer 1: 300 and Layer 2: 50](https://gjtorikian.com/Earthbound-Battle-Backgrounds-JS/?layer1=300&layer2=50).
 Thus, there are C(n,r) = 52,650 possible different background combinations. Obviously,
 this many don't exist in the game--the SNES's graphical capabilities only allow it to
 properly render 3,176 of these combinations, and of those, only 225 are ever used.
@@ -52,9 +52,6 @@ the given number of pixels
 Different backgrounds use different distortion effects.
 
 ## List of backgrounds
-
-For a list of every possible background, visit [this
-link](http://gjtorikian.github.io/Earthbound-Battle-Backgrounds-JS/samples).
 
 It's pretty damn hard to find out which battle backgrounds correspond to which
 enemies. You can review the list of enemies matched with known battle
