@@ -43,6 +43,9 @@ export default class Engine {
           bitmap = this.layers[i].overlayFrame(image.data, this.aspectRatio, this.tick, this.alpha[i], i === 0)
         }
         this.tick += this.frameSkip
+        if (this.tick > this.fps * 2) {
+          this.tick = 0;
+        }
         image.data.set(bitmap)
         context.putImageData(image, 0, 0)
       }
