@@ -49,7 +49,6 @@ function parseFrameskipParam(number) {
   var canvas = document.querySelector("canvas");
   var num = Number(number);
   if (isNaN(num)) return (num = 1);
-  else if (num < 1 || num > 10) return (num = 1);
 
   canvas.dataset.frameskip = num;
   return num;
