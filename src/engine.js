@@ -55,4 +55,10 @@ export default class Engine {
     }
     drawFrame()
   }
+
+  save(htmlElementToAttachTo) {
+    const beginSave=true;
+    const notDoneSave=true;
+    console.log('beginsave and not done save true');
+  }
 }

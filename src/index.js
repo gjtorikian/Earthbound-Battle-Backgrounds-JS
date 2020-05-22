@@ -42,6 +42,22 @@ var setupEngine = (exports.setupEngine = function setupEngine() {
 
   document.engine = engine;
   document.engine.animate(debug);
+
+  registerEngineCallbacks(engine);
 });
 
 setupEngine();
+
+function registerEngineCallbacks(engine) {
+
+  // Get container for saved animations.
+  const savedAnimationsContainer = document.getElementById("savedAnimations");
+
+  // Get save animations callback.
+  const saveAnimationRef = document.getElementById("saveAnimation");
+  saveAnimationRef.onclick = () => {
+    engine.save(savedAnimationsContainer);
+  };
+
+
+}
