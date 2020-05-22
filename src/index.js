@@ -19,7 +19,7 @@ var setupEngine = (exports.setupEngine = function setupEngine() {
   parseFullscreen(params.fullscreen);
   let debug = params.debug === "true";
 
-  let fps = 30;
+  let fps = 60;
   let alpha = parseFloat(0.5);
 
   if (layer2Val === 0) {

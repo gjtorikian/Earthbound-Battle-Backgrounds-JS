@@ -29,19 +29,35 @@ class Recorder {
   }
 
   setAsRecordingBegan(canvas) {
+    console.log("recording has begun");
     this.setToStart = false;
     this.recording = true;
     this.chunks = []; // here we will store our recorded media chunks (Blobs)
     const stream = canvas.captureStream(); // grab our canvas MediaStream
-    this.rec = new MediaRecorder(stream); // init the recorder
+    this.rec = this.createMediaRecorder(stream); // init the recorder
 
     // every time the recorder has new data, we will store it in our array
-    this.rec.ondataavailable = e => chunks.push(e.data);
+    this.rec.ondataavailable = e => this.chunks.push(e.data);
     // only when the recorder stops, we construct a complete Blob from all the chunks
-    this.rec.onstop = e => exportVid(new Blob(chunks, {type: 'video/webm'}));
+    this.rec.onstop = e => this.exportVid(new Blob(this.chunks, {type: 'video/webm'}));
     this.rec.start();
 
   }
+
+  isReadyToEnd() {
+    return this.recording && !this.done;
+  }
+
+  setAsRecordingDone() {
+    console.log("recording is done");
+    this.recording = false;
+    this.done = true;
+    this.rec.stop();
+  }
+
+  /**
+   * Private Methods
+   */
 
   exportVid(blob) {
     const vid = document.createElement('video');
@@ -55,14 +71,11 @@ class Recorder {
     this.ele.appendChild(a);
   }
 
-  isReadyToEnd() {
-    return this.recording && !this.done;
-  }
-
-  setAsRecordingDone() {
-    this.recording = false;
-    this.done = true;
-    this.rec.stop();
+  createMediaRecorder(stream) {
+    let mediaRecorder = new MediaRecorder(stream, {
+      videoBitsPerSecond: 30000000
+    })
+    return mediaRecorder;
   }
 
 }
