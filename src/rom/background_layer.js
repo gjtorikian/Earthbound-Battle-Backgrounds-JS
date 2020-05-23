@@ -59,4 +59,10 @@ export default class BackgroundLayer {
     const e2 = (animation >> 16) & 0xFF
     this.loadEffect(e2 || e1)
   }
+  /**
+   * Return the period of the underlying distorter in ticks or ticks x2, I think.
+   */
+  getPeriod() {
+    return this.distorter.getPeriod();
+  }
 }

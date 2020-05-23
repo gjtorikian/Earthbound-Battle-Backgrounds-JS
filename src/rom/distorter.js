@@ -28,6 +28,7 @@ export default class Distorter {
     this.C1 = 1 / 512
     this.C2 = 8 * π / (1024 * 256)
     this.C3 = π / 60
+    this.seenEffect = false;
   }
   setOffsetConstants (ticks, effect) {
     const {
@@ -39,15 +40,27 @@ export default class Distorter {
       frequencyAcceleration,
       speed
     } = effect
+    if (!this.seenEffect) {
+      console.log(this.effect)
+      console.log(`this.compression=${1 + (compression + (compressionAcceleration * 0)) / 256}`)
+      this.seenEffect = true;
+    }
     /* Compute "current" values of amplitude, frequency and compression */
     const t2 = ticks * 2
+
     this.amplitude = this.C1 * (amplitude + amplitudeAcceleration * t2)
     this.frequency = this.C2 * (frequency + (frequencyAcceleration * t2))
     this.compression = 1 + (compression + (compressionAcceleration * t2)) / 256
     this.speed = this.C3 * speed * ticks
     this.S = y => round(this.amplitude * sin(this.frequency * y + this.speed))
   }
-  overlayFrame (dst, letterbox, ticks, alpha, erase) {
+  /**
+   * Returns the period for this distorter in ticks or ticks * 2, I think.
+   */
+  getPeriod() {
+    return 2 * π / (this.C2 * (this.effect.frequency + (this.effect.frequencyAcceleration)));
+  }
+  overlayFrame(dst, letterbox, ticks, alpha, erase) {
     return this.computeFrame(dst, this.bitmap, letterbox, ticks, alpha, erase, this.effect)
   }
   /**

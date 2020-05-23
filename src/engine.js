@@ -147,6 +147,13 @@ export default class Engine {
     context.imageSmoothingEnabled = false
     canvas.width = SNES_WIDTH
     canvas.height = SNES_HEIGHT
+    console.log(`fps*2=${this.fps * 2}`);
+    let combinedPeriod = 1;
+    this.layers.forEach((layer, ii) => {
+      console.log(`this.layers[${ii}].period=${layer.getPeriod()}`)
+      combinedPeriod *= layer.getPeriod();
+    })
+    console.log(`combinedPeriod=${combinedPeriod}`)
     const image = context.getImageData(0, 0, canvas.width, canvas.height)
     const drawFrame = () => {
       frameID = requestAnimationFrame(drawFrame)
@@ -164,7 +171,7 @@ export default class Engine {
         image.data.set(bitmap)
         context.putImageData(image, 0, 0)
         this.recorder.frameAvailable(canvas, context, image);
-        if (this.tick > this.fps * 2) {
+        if (this.tick >= 256) {
           this.tick = 0;
           if (this.recorder.isReadyToStart()) {
             this.recorder.setAsRecordingBegan(canvas);
