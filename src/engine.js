@@ -57,7 +57,7 @@ class Recorder {
     this.recording = false;
     this.done = true;
     this.ccapture.stop();
-    this.ccapture.save(blob => this.exportVid(blob));
+    this.ccapture.save(blob => this.exportGif(blob));
   }
 
   /**
@@ -76,9 +76,21 @@ class Recorder {
     this.ele.appendChild(a);
   }
 
+  exportGif(blob) {
+    const gif = document.createElement('img');
+    gif.src = URL.createObjectURL(blob);
+    gif.controls = true;
+    this.ele.appendChild(gif);
+    const a = document.createElement('a');
+    a.download = 'earthbound-battle-background.gif';
+    a.href = gif.src;
+    a.textContent = 'download the earthbound battle background.';
+    this.ele.appendChild(a);
+  }
+
   createCCapture() {
     // Create a ccapture that exports a WebM video
-    var ccapture = new CCapture( { format: 'webm', quality: 100, motionBlurFrames: 0, frameRate: 60 } );
+    var ccapture = new CCapture( { format: 'gif', workersPath: 'assets/', quality: 100, motionBlurFrames: 0, frameRate: 60 } );
 
     // Create a ccapture that exports an animated GIF
     // Notices you have to specify the path to the gif.worker.js 
