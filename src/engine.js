@@ -1,4 +1,5 @@
 let frameID = -1
+const BUS_URL = "assets/bus_load.gif";
 export const SNES_WIDTH = 256
 export const SNES_HEIGHT = 224
 
@@ -11,6 +12,17 @@ class Recorder {
     this.rec = {};
     this.ele = {};
     this.ccapture = {};
+    this.recId = "eb-gif"
+    this.recIdCount = 0;
+  }
+
+  getCurrentRecId() {
+    return `${this.recId}-${this.recIdCount}`
+  }
+
+  getNextRecId() {
+    this.recIdCount = this.recIdCount + 1;
+    return this.getCurrentRecId();
   }
 
   record(ele) {
@@ -44,6 +56,11 @@ class Recorder {
     this.setToStart = false;
     this.recording = true;
     this.chunks = []; // here we will store our recorded media chunks (Blobs)
+
+    // Create where the gif will go.
+    this.setupGif();
+    
+    // Set-up capture and start.
     this.ccapture = this.createCCapture();
     this.ccapture.start();
   }
@@ -76,26 +93,24 @@ class Recorder {
     this.ele.appendChild(a);
   }
 
-  exportGif(blob) {
+  setupGif() {
     const gif = document.createElement('img');
-    gif.src = URL.createObjectURL(blob);
+    gif.src = BUS_URL;
+    gif.id = this.getNextRecId();
     gif.controls = true;
     this.ele.appendChild(gif);
-    const a = document.createElement('a');
-    a.download = 'earthbound-battle-background.gif';
-    a.href = gif.src;
-    a.textContent = 'download the earthbound battle background.';
-    this.ele.appendChild(a);
+
+  }
+  exportGif(blob) {
+    const gif = document.getElementById(this.getCurrentRecId());
+    gif.src = URL.createObjectURL(blob);
   }
 
+  /**
+   * Create gif ccapture
+   */
   createCCapture() {
-    // Create a ccapture that exports a WebM video
-    var ccapture = new CCapture( { format: 'gif', workersPath: 'assets/', quality: 100, motionBlurFrames: 0, frameRate: 60 } );
-
-    // Create a ccapture that exports an animated GIF
-    // Notices you have to specify the path to the gif.worker.js 
-    // var ccapture = new CCapture( { format: 'gif', workersPath: 'js/' } );
-
+    var ccapture = new CCapture({ format: 'gif', workersPath: 'assets/', quality: 100, motionBlurFrames: 0, frameRate: 60 });
     return ccapture;
   }
 
@@ -112,7 +127,8 @@ export default class Engine {
     this.tick = 0
     this.recorder = new Recorder()
   }
-  animate (debug) {
+  animate(debug) {
+    this.tick = 0;
     let then = Date.now()
     let elapsed
     const fpsInterval = 1000 / this.fps
@@ -158,7 +174,8 @@ export default class Engine {
       }
     }
     if (frameID > 0) {
-      global.cancelAnimationFrame(frameID)
+      console.log("Cancelled");
+      // global.cancelAnimationFrame(frameID)
     }
     drawFrame()
   }
