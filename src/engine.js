@@ -2,6 +2,7 @@ let frameID = -1
 const BUS_URL = "assets/bus_load.gif";
 export const SNES_WIDTH = 256
 export const SNES_HEIGHT = 224
+let recIdCount = 0;
 
 class Recorder {
   constructor() {
@@ -17,11 +18,11 @@ class Recorder {
   }
 
   getCurrentRecId() {
-    return `${this.recId}-${this.recIdCount}`
+    return `${this.recId}-${recIdCount}`
   }
 
   getNextRecId() {
-    this.recIdCount = this.recIdCount + 1;
+    recIdCount = recIdCount + 1;
     return this.getCurrentRecId();
   }
 
