@@ -10,6 +10,7 @@ class Recorder {
     this.chunks = [];
     this.rec = {};
     this.ele = {};
+    this.ccapture = {};
   }
 
   record(ele) {
@@ -28,20 +29,23 @@ class Recorder {
     return this.setToStart && !this.recording;
   }
 
+  isRecording() {
+    return this.recording && !this.done;
+  }
+
+  frameAvailable(canvas, context, imageData) {
+    if (this.isRecording()) {
+      this.ccapture.capture(canvas);
+    }
+  }
+
   setAsRecordingBegan(canvas) {
     console.log("recording has begun");
     this.setToStart = false;
     this.recording = true;
     this.chunks = []; // here we will store our recorded media chunks (Blobs)
-    const stream = canvas.captureStream(); // grab our canvas MediaStream
-    this.rec = this.createMediaRecorder(stream); // init the recorder
-
-    // every time the recorder has new data, we will store it in our array
-    this.rec.ondataavailable = e => this.chunks.push(e.data);
-    // only when the recorder stops, we construct a complete Blob from all the chunks
-    this.rec.onstop = e => this.exportVid(new Blob(this.chunks, {type: 'video/webm'}));
-    this.rec.start();
-
+    this.ccapture = this.createCCapture();
+    this.ccapture.start();
   }
 
   isReadyToEnd() {
@@ -52,7 +56,8 @@ class Recorder {
     console.log("recording is done");
     this.recording = false;
     this.done = true;
-    this.rec.stop();
+    this.ccapture.stop();
+    this.ccapture.save(blob => this.exportVid(blob));
   }
 
   /**
@@ -71,11 +76,15 @@ class Recorder {
     this.ele.appendChild(a);
   }
 
-  createMediaRecorder(stream) {
-    let mediaRecorder = new MediaRecorder(stream, {
-      videoBitsPerSecond: 30000000
-    })
-    return mediaRecorder;
+  createCCapture() {
+    // Create a ccapture that exports a WebM video
+    var ccapture = new CCapture( { format: 'webm', quality: 100, motionBlurFrames: 0, frameRate: 60 } );
+
+    // Create a ccapture that exports an animated GIF
+    // Notices you have to specify the path to the gif.worker.js 
+    // var ccapture = new CCapture( { format: 'gif', workersPath: 'js/' } );
+
+    return ccapture;
   }
 
 }
@@ -123,6 +132,9 @@ export default class Engine {
           bitmap = this.layers[i].overlayFrame(image.data, this.aspectRatio, this.tick, this.alpha[i], i === 0)
         }
         this.tick += this.frameSkip
+        image.data.set(bitmap)
+        context.putImageData(image, 0, 0)
+        this.recorder.frameAvailable(canvas, context, image);
         if (this.tick > this.fps * 2) {
           this.tick = 0;
           if (this.recorder.isReadyToStart()) {
@@ -131,8 +143,6 @@ export default class Engine {
             this.recorder.setAsRecordingDone();
           }
         }
-        image.data.set(bitmap)
-        context.putImageData(image, 0, 0)
       }
     }
     if (frameID > 0) {
