@@ -26,6 +26,7 @@ var suggestedLayers = {
   "Cranky Lady (14 / 0)": [14, 0],
   "Mad Duck (213 / 212)": [213, 212],
   "Mad Duck (33 / 0)": [33, 0],
+  "Mr Batty (73 / 0)": [73, 0],
   "Mobile Sprout, Ramblin' Evil Mushroom (212 / 213)": [212, 213],
   "Unassuming Local Guy (269 / 270)": [269, 270],
   "Unassuming Local Guy (307 / 306)": [307, 306],
@@ -69,7 +70,7 @@ var suggestedLayers = {
   "Mondo Mole (172 / 171)": [172, 171],
   "Scalding Coffee Cup, Mystical Record, Worthless Protoplasm (159 / 0)": [
     159,
-    0
+    0,
   ],
   "Ranboob (132 / 0)": [132, 0],
   "Ranboob (135 / 0)": [135, 0],
@@ -222,7 +223,7 @@ var suggestedLayers = {
   "Giygas (225 / 0)": [225, 0],
   "Giygas (226 / 0)": [226, 0],
   "Giygas (227 / 0)": [227, 0],
-  "Giygas (265 / 0)": [265, 0]
+  "Giygas (265 / 0)": [265, 0],
 };
 
 let content,
@@ -233,7 +234,7 @@ let content,
   aspectRatio,
   frameskip;
 
-document.addEventListener("DOMContentLoaded", function() {
+document.addEventListener("DOMContentLoaded", function () {
   content = document.querySelector("section#everything");
   layer1 = document.getElementById("layer1");
   layer2 = document.getElementById("layer2");
@@ -256,7 +257,7 @@ document.addEventListener("DOMContentLoaded", function() {
     setupSelectedValues();
   }
 
-  window.History.Adapter.bind(window, "statechange", function() {
+  window.History.Adapter.bind(window, "statechange", function () {
     setupEngine();
   });
 });
@@ -283,7 +284,7 @@ function createSuggestedLayersDropdown() {
 }
 
 function setupDropdownPushStates() {
-  layer1.onchange = function(e) {
+  layer1.onchange = function (e) {
     var value = this.value;
     if (value < 0) {
       value = 0;
@@ -296,7 +297,7 @@ function setupDropdownPushStates() {
     );
   };
 
-  layer2.onchange = function(e) {
+  layer2.onchange = function (e) {
     var value = this.value;
     if (value < 0) {
       value = 0;
@@ -309,7 +310,7 @@ function setupDropdownPushStates() {
     );
   };
 
-  suggested.onchange = function(e) {
+  suggested.onchange = function (e) {
     var value = this.value;
     try {
       layer1.selectedIndex = suggestedLayers[value][0];
@@ -319,7 +320,7 @@ function setupDropdownPushStates() {
     } catch (e) {}
   };
 
-  aspectRatio.onchange = function(e) {
+  aspectRatio.onchange = function (e) {
     var value = this.value;
     History.pushState(
       { aspectRatio: value },
@@ -328,7 +329,7 @@ function setupDropdownPushStates() {
     );
   };
 
-  frameskip.onchange = function(e) {
+  frameskip.onchange = function (e) {
     var value = this.value;
     History.pushState(
       { frameskip: value },
@@ -350,7 +351,7 @@ function setEndlessRandom() {
   if (endlessIntervalID == null) {
     endlessRandom.textContent = "Endless Random (on)";
     setRandomLayer();
-    endlessIntervalID = setInterval(function() {
+    endlessIntervalID = setInterval(function () {
       setRandomLayer();
     }, 7500);
   } else {
@@ -401,7 +402,7 @@ function setupFullscreen() {
   }
 }
 
-document.addEventListener("keyup", function(event) {
+document.addEventListener("keyup", function (event) {
   if (event.keyCode == 27) {
     var canvas = document.querySelector("canvas");
     var content = document.querySelector("section#everything");
