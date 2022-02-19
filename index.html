@@ -23,6 +23,12 @@
     <script src="assets/form.js"></script>
     <script src="assets/history.js"></script>
     <script src="assets/history.adapter.native.js"></script>
+
+    <script>
+      var anigif_base_url = `${window.location.origin}/assets/GifW00t-28649fc/anigif/`;
+    </script>
+    <script src="assets/anigif.min.js"></script>
+
     <style>
       canvas#full {
         padding: 0;
@@ -81,7 +87,7 @@
   <body class="w-100 sans-serif">
     <section class="pv2">
       <canvas-overlay></canvas-overlay>
-      <canvas class="center"></canvas>
+      <canvas id="main" class="center"></canvas>
     </section>
 
     <section id="everything">
@@ -110,7 +116,7 @@
             >Tweet</a
           >
           <script>
-            !(function(d, s, id) {
+            !(function (d, s, id) {
               var js,
                 fjs = d.getElementsByTagName(s)[0],
                 p = /^http:/.test(d.location) ? "http" : "https";
@@ -210,13 +216,16 @@
 
                     <div class="w-100 db h2 f5"></div>
                     <div class="w-100 db h2 f5"></div>
-
                     <a
                       id="fullscreen"
                       class="pointer f5 link dim ba ph3 pv2 mv2 mb2 dib black"
                       >Go fullscreen!</a
                     >
-                    <span class="f6">Hit <kbd>ESC</kbd> to exit.</span>
+                    <a
+                      id="gifMakerContainer"
+                      ></a
+                    >
+                    <span class="f6"</span>
                   </form>
                 </div>
               </div>
@@ -225,7 +234,7 @@
         </section>
 
         <section class="center pa3 ph5-ns">
-          <h3>What this is</h3>
+          <h3>What is this?</h3>
           <p class="lh-copy">
             Earthbound Battle Background JS is exactly what its name implies:
             the battle backgrounds from the SNES RPG Earthbound/Mother 2,
@@ -335,7 +344,7 @@
       _gaq.push(["_setAccount", "UA-46624461-1"]);
       _gaq.push(["_trackPageview"]);
 
-      (function() {
+      (function () {
         var ga = document.createElement("script");
         ga.type = "text/javascript";
         ga.async = true;

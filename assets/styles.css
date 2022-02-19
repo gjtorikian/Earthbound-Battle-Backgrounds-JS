@@ -12,7 +12,8 @@ a.pointer {
   text-align: center;
 }
 
-canvas, canvas-overlay {
+canvas,
+canvas-overlay {
   display: block;
 }
 canvas-overlay {

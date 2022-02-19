@@ -69,8 +69,7 @@ var suggestedLayers = {
   "Criminal Caterpillar (266 / 267)": [266, 267],
   "Mondo Mole (172 / 171)": [172, 171],
   "Scalding Coffee Cup, Mystical Record, Worthless Protoplasm (159 / 0)": [
-    159,
-    0,
+    159, 0,
   ],
   "Ranboob (132 / 0)": [132, 0],
   "Ranboob (135 / 0)": [135, 0],
@@ -251,6 +250,7 @@ document.addEventListener("DOMContentLoaded", function () {
     randomLayer.onclick = setRandomLayer;
     endlessRandom.onclick = setEndlessRandom;
     fullscreen.onclick = setupFullscreen;
+
     createLayerDropdown();
     createSuggestedLayersDropdown();
     setupDropdownPushStates();
@@ -403,7 +403,7 @@ function setupFullscreen() {
 }
 
 document.addEventListener("keyup", function (event) {
-  if (event.keyCode == 27) {
+  if (event.code == "Escape") {
     var canvas = document.querySelector("canvas");
     var content = document.querySelector("section#everything");
     canvas.setAttribute("id", "");
