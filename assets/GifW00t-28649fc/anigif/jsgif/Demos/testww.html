@@ -1,0 +1,112 @@
+<script src="./b64.js"></script>
+<script src="../LZWEncoder.js"></script>
+<script src="../NeuQuant.js"></script>
+<script src="../GIFEncoder.js"></script>
+<script src="../GIFEncoder_WebWorker.js"></script>
+<script src="../workcrew.js"></script>
+<canvas id="bitmap"></canvas>
+<img id="image">
+<script>
+
+
+function cloneCanvas(oldCanvas) {
+            //create a new canvas
+            var newCanvas = document.createElement('canvas');
+            var context = newCanvas.getContext('2d');
+        
+            //set dimensions
+            newCanvas.width = oldCanvas.width;
+            newCanvas.height = oldCanvas.height;
+        
+            //apply the old canvas to the new one
+            context.drawImage(oldCanvas, 0, 0);
+        
+            //return the new canvas
+            return newCanvas;
+}
+        
+        
+        
+  var canvas = document.getElementById('bitmap');
+  var context = canvas.getContext('2d');
+
+  var my_gradient = context.createLinearGradient(0, 0, 300, 0);
+  my_gradient.addColorStop(0, "black");
+  my_gradient.addColorStop(1, "white");
+
+
+  context.fillStyle = my_gradient//"rgb(255,255,255)";  
+  context.fillRect(0,0,canvas.width, canvas.height); //GIF can't do transparent so do white
+
+
+
+  var encoder = new GIFEncoder_WebWorker(2);
+  encoder.setRepeat(0); //auto-loop
+  encoder.setDelay(500);
+  console.log(encoder.start());
+  
+  
+  context.fillStyle = "rgb(200,0,0)";  
+  context.fillRect (10, 10, 75, 50);  
+  var copy_canvas = cloneCanvas(canvas)
+  console.log(encoder.addFrame(copy_canvas.getContext('2d')));
+  
+  context.fillStyle = "rgb(20,0,200)";  
+  context.fillRect (30, 30, 55, 50);  
+  var copy_canvas1 = cloneCanvas(canvas)
+  console.log(encoder.addFrame(copy_canvas1.getContext('2d')));
+  
+  
+  encoder = encoder.finish_async({done: function(error, data) {
+      var img = 'data:image/gif;base64,'+encode64(data)
+      console.log(img)
+      document.getElementById('image').src = img
+  }});
+  
+
+
+
+
+/*
+To add WebWorkers for animation rendering:
+
+
+var frame_index,
+    frame_length,
+    height, 
+    width,
+    imageData; //get it from onmessage
+    
+var encoder = new GIFEncoder(); //create a new GIFEncoder for every new job
+if(frame_index == 0){
+  encoder.start();
+}else{
+  encoder.setProperties(true, true); //started, firstFrame
+}
+encoder.setSize(height, width);
+encoder.addFrame(imageData, true);
+if(frame_length == frame_index){
+  encoder.finish()
+}
+postMessage(frame_index + encoder.stream().getData()) //on the page, search for the GIF89a to see the frame_index
+
+
+var animation_parts = new Array(frame_length);
+//on the handler side:
+
+var worker = new WebWorker('blahblahblah.js');
+worker.onmessage = function(e){
+  //handle stuff, like get the frame_index
+  animation_parts[frame_index] = frame_data;
+  //check when everything else is done and then do animation_parts.join('') and have fun
+}
+var imdata = context.getImageData(0,0,canvas.width,canvas.height)
+var len = canvas.width * canvas.height * 4;
+var imarray = [];
+for(var i = 0; i < len; i++){
+  imarray.push(imdata[i]);
+}
+
+worker.postMessage(frame_index + ';' + frame_length + ';' + canvas.height + ';' + canvas.width + ';' + imarray.join(','))
+*/
+</script>
