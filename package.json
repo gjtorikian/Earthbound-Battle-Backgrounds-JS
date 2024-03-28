@@ -10,7 +10,7 @@
     "babel-preset-stage-0": "^6.24.1",
     "babili-webpack-plugin": "^0.1.2",
     "binary-loader": "^0.0.1",
-    "express": "^4.18.2",
+    "express": "^4.19.2",
     "standard": "^17.0.0",
     "string.prototype.padstart": "^3.1.0",
     "webpack": "^4.42.0",
