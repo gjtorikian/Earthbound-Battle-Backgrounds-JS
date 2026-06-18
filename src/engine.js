@@ -1,6 +1,20 @@
 let frameID = -1
 export const SNES_WIDTH = 256
 export const SNES_HEIGHT = 224
+
+/**
+* Renders one frame of `layers` into `dst` at the given tick.
+* Layer 0 erases (clears the buffer to its own contribution); subsequent
+* layers blend on top. Returns the final bitmap.
+*/
+export function renderLayers (layers, dst, letterbox, tick, alpha) {
+  let bitmap
+  for (let i = 0; i < layers.length; ++i) {
+    bitmap = layers[i].overlayFrame(dst, letterbox, tick, alpha[i], i === 0)
+  }
+  return bitmap
+}
+
 export default class Engine {
   constructor (layers = [], opts) {
     this.layers = layers
@@ -36,12 +50,10 @@ export default class Engine {
       elapsed = now - then
       if (elapsed > fpsInterval) {
         then = now - (elapsed % fpsInterval)
-        for (let i = 0; i < this.layers.length; ++i) {
-          if (debug) {
-            console.log(canvas.toDataURL())
-          }
-          bitmap = this.layers[i].overlayFrame(image.data, this.aspectRatio, this.tick, this.alpha[i], i === 0)
+        if (debug) {
+          console.log(canvas.toDataURL())
         }
+        bitmap = renderLayers(this.layers, image.data, this.aspectRatio, this.tick, this.alpha)
         this.tick += this.frameSkip
         image.data.set(bitmap)
         context.putImageData(image, 0, 0)
