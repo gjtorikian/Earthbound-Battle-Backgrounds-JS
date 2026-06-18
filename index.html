@@ -24,12 +24,6 @@
     <script src="assets/history.js"></script>
     <script src="assets/history.adapter.native.js"></script>
 
-    <script>
-      // var anigif_base_url = `${window.location.origin}/assets/GifW00t-28649fc/anigif/`;
-      var anigif_base_url = `https://gjtorikian.online/Earthbound-Battle-Backgrounds-JS/assets/GifW00t-28649fc/anigif/`;
-    </script>
-    <script src="assets/anigif.min.js"></script>
-
     <style>
       canvas#full {
         padding: 0;
@@ -202,10 +196,11 @@
                       >Go fullscreen!</a
                     >
                     <a
-                      id="gifMakerContainer"
-                      ></a
+                      id="saveGif"
+                      class="pointer f5 link dim ba ph3 pv2 mv2 mb2 dib black"
+                      >Save looping GIF</a
                     >
-                    <span class="f6"></span>
+                    <span id="gifStatus" class="f6 db mt2 mid-gray lh-copy"></span>
                   </form>
                 </div>
               </div>
