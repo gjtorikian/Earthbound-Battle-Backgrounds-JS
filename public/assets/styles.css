@@ -2,6 +2,11 @@ a.pointer {
   cursor: pointer;
 }
 
+/* While the GIF capture is running the button carries data-busy. */
+a#saveGif[data-busy] {
+  cursor: not-allowed;
+}
+
 .hidden {
   display: none;
 }
