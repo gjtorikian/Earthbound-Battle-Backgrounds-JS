@@ -17,5 +17,8 @@
   },
   "engines": {
     "node": ">= 24.0.0"
+  },
+  "dependencies": {
+    "gifenc": "^1.0.3"
   }
 }
