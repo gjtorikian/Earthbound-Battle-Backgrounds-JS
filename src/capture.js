@@ -11,19 +11,20 @@ import { SNES_WIDTH, SNES_HEIGHT, renderLayers } from "./engine";
     - palette cycling is advanced once per rendered frame (call-count driven)
   so the exact length of a perfect loop can be computed in closed form instead
   of guessed. For one layer:
-    - distortion repeats every  120 / gcd(speed, 120)  ticks
-      (the π/60 constant in Distorter means 120 ticks == one full 2π sweep at
-      speed 1); in rendered frames that's  ticks / gcd(ticks, frameSkip).
+    - a background's distortion is a sequence of effects, each active for its
+      `duration` (measured in game frames, two per engine tick), looping once
+      the last duration elapses; the whole distortion state is a pure function
+      of the position within that cycle, so it repeats every
+      cycle / gcd(cycle, 2 * frameSkip) rendered frames. An effect with a zero
+      duration is never switched away from, and its scroll phase realigns
+      every  120 / gcd(speed, 120)  ticks (the π/60 constant in Distorter
+      means 120 ticks == one full 2π sweep at speed 1); anything played before
+      it is a one-shot intro that the warmup has to skip.
     - palette cycling repeats every  interval * modulus  frames, where
       interval = ceil(paletteCycleSpeed / 2) and modulus is the cycle length
       (or its lcm / doubled length for the two-cycle and ping-pong types).
   A single layer's loop is the lcm of those two; the whole scene is the lcm
   across both visible layers.
-
-  A handful of backgrounds use distortion *acceleration* (frequency/amplitude/
-  compression that grow with time). Those never return to their starting state
-  in this engine, so they can't loop seamlessly; we fall back to the palette
-  loop length and flag it.
 */
 
 const MAX_FRAMES = 1800; // safety cap (~60s at 30fps) to bound file size
@@ -44,12 +45,40 @@ function lcm(a, b) {
   return Math.abs(Math.trunc(a / gcd(a, b)) * b);
 }
 
-/* Number of rendered frames before the distortion realigns. */
-function distortionFrames(effect, frameSkip) {
+/* Number of rendered frames before a single effect's scroll phase realigns. */
+function speedFrames(effect, frameSkip) {
   const speed = effect ? Math.abs(Math.trunc(effect.speed)) : 0;
   if (speed === 0) return 1;
   const ticks = 120 / gcd(speed, 120);
   return ticks / gcd(ticks, frameSkip);
+}
+
+/* Loop length (in rendered frames) and required warmup for a layer's effect
+   sequence; see the header comment. */
+function distortionInfo(effects, frameSkip) {
+  if (!effects || effects.length === 0) {
+    return { frames: 1, warmup: 0, notSeamless: false };
+  }
+  let cycle = 0;
+  for (const effect of effects) {
+    if (effect.duration === 0) {
+      return {
+        frames: speedFrames(effect, frameSkip),
+        warmup: Math.ceil(cycle / (2 * frameSkip)),
+        notSeamless: hasAcceleration(effect),
+      };
+    }
+    cycle += effect.duration;
+  }
+  const still =
+    effects.length === 1 &&
+    !hasAcceleration(effects[0]) &&
+    Math.trunc(effects[0].speed) === 0;
+  return {
+    frames: still ? 1 : cycle / gcd(cycle, 2 * frameSkip),
+    warmup: 0,
+    notSeamless: false,
+  };
 }
 
 /* Number of rendered frames before the palette cycle returns to its start. */
@@ -72,10 +101,10 @@ function paletteFrames(pc) {
 }
 
 function hasAcceleration(effect) {
-  // Any non-zero acceleration makes amplitude/frequency/compression grow with
-  // the tick count, so the distortion never returns to its start — even when
-  // the base speed is 0 (the sine still has no period because its envelope
-  // keeps changing).
+  // Non-zero acceleration makes amplitude/frequency/compression grow with the
+  // tick count. Inside a looping sequence that's bounded (the clock resets
+  // when the sequence cycles), but a pinned zero-duration effect runs on one
+  // clock forever, so an accelerating one never returns to its start.
   return (
     !!effect &&
     (effect.frequencyAcceleration !== 0 ||
@@ -97,6 +126,7 @@ export function computeLoop(engine) {
   let total = 1;
   let colorPeriod = 1;
   let maxInterval = 1;
+  let distortionWarmup = 0;
   let notSeamless = false;
   const contributing = [];
 
@@ -106,23 +136,25 @@ export function computeLoop(engine) {
     if (!layer || !layer.entry || !(alpha[i] > 0)) continue;
     contributing.push(i);
 
-    const effect = layer.distorter && layer.distorter.effect;
+    const effects = (layer.distorter && layer.distorter.effects) || [];
     const pc = layer.paletteCycle;
     const pf = paletteFrames(pc);
-    const df = distortionFrames(effect, frameSkip);
+    const dInfo = distortionInfo(effects, frameSkip);
 
     colorPeriod = lcm(colorPeriod, pf);
-    total = lcm(total, lcm(df, pf));
+    total = lcm(total, lcm(dInfo.frames, pf));
     if (pc && pc.speed)
       maxInterval = Math.max(maxInterval, Math.ceil(pc.speed));
-    if (hasAcceleration(effect)) notSeamless = true;
+    distortionWarmup = Math.max(distortionWarmup, dInfo.warmup);
+    if (dInfo.notSeamless) notSeamless = true;
   }
 
   // The palette holds its first arrangement for 2*interval-1 frames (the first
   // cycle() fire is a no-op at position 0), versus `interval` frames in steady
   // state. Rendering from a fresh state therefore can't loop; warm past that
-  // transient so the captured window is purely periodic.
-  const warmup = 2 * maxInterval;
+  // transient — and past any one-shot distortion intro — so the captured
+  // window is purely periodic.
+  const warmup = Math.max(2 * maxInterval, distortionWarmup);
 
   const trueLength = notSeamless ? Infinity : total;
 
